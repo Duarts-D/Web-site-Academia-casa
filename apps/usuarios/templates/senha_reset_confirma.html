@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section class="form_login login">   
+    <form method="POST" class="form__input">{% csrf_token %}
+        {% if validlink %}
+        <h3 class="form__text">Confirmar redefinição de senha??</h3>
+        <p class="header__texto">Insira sua nova senha</p>
+        {%else%}
+            <a href="{% url 'reset_password' %}" class="btn ">
+            <h3 class="form__text">Link expirado favor solicite novamente</h3>
+            <p class="header__texto">Clicando aqui</p>
+            </a>
+        {% endif %}
+        {% for area in form.visible_fields %}
+        <label class="form__text" >{{area.label}}</label>
+            {{area}}
+            {{area.errors}}
+        {% endfor %}
+        <button type="submit" class="form__text button__input">Confirmar</button>
+            <p class='form__error'>{{error}}</p>
+    </form>
+</section>
+{% include 'partials/footer.html' %}
+{% endblock %}

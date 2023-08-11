@@ -1,0 +1,100 @@
+{% if page_obj.paginator.num_pages >= 2 %}
+
+{% if paginator or page_obj %}
+
+<nav>
+    <ul class="paginator justify-content-center">
+        {% if page_obj.has_previous %}
+        
+            {% if request.GET.buscar %}
+            <li class="page-item ">
+                <a class="page-link" href="?page=1&buscar={{request.GET.buscar}}" >&laquo;</a>
+                </li>
+                <li class="page-item ">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&buscar={{request.GET.buscar}}" >Anterior</a>
+                </li>
+            {%else%}
+                <li class="page-item ">
+                <a class="page-link" href="?page=1" >&laquo;</a>
+                </li>
+                <li class="page-item ">
+                    <label for="input_pagina_1">
+                        <span>
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"  onclick="document.getElementById('pagina_1').click();document.getElementById('teste_botton').click(); return false;">Anterior</a>
+                        </span>
+                    </label>
+                </li>
+            {%endif%}
+        {%else%}
+            <li class="page-item ">
+            <a class="page-link" href="?page=1" >&laquo;</a>
+            </li>
+            <li class="page-item ">
+            <a class="page-link" href="#" onclick="document.getElementById('teste_botton').click();"></a>
+            </li>
+        {%endif%}
+    
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            
+                {% if request.GET.buscar%}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{num}}&buscar={{request.GET.buscar}}">{{num}}</a>
+                    </li>
+                {%else%}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{num}}">{{num}}</a>
+                    </li>
+                {%endif%}
+
+        {% elif num > page_obj.number|add:'-1' and num < page_obj.number|add:'1' %}
+        
+            {% if request.GET.buscar%}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{num}}&buscar={{request.GET.buscar}}">{{num}}</a>
+                </li>
+            {%else%}
+            <li class="page-item">
+                    <a class="page-link" href="?page={{num}}">{{num}}</a>
+            </li>
+
+            {%endif %}
+        
+        {%endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+            
+            {% if request.GET.buscar %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&buscar={{request.GET.buscar}}" >Proximo</a>
+                    </li>
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&buscar={{request.GET.buscar}}">&raquo;</a>
+                    </li>
+
+                {%else%}
+                <li class="page-item">
+                    <label for="input_pagina_2">
+                        <span>
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}"  onclick="document.getElementById('input_pagina_2').click();document.getElementById('teste_botton').click(); return false;">Proximo</a>
+                        </span>
+                    </label>
+                </li>
+                <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                </li>
+                
+            {% endif %}
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="#">Fim</a>
+            </li>
+            <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+  </nav>
+{% endif %} 
+{% endif %} 

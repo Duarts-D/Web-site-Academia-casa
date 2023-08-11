@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section>
+    <p class="container__texto__segunda">{{dia}}</p>
+{% include 'partials/pagination.html' %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <ul>
+            {% for treino in videos %}
+            <li class="videos__item">
+                <div class="descricao__video">
+                    <h3 class="descricao__titulo">{{ treino.exercicio}}</h3>
+                    {% if treino.quantidade %}
+                        <p class="descricao__texto">{{ treino.repeticao}} * {{treino.quantidade}}</p>
+                    {% else %}
+                        <p class="descricao__texto">{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
+                    {% endif %}
+                    
+                    {% if treino.id in lista_video_id %}
+                        <input type="checkbox" id="{{treino.id}}" name="videos" value="{{treino.id}}" class="botao_checkbox" checked>
+                    {%else%}
+                        <input type="checkbox" id="{{treino.id}}" name="videos" value="{{treino.id}}" class="botao_checkbox">
+                    {% endif %}
+                    
+                    {% if user.is_authenticated %}
+                        <label for="{{treino.id}}">
+                            <span>
+                                <button class="button__texto"></button>
+                            </span>
+                        </label>
+                    {% endif %}
+                </div>
+                <iframe class="video__video" src="{{ treino.video }}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata" referrerpolicy="no-referer" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+             
+            </li>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated %}
+            <input type="checkbox" id="input_pagina_1" name="pagina_1" value="{{page_obj.number}}" class="botao_checkbox">
+            <input type="checkbox" id="input_pagina_2" name="pagina_2" value="{{page_obj.number}}" class="botao_checkbox">
+
+            <button type="submit" class="button__input salvar" id="teste_botton" >Salvar</button>
+        {% endif %}
+
+    </form>
+</section>
+{% include 'partials/pagination.html' %}
+{% include 'partials/footer.html' %}
+{% endblock %}

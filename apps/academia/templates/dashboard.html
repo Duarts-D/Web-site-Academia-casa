@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section>
+    <p class="container__texto__segunda">{{dia}}</p>
+    <ul>
+        {%if dia_semana%}
+        {% for treino in dia_semana %}
+        <li class="videos__item">
+            <div class="descricao__video">
+                <h3 class="descricao__titulo">{{ treino.video.exercicio}}</h3>
+                
+                {% if treino.video.quantidade %}
+                    <p class="descricao__texto">{{ treino.video.repeticao}} * {{treino.video.quantidade}}</p>
+                {% else %}
+                    <p class="descricao__texto">{{ treino.video.repeticao }} * ({{treino.video.time}}) Segundos</p>
+                {% endif %}
+            </div>
+            <iframe class="video__video" src="{{ treino.video.video }}?version=3&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata"></iframe>
+
+            {% comment %} <video class="video__video" controls preload="metadata">
+                <source src="{{ treino.video.url }}" type="video/mp4">
+            </video> {% endcomment %}
+        </li>
+        {% endfor %}
+        {% else %}
+        <p class="container__texto__segunda ">Lista Vazia</p>
+        {% endif %}
+</section>
+{% include 'partials/pagination.html' %}
+        
+{% include 'partials/footer.html' %}
+{% endblock %}

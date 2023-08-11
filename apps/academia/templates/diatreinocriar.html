@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section>
+    <ul class="lista__dias">
+        <li class="lista__dias__intem auto lista__dia__mobile">Escolha o dia para organizar o treino</li>
+        {% for dia in dias%}
+            <li class="lista__dias__intem">
+                <a href="{% url 'lista_treino' dia.nome %}">{{dia}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+        
+{% include 'partials/footer.html' %}
+{% endblock %}

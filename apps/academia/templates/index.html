@@ -1,0 +1,17 @@
+{% extends 'base/base.html'%}
+
+{% block conteudo %} 
+<section class="container">
+    <ul class="container section__index" >
+        {% for dia in dia_semana_index %}
+        <li class="container__itens">
+            <a href="{% url 'exercicios' dia.nome %}">{{dia.nome}}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</section>
+
+{% include 'partials/footer.html' %}
+{% endblock%}

@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section class="form_login login">
+    <form method="POST" class="form__input">{% csrf_token %}
+        {% for area in form.visible_fields %}
+            <label class="form__text" >ESQUECEU SUA SENHA DE ACESSO?</label>
+                <p class="header__texto">Informe seu e-mail de cadastro:</p>  
+                    {{area}}
+        {% endfor %}
+        <button type="submit" class="form__text button__input">Enviar</button>
+            <p class='form__error'>{{error}}</p>
+    </form>
+</section>
+{% include 'partials/footer.html' %}
+{% endblock %}

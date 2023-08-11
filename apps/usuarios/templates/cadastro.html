@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section class="form_login">
+    <form action="{% url 'cadastro' %}" method="POST" class="form__input">{% csrf_token %}
+        {% for area in form.visible_fields%}
+        <label class="form__text" >{{area.label}}</label>
+        {{ area }}
+        <p class='form__error'>{{area.errors}}</p>
+        {% endfor %}
+        <button type="submit" class="form__text button__input">Cadastrar</button>
+    </form>
+</section>
+{% include 'partials/footer.html' %}
+{% endblock %}

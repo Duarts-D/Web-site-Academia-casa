@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section class="form_login login">
+    <div class="form__input flex">
+        <a href="{% url 'home' %}" >    
+            <h1 class="form__text">Você deve receber o email em breve.</h1>
+                <p class="header__texto">Contedo as informacoes necessaria.</p>
+                <p class="header__texto">clique aqui para voltar.</p> 
+        </a>
+    </div>
+</section>
+{% include 'partials/footer.html' %}
+{% endblock %}

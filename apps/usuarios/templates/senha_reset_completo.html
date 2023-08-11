@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+<section class="form_login login">
+    <div class="form__input flex">
+        <a href="{% url 'login' %}" class="btn btn-outline-dark">    
+        <h1 class=form__text>Sua senha foi redefinida.</h1>
+        <p class="header__texto">Você pode ir em frente e entrar agora.</p>
+        <p class="header__texto">Clique aqui para fazer login</p>
+        </a>
+    </div>
+</section>
+{% include 'partials/footer.html' %}
+{% endblock %}

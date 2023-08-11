@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Academia casa</title>
+        <!-- Favicon-->
+        <!-- Bootstrap icons-->
+        <link href="{% static 'css/reset.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+       
+    </head>
+    <body class="body">
+        <!-- Responsive navbar-->
+        {% include 'partials/navbar.html' %}
+        <!-- Header-->
+        {% block header %}
+        {% include 'partials/header.html' %}
+        {% endblock %}
+        <!-- Page Content-->
+
+        {% block conteudo %} {% endblock%}
+        
+        <!-- Footer-->
+
+
+    </body>
+</html>

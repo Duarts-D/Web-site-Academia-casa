@@ -1,0 +1,17 @@
+{% autoescape off %}
+----------------------------Academia-----------------------------------------------------------
+Ola {{ user.get_full_name }} ,
+
+Usuario {{ user.username }}
+
+Recebemos uma solicitação para redefinir a senha da sua conta para este endereço de e-mail. Para iniciar o processo de redefinição de senha da sua conta, clique no link abaixo.
+
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+Este link só pode ser usado uma vez. Se você precisar redefinir sua senha novamente, visite {{ protocol }}://{{domain}} e solicite outra redefinição.
+Se não fez este pedido, pode simplesmente ignorar este e-mail.
+
+Sinceramente,
+A equipe do site
+
+{% endautoescape %}
