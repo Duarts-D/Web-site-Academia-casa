@@ -317,7 +317,7 @@
 
 @media screen and (min-width: 500px)  and (max-width: 1024px){
   .nav_bar{
-    background-color: aqua;
+    background-color: black;
   }
   .nav__texto_mid{
     display: none;
@@ -333,6 +333,10 @@
   .salvar{
     font-size: 24px;
     height: 50px;
+  }
+  .page-link{
+    font-size: 24px;
+    font-weight: bold;
   }
 }
 
@@ -461,5 +465,10 @@
   .flex {
     margin: 10px;
     width: 100%;
+  }
+
+  .page-link{
+    font-size: 16px;
+    font-weight: bold;
   }
 }
