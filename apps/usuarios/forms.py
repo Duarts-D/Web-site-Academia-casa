@@ -3,6 +3,28 @@ from django import forms
 from django.contrib.auth.models import User
 import re
 from django.contrib.auth.forms import PasswordResetForm,SetPasswordForm
+import requests
+from apps.config import RECAPTCHA_PRIVATE_KEY
+
+class RecaptchaForm(forms.Form):
+    recaptch = forms.CharField(
+        required=False,
+        max_length=150,
+        widget=forms.TextInput(
+            attrs={'class':'form__input__area_none'})
+        )
+
+    def clean(self):
+        raw_data = self.data
+        recaptcha_response = raw_data.get('g-recaptcha-response')
+        recaptcha_request = requests.post('https://www.google.com/recaptcha/api/siteverify',
+                            data={'secret': RECAPTCHA_PRIVATE_KEY,
+                                'response': recaptcha_response })      
+        recaptcha_result = recaptcha_request.json()
+
+        if not recaptcha_result.get('success'):
+            self.add_error('recaptch',
+                'Desculpe Mr. Robot, ocorreu um erro.')
 
 class LoginForm(forms.Form):
     usuario = forms.CharField(

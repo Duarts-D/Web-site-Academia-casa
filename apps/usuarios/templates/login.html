@@ -11,6 +11,10 @@
         <label class="form__text" >{{area.label}}</label>
             {{area}}
         {% endfor %}
+        <div class="g-recaptcha" data-sitekey="6LdjkKcnAAAAACNtze7WTfmubYEcgCjx5g6wjm8A"></div>
+        {% for error in recaptcha%}
+            {{error}}
+        {%endfor%}
         <button type="submit" class="form__text button__input">Entrar</button>
             <p class='form__error'>{{error}}</p>
         <a href="{% url 'reset_password' %}">Esqueceu a senha?</a>
