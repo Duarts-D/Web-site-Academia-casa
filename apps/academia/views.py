@@ -86,7 +86,10 @@ class TreinoView(ListView):
         lista_limpa = list(set(a_lista))
         
         for id_video in selecionador:
-            lista_limpa.remove(int(id_video))
+            try:
+                lista_limpa.remove(int(id_video))
+            except ValueError:
+                continue
             if not int(id_video) in self.lista_video_id:
                 video = Videos.objects.get(id=id_video)
                 TreinoDia.objects.create(
