@@ -48,6 +48,7 @@ class CadastroForm(forms.ModelForm):
         fields = ('username','first_name','last_name','email','password')
 
     username = forms.CharField(
+        label='Usuario',
         max_length=150,
         required=True,
         widget=forms.TextInput(
