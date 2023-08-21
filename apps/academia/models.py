@@ -1,6 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
-import re
+
+
+CATEGORIAS = (
+    ("ABDOMEN","ABDOMEN"),
+    ("BRACOS","BRAÇOS"),
+    ("GLÚTEOS","GLÚTEOS"),
+    ("PERNAS","PERNAS"),
+    ("PEITO","PEITO"),
+    ("TRICEPS","TRICEPS"),
+    ("ZUMBA","ZUMBA"),
+    ("1","NENHUM"),
+)
 
 class Dias(models.Model):
     nome = models.CharField(max_length=50)
@@ -15,15 +26,15 @@ class Videos(models.Model):
     time = models.PositiveIntegerField(default=0)
     repeticao = models.PositiveIntegerField(default=0)
     id_video_youtube = models.CharField(max_length=50,default=1)
+    categorias = models.CharField(max_length=15,choices=CATEGORIAS,default="1")
 
     def save(self,*args,**kwargs):
         if self.id_video_youtube == '1':
-            regex = r"embed/([a-zA-Z0-9_-]+)"
-            match = re.search(regex, self.video)
-            self.id_video_youtube = match.group(1)
-            super().save(*args,**kwargs)
-        
-    
+            self.id_video_youtube = self.video
+        if len(self.video) <= 20:
+            self.video = 'https://www.youtube.com/embed/' + self.video
+        super().save(*args,**kwargs)
+
     def __str__(self):
         return self.exercicio
     

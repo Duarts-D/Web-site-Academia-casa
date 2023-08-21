@@ -1,8 +1,9 @@
 from typing import Any, Dict
+from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect,reverse
 from django.views import View
 from django.views.generic import ListView
-from .models import Videos,TreinoDia,Dias
+from .models import Videos,TreinoDia,Dias,CATEGORIAS
 from django.contrib.auth.models import User
 
 def lista_ids_video(lista=[]):
@@ -57,15 +58,27 @@ class TreinoView(ListView):
     def setup(self,*args,**kwargs):
         super().setup(*args,**kwargs)
         self.dia = self.kwargs.get('dia')
+        self.dd = self.kwargs.get('dd')
         self.lista_video_id = []
         treino_user_dia = TreinoDia.objects.all().filter(user=self.request.user,dia__nome=self.dia)
 
         for id_video in treino_user_dia :
             self.lista_video_id.append(id_video.video.id)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        categoria = self.kwargs.get('categoria',None)
+        if categoria == 'Nenhum':
+            return qs
+        if not categoria in ['Segunda','Terça','Quarta','Quinta','sexta']:
+            a = self.kwargs.get('categoria',None)
+            qs = qs.filter(categorias=a)
+        return qs
+    
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
         page = get['page_obj']
+        get['categorias'] = CATEGORIAS
         lista_ids_videos = lista_ids_video()
         for video in page:
             lista_ids_videos.append(video.id)
@@ -80,16 +93,15 @@ class TreinoView(ListView):
     def post(self,request,*args,**kwargs):
         selecionador = self.request.POST.getlist('videos')
         query_dia = Dias.objects.get(nome=self.dia)
+        categoria = self.kwargs.get('categoria')
         pagina_1 = self.request.POST.get('pagina_1')
         pagina_2 = self.request.POST.get('pagina_2')
         a_lista = lista_ids_video()
         lista_limpa = list(set(a_lista))
         
         for id_video in selecionador:
-            try:
+            if len(lista_limpa) >= 1:
                 lista_limpa.remove(int(id_video))
-            except ValueError:
-                continue
             if not int(id_video) in self.lista_video_id:
                 video = Videos.objects.get(id=id_video)
                 TreinoDia.objects.create(
@@ -113,7 +125,7 @@ class TreinoView(ListView):
         else:
             return redirect('home')
                 
-        url = reverse('lista_treino',kwargs={'dia':query_dia.nome}) + f'?page={pagina}'
+        url = reverse('lista_treino',kwargs={'dia':query_dia.nome,'categoria':categoria}) + f'?page={pagina}'
         return redirect(url)
     
     def get(self,*args,**kwargs):
@@ -149,3 +161,14 @@ class TodosVideosView(ListView):
     paginate_by = 5
     ordering = ('-id')
 
+class VideosZumba(ListView):
+    model = Videos
+    context_object_name = 'videos'
+    template_name = 'criartreino.html'
+    paginate_by = 5
+    ordering = ('-id')
+
+    def get_queryset(self) -> QuerySet[Any]:
+        qs = super().get_queryset()
+        qs = qs.filter(categorias='ZUMBA')
+        return qs 

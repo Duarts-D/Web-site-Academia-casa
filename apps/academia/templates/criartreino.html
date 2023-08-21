@@ -6,6 +6,13 @@
 {% block conteudo %}
 <section>
     <p class="container__texto__segunda">{{dia}}</p>
+    <ul class="videos__item categorias_container">
+        {% for indice,categoria in categorias %}
+            <li class="categorias">
+                <a href="{% url 'lista_treino' dia categoria %}">{{categoria}}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% include 'partials/pagination.html' %}
 
     <form method="POST">

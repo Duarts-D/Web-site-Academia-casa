@@ -1,13 +1,13 @@
 <nav class="nav_bar">
-    <a href="{% url 'home' %}" class='inicio'>Inicio </a>
+        <a href="{% url 'home' %}" class='inicio'>Inicio </a>
     <div class="container nav__container">
         {% if not user.is_authenticated %}
             <a href="{% url 'videos' %}" class="nav__texto nav__texto_mid">Videos</a>
         {% endif %}
         
         {% if user.is_authenticated %}
-            <a href="{% url 'home' %}" class="nav__texto nav__texto_mid">{{user.username}}</a>
         {% if not lista_treino %}
+            <a href="{% url 'videos_zumba'%}" class="nav__texto nav__texto_mid">Zumba</a>
             <a href="{% url 'dia' %}" class="nav__texto">Criar Treino</a>
         {% endif %}
         <a href="{% url 'logout' %}" class="nav__texto">Desconectar</a>
