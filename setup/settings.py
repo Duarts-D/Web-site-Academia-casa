@@ -147,26 +147,32 @@ AWS_HEADERS = {
     'Access-Control-Allow-Origin': '*',
 }
 
-# # AWS S3
+# # # AWS S3
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+#aws3
 STATIC_URL = f'https://{AWS_SS3_CUSTOM_DOMAIN}/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR / 'setup/static' )
 ]
 STATIC_ROOT = os.path.join(BASE_DIR / 'static' )
+
+
+#django
 # STATIC_URL = 'static/'
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR / 'setup/static' )
 # ]
 # STATIC_ROOT = os.path.join(BASE_DIR / 'static' )
-# MEDIA
+
+
+# # MEDIA
 
 MEDIA_ROOT = os.path.join(BASE_DIR/'media')
 MEDIA_URL =  f'https://{AWS_SS3_CUSTOM_DOMAIN}/media/'

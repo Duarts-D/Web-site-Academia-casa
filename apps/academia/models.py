@@ -2,16 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-CATEGORIAS = (
-    ("ABDOMEN","ABDOMEN"),
-    ("BRACOS","BRAÇOS"),
-    ("GLÚTEOS","GLÚTEOS"),
-    ("PERNAS","PERNAS"),
-    ("PEITO","PEITO"),
-    ("TRICEPS","TRICEPS"),
-    ("ZUMBA","ZUMBA"),
-    ("1","NENHUM"),
-)
+class CategoriaModel(models.Model):
+    categoria = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.categoria
 
 class Dias(models.Model):
     nome = models.CharField(max_length=50)
@@ -26,7 +21,8 @@ class Videos(models.Model):
     time = models.PositiveIntegerField(default=0)
     repeticao = models.PositiveIntegerField(default=0)
     id_video_youtube = models.CharField(max_length=50,default=1)
-    categorias = models.CharField(max_length=15,choices=CATEGORIAS,default="1")
+    categorias = models.ForeignKey(CategoriaModel,on_delete=models.CASCADE,blank=True,null=True)
+    info = models.CharField(max_length=255,blank=False,null=True,default='...')
 
     def save(self,*args,**kwargs):
         if self.id_video_youtube == '1':

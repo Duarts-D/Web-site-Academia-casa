@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect,reverse
 from django.views import View
 from django.views.generic import ListView
-from .models import Videos,TreinoDia,Dias,CATEGORIAS
+from .models import Videos,TreinoDia,Dias,CategoriaModel
 from django.contrib.auth.models import User
 
 def lista_ids_video(lista=[]):
@@ -71,14 +71,14 @@ class TreinoView(ListView):
         if categoria == 'Nenhum':
             return qs
         if not categoria in ['Segunda','Terça','Quarta','Quinta','sexta']:
-            a = self.kwargs.get('categoria',None)
-            qs = qs.filter(categorias=a)
+            categoria__url = self.kwargs.get('categoria',None)
+            qs = qs.filter(categorias__categoria=categoria__url)
         return qs
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
         page = get['page_obj']
-        get['categorias'] = CATEGORIAS
+        get['categorias'] = CategoriaModel.objects.all()
         lista_ids_videos = lista_ids_video()
         for video in page:
             lista_ids_videos.append(video.id)
@@ -164,11 +164,11 @@ class TodosVideosView(ListView):
 class VideosZumba(ListView):
     model = Videos
     context_object_name = 'videos'
-    template_name = 'criartreino.html'
+    template_name = 'zumba.html'
     paginate_by = 5
     ordering = ('-id')
 
     def get_queryset(self) -> QuerySet[Any]:
         qs = super().get_queryset()
-        qs = qs.filter(categorias='ZUMBA')
+        qs = qs.filter(categorias__categoria='ZUMBA')
         return qs 
