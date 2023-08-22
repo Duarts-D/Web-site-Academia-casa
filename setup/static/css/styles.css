@@ -630,4 +630,15 @@
   .descricao__texto{
     margin-bottom: 10px;
   }
+
+  .icon-container{
+    position: relative;
+    align-self:flex-end;
+  }
+  .icon ,.info-box{
+    font-size: 16px;
+  }
+  .info-box{
+    color: white;
+  }
 }
