@@ -1,3 +1,5 @@
+{% load static%}
+
 <nav class="nav_bar">
         <a href="{% url 'home' %}" class='inicio'>Inicio </a>
     <div class="container nav__container">
@@ -6,16 +8,69 @@
         {% endif %}
         
         {% if user.is_authenticated %}
-        {% if not lista_treino %}
-            <a href="{% url 'videos_zumba'%}" class="nav__texto nav__texto_mid">Zumba</a>
-            <a href="{% url 'dia' %}" class="nav__texto">Criar Treino</a>
-        {% endif %}
-        <a href="{% url 'logout' %}" class="nav__texto">Desconectar</a>
+            {% if not lista_treino %}
+                <a href="{% url 'videos' %}" class="nav__texto nav__texto_mid mobile_off">Videos</a>
+                <a href="{% url 'videos_zumba'%}" class="nav__texto nav__texto_mid mobile_off">Zumba</a>
+                <a href="{% url 'dia' %}" class="nav__texto mobile_off mobile_off_500">Criar Treino</a>
+                
+                <input type="checkbox" id="menu" class="nav__checkbox__botao">
+                <label for="menu">
+                    <span class="cabecalho__menu-hamburguer"></span>
+                </label>
+                <ul class="lista__menu_mobile">
+                    <li class="lista-menu__item">
+                        <a href="{% url 'videos' %}" class="lista-menu__link mobile_off_500">Videos</a>
+                    </li>
+                    <li class="lista-menu__item">
+                        <a href="{% url 'dia' %}" class="lista-menu__link">Criar Treino</a>
+                    </li>
+                    <li class="lista-menu__item">
+                        <a href="{% url 'videos_zumba'%}" class="lista-menu__link mobile_off_500">Zumba</a>
+                    </li>
+ 
+                    <li class="lista-menu__item">
+                        <a href="{% url 'logout' %}" class="lista-menu__link">Desconectar</a>
+                    </li>
+                </ul>
+                <a href="{% url 'logout' %}" class="nav__texto mobile_off mobile_off_500">Desconectar</a>
+                
+            {% else %}
+                <a href="{% url 'videos' %}" class="nav__texto nav__texto_mid mobile_off">Videos</a>
+                <a href="{% url 'videos_zumba'%}" class="nav__texto nav__texto_mid mobile_off">Zumba</a>
+                {% comment %} <a href="{% url 'dia' %}" class="nav__texto mobile_off">Criar Treino</a> {% endcomment %}
+                
+                <input type="checkbox" id="menu" class="nav__checkbox__botao">
+                <label for="menu">
+                    <span class="cabecalho__menu-hamburguer"></span>
+                </label>
 
+                <ul class="lista__menu_mobile">
+                    <li class="lista-menu__item">
+                        <a href="{% url 'logout' %}" class="lista-menu__link">Desconectar</a>
+                    </li>
+                </ul>
+                <a href="{% url 'logout' %}" class="nav__texto mobile_off mobile_off_500">Desconectar</a>
+
+            {% endif%}
         {% else%}
-        <a href="{% url 'login' %}" class="nav__texto">Entrar</a>
-        <a href="{% url 'cadastro' %}" class="nav__texto">Cadastrar</a>
 
+            <input type="checkbox" id="menu" class="nav__checkbox__botao">
+            <label for="menu">
+                <span class="cabecalho__menu-hamburguer mobile_off_500"></span>
+            </label>
+            <ul class="lista__menu_mobile">
+                <li class="lista-menu__item">
+                    <a href="{% url 'videos' %}" class="lista-menu__link">Videos</a>
+                </li>
+                <li class="lista-menu__item">
+                    <a href="{% url 'login' %}" class="lista-menu__link">Entrar</a>
+                </li>
+                <li class="lista-menu__item">
+                    <a href="{% url 'cadastro' %}" class="lista-menu__link">Cadastrar</a>
+                </li>
+            </ul>
+        <a href="{% url 'login' %}" class="nav__texto mobile_off">Entrar</a>
+        <a href="{% url 'cadastro' %}" class="nav__texto mobile_off">Cadastrar</a>
         {% endif %}
     </div>
 </nav>

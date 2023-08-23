@@ -8,6 +8,4 @@ urlpatterns = [
     path('dia/',DiaCriarView.as_view(),name='dia'),
     path('videos/',TodosVideosView.as_view(),name='videos'),
     path('videos/zumba',VideosZumba.as_view(),name='videos_zumba'),
-
-
 ]

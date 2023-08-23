@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic import ListView
 from .models import Videos,TreinoDia,Dias,CategoriaModel
 from django.contrib.auth.models import User
+from time import sleep
 
 def lista_ids_video(lista=[]):
     return lista
@@ -60,6 +61,8 @@ class TreinoView(ListView):
         self.dia = self.kwargs.get('dia')
         self.dd = self.kwargs.get('dd')
         self.lista_video_id = []
+        if not self.request.user.is_authenticated:
+            return redirect('login')
         treino_user_dia = TreinoDia.objects.all().filter(user=self.request.user,dia__nome=self.dia)
 
         for id_video in treino_user_dia :
@@ -98,7 +101,7 @@ class TreinoView(ListView):
         pagina_2 = self.request.POST.get('pagina_2')
         a_lista = lista_ids_video()
         lista_limpa = list(set(a_lista))
-        
+        sleep(2)
         for id_video in selecionador:
             if len(lista_limpa) >= 1:
                 lista_limpa.remove(int(id_video))
@@ -157,14 +160,14 @@ class DiaCriarView(ListView):
 class TodosVideosView(ListView):
     model = Videos
     context_object_name = 'videos'
-    template_name = 'criartreino.html'
+    template_name = 'videos.html'
     paginate_by = 5
     ordering = ('-id')
 
 class VideosZumba(ListView):
     model = Videos
     context_object_name = 'videos'
-    template_name = 'zumba.html'
+    template_name = 'videos.html'
     paginate_by = 5
     ordering = ('-id')
 
