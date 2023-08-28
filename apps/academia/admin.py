@@ -9,6 +9,7 @@ class DiasAdmin(admin.ModelAdmin):
 class VideosAdmin(admin.ModelAdmin):
     list_display = ('exercicio','time')
     ordering =('id',)
+    search_fields = ('exercicio',)
     
 class TreinoDiaAdmin(admin.ModelAdmin):
     list_display = ('dia','video','user')
@@ -16,6 +17,7 @@ class TreinoDiaAdmin(admin.ModelAdmin):
 
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('categoria',)
+
 
 admin.site.register(Videos,VideosAdmin)
 admin.site.register(Dias,DiasAdmin)

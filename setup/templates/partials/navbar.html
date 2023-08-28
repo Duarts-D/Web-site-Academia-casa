@@ -4,12 +4,15 @@
         <a href="{% url 'home' %}" class='inicio'>Inicio </a>
     <div class="container nav__container">
         {% if not user.is_authenticated %}
-            <a href="{% url 'videos' %}" class="nav__texto nav__texto_mid">Videos</a>
+            {% if geral %}
+            <a href="{% url 'videos' geral %}" class="nav__texto nav__texto_mid">Videos</a>
+            {% endif %}
         {% endif %}
         
         {% if user.is_authenticated %}
             {% if not lista_treino %}
-                <a href="{% url 'videos' %}" class="nav__texto nav__texto_mid mobile_off">Videos</a>
+
+                <a href="{% url 'videos' geral %}" class="nav__texto nav__texto_mid mobile_off">Videos</a>
                 <a href="{% url 'videos_zumba'%}" class="nav__texto nav__texto_mid mobile_off">Zumba</a>
                 <a href="{% url 'dia' %}" class="nav__texto mobile_off mobile_off_500">Criar Treino</a>
                 
@@ -19,7 +22,7 @@
                 </label>
                 <ul class="lista__menu_mobile">
                     <li class="lista-menu__item">
-                        <a href="{% url 'videos' %}" class="lista-menu__link mobile_off_500">Videos</a>
+                        <a href="{% url 'videos' geral %}" class="lista-menu__link mobile_off_500">Videos</a>
                     </li>
                     <li class="lista-menu__item">
                         <a href="{% url 'dia' %}" class="lista-menu__link">Criar Treino</a>
@@ -35,7 +38,7 @@
                 <a href="{% url 'logout' %}" class="nav__texto mobile_off mobile_off_500">Desconectar</a>
                 
             {% else %}
-                <a href="{% url 'videos' %}" class="nav__texto nav__texto_mid mobile_off">Videos</a>
+                <a href="{% url 'videos' geral %}" class="nav__texto nav__texto_mid mobile_off">Videos</a>
                 <a href="{% url 'videos_zumba'%}" class="nav__texto nav__texto_mid mobile_off">Zumba</a>
                 {% comment %} <a href="{% url 'dia' %}" class="nav__texto mobile_off">Criar Treino</a> {% endcomment %}
                 
@@ -60,7 +63,9 @@
             </label>
             <ul class="lista__menu_mobile">
                 <li class="lista-menu__item">
-                    <a href="{% url 'videos' %}" class="lista-menu__link">Videos</a>
+                     {% if geral %}
+                    <a href="{% url 'videos' geral %}" class="lista-menu__link">Videos</a>
+                    {% endif%}
                 </li>
                 <li class="lista-menu__item">
                     <a href="{% url 'login' %}" class="lista-menu__link">Entrar</a>

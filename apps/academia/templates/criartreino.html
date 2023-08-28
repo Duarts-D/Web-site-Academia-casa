@@ -6,16 +6,8 @@
 {% block conteudo %}
 <section>
     <p class="container__texto__segunda">{{dia}}</p>
-    <ul class="videos__item categorias_container">
-        <li class="categorias">
-            <a href="{% url 'lista_treino' dia dia %}">TODOS</a>
-        </li>
-        {% for categoria in categorias %}
-            <li class="categorias">
-                <a href="{% url 'lista_treino' dia categoria %}">{{categoria}}</a>
-            </li>
-        {% endfor %}
-    </ul>
+
+{% include 'partials/_categorias_totais.html' %}
 {% include 'partials/pagination.html' %}
 
     <form method="POST">
@@ -23,12 +15,9 @@
         <ul>
             {% for treino in videos %}
             <li class="videos__item">
-                <div class="icon-container">
-                    <p class="icon" alt="Ícone">{{treino.categorias}}
-                    <div class="info-box">
-                        <p>{{treino.info}}</p>
-                    </div>
-                </div>
+
+                {% include 'partials/_info_categorias.html'%}
+                
                 <div class="descricao__video">
                     <h3 class="descricao__titulo">{{ treino.exercicio}}</h3>
                     {% if treino.quantidade %}
@@ -57,8 +46,21 @@
             {% endfor %}
         </ul>
         {% if user.is_authenticated %}
+            <input type="checkbox" id="input_pagina_4" name="pagina_4" value="incial" class="botao_checkbox">
             <input type="checkbox" id="input_pagina_1" name="pagina_1" value="{{page_obj.number}}" class="botao_checkbox">
             <input type="checkbox" id="input_pagina_2" name="pagina_2" value="{{page_obj.number}}" class="botao_checkbox">
+            <input type="checkbox" id="input_pagina_3" name="pagina_final" value="{{page_obj.paginator.num_pages}}" class="botao_checkbox">
+
+            <input type="checkbox" id="todos" name="todos" value="todos" class="botao_checkbox">
+            {% for page in page_obj %}
+                <input type="checkbox" id="lista" name="id_page" value="{{page.id}}" class="botao_checkbox" checked>
+            {% endfor %}
+            <input type="checkbox" id="todos" name="todos" value="todos" class="botao_checkbox">
+
+            {% for categoria in categorias %}
+                <input type="checkbox" id="{{categoria.categoria}}" name="categorias__input" value="{{categoria|upper}}" class="botao_checkbox">
+            {% endfor %}
+            
 
             <button type="submit" class="button__input salvar" id="teste_botton" >Salvar</button>
         {% endif %}

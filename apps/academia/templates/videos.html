@@ -5,52 +5,26 @@
 
 {% block conteudo %}
 <section>
-    <p class="container__texto__segunda">{{dia}}</p>
-    <ul class="videos__item categorias_container">
-        {% for categoria in categorias %}
-            <li class="categorias">
-                <a href="{% url 'lista_treino' dia categoria %}">{{categoria}}</a>
-            </li>
-        {% endfor %}
-    </ul>
+{% include 'partials/_categorias_totais.html' %}
 {% include 'partials/pagination.html' %}
+<ul>
+    {% for treino in videos %}
+    <li class="videos__item">
 
-    <form method="POST">
-        {% csrf_token %}
-        <ul>
-            {% for treino in videos %}
-            <li class="videos__item">
-                <div class="icon-container">
-                    <p class="icon" alt="Ícone">{{treino.categorias}}
-                    <div class="info-box">
-                        <p>{{treino.info}}</p>
-                    </div>
-                </div>
-                <div class="descricao__video">
-                    <h3 class="descricao__titulo">{{ treino.exercicio}}</h3>
-                    {% if treino.quantidade %}
-                        <p class="descricao__texto">{{ treino.repeticao}} * {{treino.quantidade}}</p>
-                    {% else %}
-                        <p class="descricao__texto">{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
-                    {% endif %}
-                    
-                    {% if treino.id in lista_video_id %}
-                        <input type="checkbox" id="{{treino.id}}" name="videos" value="{{treino.id}}" class="botao_checkbox" checked>
-                    {%else%}
-                        <input type="checkbox" id="{{treino.id}}" name="videos" value="{{treino.id}}" class="botao_checkbox">
-                    {% endif %}
-                </div>
-                <iframe class="video__video" src="{{ treino.video }}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata" referrerpolicy="no-referer" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-             
-            </li>
-            {% endfor %}
-        </ul>
-        {% if user.is_authenticated %}
-            <input type="checkbox" id="input_pagina_1" name="pagina_1" value="{{page_obj.number}}" class="botao_checkbox">
-            <input type="checkbox" id="input_pagina_2" name="pagina_2" value="{{page_obj.number}}" class="botao_checkbox">
-        {% endif %}
-
-    </form>
+        {% include 'partials/_info_categorias.html'%}
+        
+        <div class="descricao__video">
+            <h3 class="descricao__titulo">{{ treino.exercicio}}</h3>
+            {% if treino.quantidade %}
+                <p class="descricao__texto">{{ treino.repeticao}} * {{treino.quantidade}}</p>
+            {% else %}
+                <p class="descricao__texto">{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
+            {% endif %}
+        </div>
+        <iframe class="video__video" src="{{ treino.video }}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata" referrerpolicy="no-referer" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </li>
+    {% endfor %}
+</ul>
 </section>
 {% include 'partials/pagination.html' %}
 {% include 'partials/footer.html' %}

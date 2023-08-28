@@ -1,0 +1,38 @@
+{% if lista_treino %}
+
+<ul class="videos__item categorias_container">
+    <li class="categorias">
+        <a href="{% url 'lista_treino' dia dia %}"  onclick="document.getElementById('todos').click();document.getElementById('teste_botton').click(); return false;">Geral</button>
+    </li>
+    {% for categoria in categorias %}
+        <li class="categorias">
+                    <a href="{% url 'lista_treino' dia categoria %}" onclick="document.getElementById('{{categoria.categoria}}').click();document.getElementById('teste_botton').click(); return false;">{{categoria}}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+<ul class="videos__item categorias_container">
+    <li class="categorias">
+        {% if zumba == True %}
+        <a href="{% url 'videos_zumba'%}" >Geral</a>
+        {% elif dia == False %}
+            <a href="{% url 'videos' geral %}" >Geral</a>
+        {% else %}
+            <a href="{% url 'exercicios' dia geral %}" >Geral</a>
+        {% endif %}
+
+    </li>
+    {% for categoria in categorias %}
+        <li class="categorias">
+            {% if dia == False %}
+                <a href="{% url 'videos' categoria %}">{{categoria}}</a>
+            {% else %}
+                <a href="{% url 'exercicios' dia categoria %}">{{categoria}}</a>
+            {% endif %}
+
+                </li>
+    {% endfor %}
+</ul>
+
+{% endif %}

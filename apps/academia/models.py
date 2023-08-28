@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
+    
 class CategoriaModel(models.Model):
     categoria = models.CharField(max_length=100)
 
@@ -21,7 +21,7 @@ class Videos(models.Model):
     time = models.PositiveIntegerField(default=0)
     repeticao = models.PositiveIntegerField(default=0)
     id_video_youtube = models.CharField(max_length=50,default=1)
-    categorias = models.ForeignKey(CategoriaModel,on_delete=models.CASCADE,blank=True,null=True)
+    categorias = models.ManyToManyField(CategoriaModel)
     info = models.CharField(max_length=255,blank=False,null=True,default='...')
 
     def save(self,*args,**kwargs):

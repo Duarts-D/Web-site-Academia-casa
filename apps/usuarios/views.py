@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from .forms import SenhaEmailResetForm,SenhaResetConfirmForm,RecaptchaForm
 from django.contrib.auth.views import PasswordResetView,PasswordResetConfirmView
 
-# Create your views here.
+
 class LoginView(View):
     template_name = 'login.html'
     
@@ -16,9 +16,11 @@ class LoginView(View):
 
         self.contexto = {'form':LoginForm(data=self.request.POST or None),
                          'recaptcha':RecaptchaForm(self.request.POST or None),
+                         'geral':'Geral'
                         }
         self.login = self.contexto['form']
-
+        
+    
     def post(self,*args,**kwargs):
         form = self.contexto['recaptcha']
         if not form.is_valid():
@@ -27,7 +29,7 @@ class LoginView(View):
             return render(self.request,self.template_name,self.contexto)
         
         if self.login.is_valid():
-            user = self.request.POST.get('usuario')
+            user = self.request.POST.get('usuario').lower()
             password = self.request.POST.get('password')
             usuario = authenticate(self.request,username=user,password=password)
 
@@ -50,6 +52,7 @@ class CadastroView(View):
 
         self.contexto = {'form':CadastroForm(data=self.request.POST or None),
                         'recaptcha':RecaptchaForm(self.request.POST or None),
+                        'geral':'Geral',
                         }
         self.cadastro = self.contexto['form']
 
@@ -59,6 +62,7 @@ class CadastroView(View):
             print('nao valido')
             self.contexto['error'] = 'Desculpe Mr. Robot, ocorreu um erro.'
             return render(self.request,self.template_name,self.contexto)
+        
         if self.cadastro.is_valid():
             user = self.cadastro.cleaned_data.get('username')
             password = self.cadastro.cleaned_data.get('password')

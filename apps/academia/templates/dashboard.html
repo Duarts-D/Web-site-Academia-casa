@@ -6,19 +6,15 @@
 {% block conteudo %}
 <section>
     <p class="container__texto__segunda">{{dia}}</p>
+    {% include 'partials/_categorias_totais.html' %}
     <ul>
         {%if dia_semana%}
         {% for treino in dia_semana %}
         <li class="videos__item">
-                <div class="icon-container">
-                    <p class="icon" alt="Ícone">{{treino.video.categorias}}
-                    <div class="info-box">
-                        <p>{{treino.video.info}}</p>
-                    </div>
-                </div>
+
+            {% include 'partials/_info_categorias.html'%}
+
             <div class="descricao__video">
-
-
                 <h3 class="descricao__titulo">{{ treino.video.exercicio}}</h3>
                 
                 {% if treino.video.quantidade %}

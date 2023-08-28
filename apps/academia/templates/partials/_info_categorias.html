@@ -1,0 +1,33 @@
+{% if lista_treino %}
+<div class="icon-container">
+    <ul class="icon__lista">
+        {% for nomes in treino.categorias.all%}
+        <li class="icon" alt="Ícone">
+            {{nomes}}
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="info-box">
+        <p>{{treino.info}}</p>
+    </div>
+</div>
+{%else%}
+<div class="icon-container">
+    <ul class="icon__lista">
+        {% for nomes in treino.video.categorias.all%}
+        <li class="icon" alt="Ícone">
+            {{nomes}}
+        </li>
+        {% endfor %}
+        {% for nomes in treino.categorias.all%}
+        <li class="icon" alt="Ícone">
+            {{nomes}}
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="info-box">
+        <p>{{treino.info}}</p>
+    </div>
+</div>
+
+{% endif %}
