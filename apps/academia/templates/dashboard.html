@@ -10,7 +10,7 @@
     <ul>
         {%if dia_semana%}
         {% for treino in dia_semana %}
-        <li class="videos__item">
+        <li class="videos__item" data-bloco-video>
 
             {% include 'partials/_info_categorias.html'%}
 
@@ -23,7 +23,8 @@
                     <p class="descricao__texto">{{ treino.video.repeticao }} * ({{treino.video.time}}) Segundos</p>
                 {% endif %}
             </div>
-            <iframe class="video__video" src="{{ treino.video.video }}?version=3&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata"></iframe>
+            <img class="video__video" src="{% static 'img/fortnite.jpg'%}" id="{{treino.video.id}}" alt="" data-imagem>
+            <iframe id="player{{treino.video.id}}"class="video__video video__none" src="{{ treino.video.video }}?enablejsapi=1&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0"  allowfullscreen frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" data-id="{{treino.video.id}}" ></iframe>
         </li>
         {% endfor %}
         {% else %}
@@ -33,4 +34,6 @@
 {% include 'partials/pagination.html' %}
         
 {% include 'partials/footer.html' %}
+<script src="https://www.youtube.com/iframe_api" ></script>
+<script src="{% static 'js/main.js' %}" ></script>
 {% endblock %}

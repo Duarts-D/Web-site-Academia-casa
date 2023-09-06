@@ -25,7 +25,7 @@ class ExercicioSemanaView(CustomContextMixin,ListView):
     model = TreinoDia
     template_name = 'dashboard.html'
     context_object_name = 'dia_semana'
-    paginate_by = 4
+    # paginate_by = 4
     ordering = ('-id')
 
 

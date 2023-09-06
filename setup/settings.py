@@ -77,28 +77,28 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': NAME,
-        'USER': USER,
-        'PASSWORD': PASSWORD,
-        'HOST': HOST,
-        'PORT': PORT, 
-        'OPTIONS': {
-            'ssl': {
-                'ca': 'DigiCertGlobalRootCA.crt.pem',  # Caminho para o certificado CA
-            },
-            },
-            }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': NAME,
+#         'USER': USER,
+#         'PASSWORD': PASSWORD,
+#         'HOST': HOST,
+#         'PORT': PORT, 
+#         'OPTIONS': {
+#             'ssl': {
+#                 'ca': 'DigiCertGlobalRootCA.crt.pem',  # Caminho para o certificado CA
+#             },
+#             },
+#             }
+#     }
 
 
 # Password validation
@@ -132,52 +132,52 @@ USE_I18N = True
 USE_TZ = True
 
 
-#AWS bucket
-AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY  = AWS_SECRET_ACCESS_KEY
-AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
-AWS_SS3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl' : 'max-age=86400'
-}
-AWS_LOCATION = 'static'
-AWS_QUERYSTRING_AUTH = False
-AWS_HEADERS = {
-    'Access-Control-Allow-Origin': '*',
-}
+# #AWS bucket
+# AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+# AWS_SECRET_ACCESS_KEY  = AWS_SECRET_ACCESS_KEY
+# AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
+# AWS_SS3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+# AWS_DEFAULT_ACL = 'public-read'
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl' : 'max-age=86400'
+# }
+# AWS_LOCATION = 'static'
+# AWS_QUERYSTRING_AUTH = False
+# AWS_HEADERS = {
+#     'Access-Control-Allow-Origin': '*',
+# }
 
-# # # AWS S3
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+# # # # AWS S3
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
+# # Static files (CSS, JavaScript, Images)
+# # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-#aws3
-STATIC_URL = f'https://{AWS_SS3_CUSTOM_DOMAIN}/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR / 'setup/static' )
-]
-STATIC_ROOT = os.path.join(BASE_DIR / 'static' )
-
-
-# MEDIA
-
-MEDIA_ROOT = os.path.join(BASE_DIR/'media')
-MEDIA_URL =  f'https://{AWS_SS3_CUSTOM_DOMAIN}/media/'
-
-# # #######AWSFIM######
-
-#django
-
-# STATIC_URL = 'static/'
+# #aws3
+# STATIC_URL = f'https://{AWS_SS3_CUSTOM_DOMAIN}/static/'
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR / 'setup/static' )
 # ]
 # STATIC_ROOT = os.path.join(BASE_DIR / 'static' )
+
+
+# # MEDIA
+
+# MEDIA_ROOT = os.path.join(BASE_DIR/'media')
+# MEDIA_URL =  f'https://{AWS_SS3_CUSTOM_DOMAIN}/media/'
+
+# # # #######AWSFIM######
+
+#django
+
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR / 'setup/static' )
+]
+STATIC_ROOT = os.path.join(BASE_DIR / 'static' )
 
 
 
