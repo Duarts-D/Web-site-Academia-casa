@@ -1,3 +1,94 @@
 .video__none{
     display: none;
 }
+
+/* Button remover elemento */
+.button__js{
+    color: red;
+    margin-right: 16px;
+    border: 2px dashed red;
+    padding: 0 2px 0 2px;
+}
+.button__js__cc{
+    color: red;
+    margin-right: 16px;
+    border: 2px dashed red;
+    padding: 0 2px 0 2px;
+    border-radius: 10px;
+}
+.button__info{
+    position: absolute;
+    display: none;
+    color: white;
+    left: 49.2%;
+    border: white solid 3px;
+    padding: 4px;
+    background-color: black;
+}
+
+.button__concluir:hover , .button__js:hover{
+    color:  white;
+    border-color: white;
+    cursor: pointer;
+}
+
+.button__js:hover {
+    border: white solid 3px;
+    border-right: none;
+}
+
+.button__js:hover + .button__info{
+    display: block;
+    border-left: none;
+}
+
+
+.button__concluir{
+    display: none;
+    width: 20%;
+    margin-top: 10px;
+    height: 15%;
+    align-self: center;
+    margin-right: 16px;
+}
+
+.button__concluir:active{
+    color: red;
+    border-color: red;
+    border-style: solid;
+    outline: 3px dashed white;
+}
+
+.video__container__concluido_js{
+    border: 3px red double;
+    outline: 5px white inset;
+    margin-bottom: 10px;
+    margin-left: 10.2%;
+    margin-right: 10.2%;
+}
+
+.caixas-ativa {
+    animation: bordios 2s linear infinite;
+    animation-iteration-count: 2;
+
+}
+  
+@keyframes bordios {
+    0% {
+        border-bottom: 5px double red;
+        /* transform: translateY(-100%); */
+    }
+    25%{
+        border-right: 5px double white;
+    }
+    50%{
+        border-left: 5px double brown;
+    }
+    75%{
+        border-top: 5px double yellow;
+    }
+    100%{
+        border: 5px double red;
+    }
+}
+

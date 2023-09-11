@@ -1,33 +1,38 @@
 {% if lista_treino %}
-<div class="icon-container">
-    <ul class="icon__lista">
-        {% for nomes in treino.categorias.all%}
-        <li class="icon" alt="Ícone">
+
+<div class="video__icon_container">
+    <ul class="video__incon__lista">
+    {% for nomes in treino.categorias.all%}
+        <li class="video__icon__itens" alt="Ícone">
             {{nomes}}
         </li>
-        {% endfor %}
+    {% endfor %}
     </ul>
-    <div class="info-box">
-        <p>{{treino.info}}</p>
-    </div>
-</div>
-{%else%}
-<div class="icon-container">
-    <ul class="icon__lista">
-        {% for nomes in treino.video.categorias.all%}
-        <li class="icon" alt="Ícone">
-            {{nomes}}
-        </li>
-        {% endfor %}
-        {% for nomes in treino.categorias.all%}
-        <li class="icon" alt="Ícone">
-            {{nomes}}
-        </li>
-        {% endfor %}
-    </ul>
-    <div class="info-box">
-        <p>{{treino.info}}</p>
-    </div>
 </div>
 
+    <li class="video__icon__itens" alt="Ícone">
+        <p>{{treino.info}}</p>
+    </li>
+
+{%else%}
+<div class="video__icon_container">
+    <ul class="video__incon__lista">
+        {% for nomes in treino.video.categorias.all%}
+        <li class="video__icon__itens" alt="Ícone">
+            {{nomes}}
+        </li>
+        {% endfor %}
+        {% for nomes in treino.categorias.all%}
+        <li class="video__icon__itens" alt="Ícone">
+            {{nomes}}
+        </li>
+        {% endfor %}
+    </ul>
+<button type="button" class="button__js">X</button>
+    <p class="button__info">Remover</p>
+</div>
+
+<div class="">
+    <p>{{treino.info}}</p>
+</div>
 {% endif %}

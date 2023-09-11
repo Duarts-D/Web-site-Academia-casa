@@ -10,21 +10,26 @@
     <ul>
         {%if dia_semana%}
         {% for treino in dia_semana %}
-        <li class="videos__item" data-bloco-video>
-
-            {% include 'partials/_info_categorias.html'%}
-
-            <div class="descricao__video">
-                <h3 class="descricao__titulo">{{ treino.video.exercicio}}</h3>
-                
-                {% if treino.video.quantidade %}
-                    <p class="descricao__texto">{{ treino.video.repeticao}} * {{treino.video.quantidade}}</p>
-                {% else %}
-                    <p class="descricao__texto">{{ treino.video.repeticao }} * ({{treino.video.time}}) Segundos</p>
-                {% endif %}
+        <li class="video__container caixas-ativa" data-bloco-video>
+            <div class="video__descricao">
+                {% include 'partials/_info_categorias.html'%}
+                <div class="video__descricao__textos">
+                    <h3 >{{ treino.video.exercicio}}</h3>
+                    {% if treino.video.quantidade %}
+                        <p>{{ treino.video.repeticao}} * {{treino.video.quantidade}}</p>
+                    {% else %}
+                        <p >{{ treino.video.repeticao }} * ({{treino.video.time}}) Segundos</p>
+                    {% endif %}
+                </div>
+                <button type="button" class="button__js__cc button__concluir">Concluir</button>
             </div>
-            <img class="video__video" src="{% static 'img/fortnite.jpg'%}" id="{{treino.video.id}}" alt="" data-imagem>
-            <iframe id="player{{treino.video.id}}"class="video__video video__none" src="{{ treino.video.video }}?enablejsapi=1&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0"  allowfullscreen frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" data-id="{{treino.video.id}}" ></iframe>
+    
+    
+            <div class="video__cointainer__video__img">
+                <img class="video__img" src="{% static 'img/fortnite.jpg'%}" id="{{treino.video.id}}" alt="" data-imagem>
+                <iframe id="player{{treino.video.id}}"class="video__video video__none" src="{{ treino.video.video }}?enablejsapi=1&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0"  allowfullscreen frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" data-id="{{treino.video.id}}" ></iframe>
+            </div>
+        
         </li>
         {% endfor %}
         {% else %}
