@@ -18,21 +18,21 @@
 <div class="video__icon_container">
     <ul class="video__incon__lista">
         {% for nomes in treino.video.categorias.all%}
-        <li class="video__icon__itens" alt="Ícone">
+        <li class="video__icon__itens border__style_2px" alt="Ícone">
             {{nomes}}
         </li>
         {% endfor %}
         {% for nomes in treino.categorias.all%}
-        <li class="video__icon__itens" alt="Ícone">
+        <li class="video__icon__itens border__style_2px" alt="Ícone">
             {{nomes}}
         </li>
         {% endfor %}
     </ul>
-<button type="button" class="button__js">X</button>
-    <p class="button__info">Remover</p>
+<p class="info-box">{{treino.video.info}}</p>
+<button type="button" class="button__js border__style_2px" data-button-remove="{{treino.video.id}}">X</button>
+<p class="button__info">Remover</p>
+<div class="info-box">
+    <p>{{treino.video.info}}</p>
 </div>
-
-<div class="">
-    <p>{{treino.info}}</p>
 </div>
 {% endif %}

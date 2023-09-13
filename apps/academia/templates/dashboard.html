@@ -5,12 +5,13 @@
 
 {% block conteudo %}
 <section>
-    <p class="container__texto__segunda">{{dia}}</p>
+    <p class="container__texto__segunda" id="dia_semanal">{{dia}}</p>
+    <button type="button" class="video__container__concluido_js resetbutton">Resetar Marcação</button>
     {% include 'partials/_categorias_totais.html' %}
     <ul>
         {%if dia_semana%}
         {% for treino in dia_semana %}
-        <li class="video__container caixas-ativa" data-bloco-video>
+        <li class="video__container" data-bloco-video="player{{treino.video.id}}">
             <div class="video__descricao">
                 {% include 'partials/_info_categorias.html'%}
                 <div class="video__descricao__textos">
@@ -21,13 +22,13 @@
                         <p >{{ treino.video.repeticao }} * ({{treino.video.time}}) Segundos</p>
                     {% endif %}
                 </div>
-                <button type="button" class="button__js__cc button__concluir">Concluir</button>
+                <button type="button" class="button__js__cc button__concluir border__style_2px" data-button="player{{treino.video.id}}">Concluir</button>
             </div>
     
     
             <div class="video__cointainer__video__img">
                 <img class="video__img" src="{% static 'img/fortnite.jpg'%}" id="{{treino.video.id}}" alt="" data-imagem>
-                <iframe id="player{{treino.video.id}}"class="video__video video__none" src="{{ treino.video.video }}?enablejsapi=1&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0"  allowfullscreen frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" data-id="{{treino.video.id}}" ></iframe>
+                <iframe id="player{{treino.video.id}}" type="text/html" class="video__video video__none" src="{{ treino.video.video }}?enablejsapi=1&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0&origin=http://127.0.0.1:8000"  allowfullscreen frameborder="0" data-id="{{treino.video.id}}" ></iframe>
             </div>
         
         </li>
@@ -39,6 +40,6 @@
 {% include 'partials/pagination.html' %}
         
 {% include 'partials/footer.html' %}
-<script src="https://www.youtube.com/iframe_api" ></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 <script src="{% static 'js/main.js' %}" ></script>
 {% endblock %}

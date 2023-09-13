@@ -107,7 +107,7 @@
 
 .container__itens {
   width: 300px;
-  border: 2px dashed red;
+  border: 2px solid red;
   border-radius: 16px;
   padding: 1em;
   text-align: center;
@@ -131,7 +131,7 @@
   background-color: black;
   margin: 0 10% 0 10%;
   padding: 10px 0 10px 0 ;
-  border-top: 2px dashed red;
+  border-top: 2px solid red;
   
 }
 
@@ -144,7 +144,7 @@
   margin-right: 10%;
   background-color: black;
   color: red;
-  border: 3px dashed red;
+  border: 3px solid red;
   padding: 16px;
 }
 
@@ -177,10 +177,34 @@
 
 .video__icon__itens{
   text-align: center;
-  color: red;
-  border: 2px dashed red;
   padding: 3px;
   margin: 2px;
+}
+
+.info-box {
+  position: absolute;
+  color: white;
+  /* top: 100%; */
+  left: 11.5%;
+  margin-top: 1.5%;
+  max-width: 30%;
+  padding: 10px;
+  background-color: red;
+  border-radius: 5px;
+  font-size: 16px;
+  display:none;
+}
+
+.video__incon__lista:hover + .info-box{
+  display: block;
+}
+.video__icon__itens:hover {
+  color: white;
+}
+
+
+.border__style_2px {
+  border: 2px solid red;
 }
 
 .video__descricao__textos{
@@ -216,7 +240,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 2px dashed red;
+  border: 2px solid red;
   margin: 0 10% 0 10%;
   column-gap: 1em;
   background-color: black;
@@ -292,7 +316,7 @@
 .lista__dias__intem{
   background-color: black;
   padding: 10px;
-  border: 2px red dashed;
+  border: 2px red solid;
   width: 70%;
   border-radius: 20px;
 }
@@ -318,7 +342,7 @@
 .botao_checkbox + label span::before {
   content: "Adicionar...";
   color: red;
-  border: 2px dashed red;
+  border: 2px solid red;
   font-size: 0.7em;
   border-radius: 10px;
   cursor: pointer;
@@ -331,7 +355,7 @@
   background-color: white;
   color: red;
   font-size: 0.7em;
-  border: 2px dashed red;
+  border: 2px solid red;
   border-radius: 10px;
 }
 
@@ -357,7 +381,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  border: dashed 2px red;
+  border: solid 2px red;
   margin: 30%;
   background-color: black;
   color: red;
@@ -370,9 +394,9 @@
   justify-content: space-around;
   margin: 0 10% 0 10%;
   padding: 10px 0 10px 0;
-  border-bottom: 2px dashed red;
-  border-left:  2px dashed red;
-  border-right: 2px dashed red;
+  border-bottom: 2px solid red;
+  border-left:  2px solid red;
+  border-right: 2px solid red;
 }
 
 .page-item{
@@ -422,28 +446,13 @@
   color: red;
   /* font-family: 'Tilt Prism', cursive; */
   font-size: 24px;
-  border: 1px dashed red;
+  border: 1px solid red;
   padding: 3px;
   width: auto;
 }
 
-.info-box {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  padding: 10px;
-  background-color: red;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  display: none;
-  font-size: 16px;
-}
 
-.icon-container:hover .info-box {
-  display: block;
-}
+
 
 @media screen and (min-width: 1728px) {
   .rodape_index{
@@ -730,13 +739,13 @@
     width: 100%;
     margin: 0;
     padding: 10px;
-    border-bottom: 2px red dashed;
+    border-bottom: 2px red solid;
     margin-bottom: 10px;
   }
 
   .div__header{
     margin: 0;
-    border-top: 2px red dashed;
+    border-top: 2px red solid;
     /* padding-top: 10px; */
   }
   .rodape {
