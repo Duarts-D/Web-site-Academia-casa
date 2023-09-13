@@ -5,7 +5,7 @@
 
 {% block conteudo %}
 <section>
-    <p class="container__texto__segunda">{{dia}}</p>
+    <p class="container__texto__segunda" id="{{dia}}" data-dia>{{dia}}</p>
 
 {% include 'partials/_categorias_totais.html' %}
 {% include 'partials/pagination.html' %}
@@ -69,7 +69,7 @@
 
             <button type="submit" class="button__input salvar" id="teste_botton" >Salvar</button>
         {% endif %}
-
+    <script src="{% static 'js/removeXStorage.js'%}"></script>
     </form>
 </section>
 {% include 'partials/pagination.html' %}

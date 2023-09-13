@@ -10,7 +10,7 @@ const buttonResetaMarcacao = document.querySelector('.resetbutton')
 const listaIframeSrc = []
 let lista = []
 let intensVideoPlay = []
-let intesXStorage = JSON.parse(localStorage.getItem('Remover')) || []
+let intesXStorage = JSON.parse(localStorage.getItem(`Remover-${dia}`)) || []
 let intensStorage = JSON.parse(localStorage.getItem(dia)) || [] 
 let ok
 const reset = setTimeout(apiYotuTubeReativar,2000)
@@ -49,7 +49,7 @@ buttonXRemover.forEach((elemento) =>{
         divDomRemove(valor)
         alert('Removendo!!')
         intesXStorage.push(valor)
-        localStorage.setItem('Remover',JSON.stringify(intesXStorage))
+        localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
     })
 })
 
