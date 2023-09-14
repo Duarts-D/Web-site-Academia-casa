@@ -116,3 +116,56 @@
     }
 }
 
+@media screen and (min-width: 280px)  and (max-width: 499px){
+    .resetbutton{
+        display: inline;
+        position: revert;
+        background-color: black;
+        color:red;
+        width: 90%;
+        margin: 0 5% 10px 5%;
+        padding: 10px;
+    }
+
+    .button__concluir {
+        /* display: inline-block; */
+        /* color: red; */
+        margin: 0;
+    }
+
+    .button__concluir:focus{
+       color:#b8860b;
+       border-color: #b8860b;
+    }
+    .video__container__concluido_js{
+        margin: 0 5% 0 5%;
+    }
+}
+
+@media screen and (min-width: 500px)  and (max-width: 700px){
+    .resetbutton{
+        display: inline;
+        position: revert;
+        background-color: black;
+        color:red;
+        width: 90%;
+        margin: 0 10% 10px 10%;
+        padding: 10px;
+    }
+
+    .button__concluir {
+        /* display: inline-block; */
+        /* color: red; */
+        margin: 0;
+    }
+
+    .button__concluir:focus{
+       color:#b8860b;
+       border-color: #b8860b;
+    }
+
+    .video__container__concluido_js{
+        margin: 0 5% 0 5%;
+        margin-top: 5px;
+    }
+}
