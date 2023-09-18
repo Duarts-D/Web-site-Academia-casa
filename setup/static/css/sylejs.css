@@ -1,6 +1,3 @@
-.video__none{
-    display: none;
-}
 
 /* Button remover elemento */
 .button__js{
@@ -92,10 +89,74 @@
     font-size: 16px;
 }
 
-.resetbutton:hover{
+.resetbutton:hover,.organizarjs:hover{
     color: white;
     cursor: pointer;
 }
+
+.organizarjs{
+    position: absolute;
+    top:13%;
+    left: 80%;
+    color: red;
+    transform: translateX(-108%);
+    background-color: black;
+    padding: 3px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.organizar__container{
+    display: none;
+    position: absolute;
+    top: 13%;
+    background-color: black;
+    color: red;
+    font-size: 24px;
+    right: 0%;
+}
+
+
+.organiza__titulo{
+    display: flex;
+    border-bottom: 3px #b8860b solid;
+    align-items: center;
+    padding: 2px;
+
+}
+
+.organiza__titulo__1{
+    width: 95%;
+    text-align: center;
+    color: white;
+}
+
+.organiza__titulo__x{
+    cursor: pointer;
+    color: white;
+    background-color: red;
+    width: 30px;
+    height: 30px;
+}
+
+.organizar__lista__item{
+    display: flex;
+    justify-content: space-between;
+    width: auto;
+    column-gap: 5px;
+    padding: 2px;
+    cursor: grab;
+    border-bottom: 1px solid red;
+    font-size: 20px;
+
+}
+.organizar__img{
+    width: 30px;
+    height: 30px;
+    background-color: red;
+}
+
+
 
 @keyframes bordios {
     0% {

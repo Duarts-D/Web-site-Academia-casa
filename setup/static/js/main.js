@@ -1,4 +1,4 @@
-import sendPostRemoveId from "./post_remove.js";
+import sendPost from "./post_remove.js";
 const imagemVideo = document.querySelectorAll('[data-imagem]')
 // const divBlocoVideo = document.querySelectorAll('[data-bloco-video]')
 const buttonConcluido = document.querySelectorAll('[data-button]')
@@ -16,10 +16,6 @@ intensStorage.forEach((id) => {
     buttonActive(id)
 })
 
-// intesXStorage.forEach((id)=>{
-//     divDomRemove(id)
-// })
-
 
 buttonResetaMarcacao.addEventListener('click',function removeLocalStorage(){
     localStorage.removeItem(dia)
@@ -36,22 +32,13 @@ buttonXRemover.forEach((elemento) =>{
     elemento.addEventListener('click', (e) => {
         const valor = e.target.dataset.buttonRemove
         divDomRemove(valor)
-        sendPostRemoveId(valor)
+        sendPost(valor)
         alert('Removendo!!')
         intesXStorage.push(valor)
         localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
     })
 })
 
-
-// divBlocoVideo.forEach((e)=>{
-//     e.addEventListener('mouseleave',()=>{
-//         // const iframeVideo = e.children[1].lastElementChild// [data-imagem="${e.dataset.blocoVideo}"]
-//         // const imagem = e.children[1].firstElementChild
-//         // imagem.style.display = "block"
-//         // iframeVideo.style.display = "none"
-//     })
-// })
 
 function onYouTubeIframeAPIReady(id,url) {
     console.log('Iniciado')
@@ -144,7 +131,7 @@ function divBlocoVideoContainer(data_button){
     const div = document.querySelector(`[data-bloco-video="${data_button}"]`);
     const button = document.querySelector(`[data-button="${data_button}"]`)
     
-    const timeout = setTimeout(divBlocoVideoContainerEnd,1500,div,button);
+    const timeoutDivBloco = setTimeout(divBlocoVideoContainerEnd,1500,div,button);
     
 
     div.classList.add('caixas-ativa');
