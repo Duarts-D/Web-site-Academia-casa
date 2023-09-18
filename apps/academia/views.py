@@ -8,7 +8,8 @@ from django.views.generic import ListView
 from .models import Videos,TreinoDia,Dias,CategoriaModel
 from django.contrib.auth.models import User
 from time import sleep
-
+import json
+from django.http import JsonResponse
 
 class CustomContextMixin(ListView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -71,6 +72,28 @@ class ExercicioSemanaView(CustomContextMixin,ListView):
         get = super().get(*args,**kwargs)
 
         return get
+    
+    def post(self,*args,**kwargs):
+        if  not self.request.user.is_authenticated:
+            print('ate')
+            return JsonResponse({'erro': 'Formato JSON inválido'}, status=200)
+        dados_em_bytes = self.request.body
+
+        try:
+            dados_em_string = dados_em_bytes.decode('utf-8')
+        
+            dados_dict = json.loads(dados_em_string)
+            if dados_dict['id'].isnumeric() and dados_dict['dia'] in ['Segunda','Terça','Quarta','Quinta','sexta']:
+                user = self.request.user
+                dia = dados_dict['dia']
+                video_id = dados_dict['id']
+                TreinoDia.objects.get(dia__nome=dia,user=user,video__id=video_id).delete()
+            else:
+                return JsonResponse({'erro': 'Invalido'}, status=400)
+            return JsonResponse({'mensagem': 'Dados recebidos com sucesso'})
+
+        except json.JSONDecodeError as e:
+            return JsonResponse({'erro': 'Formato JSON inválido'}, status=400)
     
 class TreinoView(CustomContextMixin,ListView):
     model = Videos

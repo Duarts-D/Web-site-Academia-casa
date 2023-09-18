@@ -23,12 +23,18 @@
         </div>
     </div>
     <div class="video__cointainer__video__img">
-        <iframe class="video__video" src="{{ treino.video }}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata" referrerpolicy="no-referer" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+        <img class="video__img" src="{% static 'img/fortnite.jpg'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+            <div id="player{{treino.id}}"></div>
     </div>
    
     </li>
     {% endfor %}
 </ul>
+<form method="POST">
+    {% csrf_token %}
+</form>
+<script src="https://www.youtube.com/iframe_api"></script>  
+<script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
 </section>
 {% include 'partials/pagination.html' %}
 {% include 'partials/footer.html' %}

@@ -8,7 +8,7 @@
     <p class="container__texto__segunda" id="dia_semanal">{{dia}}</p>
     <button type="button" class="video__container__concluido_js resetbutton">Resetar Marcação</button>
     {% include 'partials/_categorias_totais.html' %}
-    <ul>
+    <ul id="ulVideos">
         {%if dia_semana%}
         {% for treino in dia_semana %}
         <li class="video__container" data-bloco-video="player{{treino.video.id}}">
@@ -26,9 +26,9 @@
             </div>
     
     
-            <div class="video__cointainer__video__img">
-                <img class="video__img" src="{% static 'img/fortnite.jpg'%}" id="{{treino.video.id}}" alt="" data-imagem>
-                <iframe id="player{{treino.video.id}}" type="text/html" class="video__video video__none" src="{{ treino.video.video }}?enablejsapi=1&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0&origin=http://127.0.0.1:8000"  allowfullscreen frameborder="0" data-id="{{treino.video.id}}" ></iframe>
+            <div class="video__cointainer__video__img" data-iframejs="{{treino.video.id}}">
+                <img class="video__img" src="{% static 'img/fortnite.jpg'%}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.video.id_video_youtube}}">
+                <div id="player{{treino.video.id}}"></div>
             </div>
         
         </li>
@@ -38,8 +38,9 @@
         {% endif %}
 </section>
 {% include 'partials/pagination.html' %}
-        
+{% csrf_token %}
 {% include 'partials/footer.html' %}
-<script src="https://www.youtube.com/iframe_api"></script>
-<script src="{% static 'js/main.js' %}" ></script>
+<script src="https://www.youtube.com/iframe_api"></script>  
+<script src="{% static 'js/main.js'%}" type="module"></script>
+
 {% endblock %}
