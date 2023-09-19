@@ -1,4 +1,6 @@
 import sendPost from "./post_remove.js";
+import viewPort from "./viewport.js"
+
 const imagemVideo = document.querySelectorAll('[data-imagem]')
 // const divBlocoVideo = document.querySelectorAll('[data-bloco-video]')
 const buttonConcluido = document.querySelectorAll('[data-button]')
@@ -10,6 +12,11 @@ let intensVideoPlay = []
 let intesXStorage = JSON.parse(localStorage.getItem(`Remover-${dia}`)) || []
 let intensStorage = JSON.parse(localStorage.getItem(dia)) || [] 
 
+
+
+window.addEventListener('load', function() {
+viewPort()
+});
 
 intensStorage.forEach((id) => {
     divBlocoVideoContainer(id)
@@ -25,15 +32,24 @@ buttonResetaMarcacao.addEventListener('click',function removeLocalStorage(){
 
 function divDomRemove(id){
     const blocoDom = document.querySelector(`[data-bloco-video="player${id}"]`)
+    buttonStorageRemove(`player${id}`)
+    viewPort()
     blocoDom.remove()
+    const ulVideos  = document.querySelector('#ulVideos')
+    if (ulVideos.children.length == 0){
+        ulVideos.innerHTML += '<li class="container__texto__segunda">Lista Vazia</li>'
+    }
 }
 
 buttonXRemover.forEach((elemento) =>{
     elemento.addEventListener('click', (e) => {
         const valor = e.target.dataset.buttonRemove
-        divDomRemove(valor)
+        console.log(e.target.parentNode)
+        const div1 = e.target.parentNode
+        const div2 = div1.parentNode
+        div2.parentNode.classList.add('ativar')
+        const timenow = setTimeout(divDomRemove,3000,valor)
         sendPost(valor)
-        alert('Removendo!!')
         intesXStorage.push(valor)
         localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
     })

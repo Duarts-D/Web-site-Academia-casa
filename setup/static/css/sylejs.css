@@ -177,6 +177,35 @@
     }
 }
 
+.ativar{
+    animation: caixahorizontalx 3s linear forwards;
+    /* animation-fill-mode: forwards */
+}
+
+.rodapebottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    transition: opacity 0.5s ease
+}
+
+@keyframes caixahorizontalx {
+        0% {
+            transform: translateX(0);
+        }
+        25%{
+            transform: translateX(75%);
+            height: 300px;
+        }
+        75%{
+            transform: translateX(150%);
+        }
+        100%{
+            height: 0px;
+            transform: translateX(150%);
+            display: none;
+        }
+}
 @media screen and (min-width: 280px)  and (max-width: 499px){
     .resetbutton{
         display: inline;

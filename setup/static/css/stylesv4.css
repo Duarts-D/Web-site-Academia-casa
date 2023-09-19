@@ -6,6 +6,7 @@
 }
 .body {
   background-color: rosybrown;
+  overflow-x: hidden;
 }
 
 .header {
@@ -120,6 +121,7 @@
   font-size: 3em;
   justify-content: center;
   margin: 0;
+  opacity: 0;
 }
 
 .container__texto__segunda{
@@ -146,6 +148,7 @@
   color: red;
   border: 3px solid red;
   padding: 16px;
+  overflow: hidden;
 }
 
 
