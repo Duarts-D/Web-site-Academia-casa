@@ -124,6 +124,39 @@
   opacity: 0;
 }
 
+/* Container container__dia__adicionar */
+.container__dia__adicionar{
+  display: flex; 
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: black;
+  border-top: 2px solid red;
+  border-right: 2px solid red;
+  border-left: 2px solid red;
+justify-content: center;
+}
+
+.container__dia__adicionar a{
+  position: absolute;
+  left: 10.2%;
+  top: 8%;
+  font-size: 16px;
+  color: red; 
+  width: auto;
+  text-align: center;
+  padding: 2px;
+  border: 10px #b8860b double;
+  outline: 5px white inset;
+}
+
+.container__dia__adicionar a:hover{
+  color: white;
+}
+
+.container__dia__adicionar p{
+  border: none;
+}
 .container__texto__segunda{
   text-align: center;
   font-family: var(--fonte-geral);
@@ -474,6 +507,24 @@
     border-style: solid;
 
   }
+  /* Container dia  */
+  .container__dia__adicionar a{
+    top: auto;
+    position: absolute;
+    background-color: black;
+    margin-bottom: 4%;
+    font-size: 32px;
+    padding: 5px;
+}
+
+  .container__dia__adicionar p{
+    background-color: black;
+    color: white;
+    text-align: end;
+    width: 100%;
+  }
+
+  /* End container dia */
     /* Container Video-descricao */
 
   .video__container{
@@ -688,6 +739,7 @@
       top: 7%;
       right: 0;
       width: 60vw;
+      z-index: 10;
   }
 
   .lista-menu__item{
@@ -710,6 +762,28 @@
   .mobile_off_500{
     display: none;
   }
+  /* Container dia  */
+  .container__dia__adicionar a{
+    top: auto;
+    /* position: absolute; */
+    background-color: black;
+    margin-bottom: 4%;
+    /* font-size: 32px; */
+    padding: 5px;
+}
+
+  .container__dia__adicionar p{
+    background-color: black;
+    color: white;
+    text-align: center;
+    width: 100%;
+  }
+
+  .videos__item{
+    padding-top: 5%;
+  }
+
+  /* End container dia */
 }
 
 @media screen and (min-width: 280px)  and (max-width: 499px){
@@ -774,7 +848,19 @@
     /* padding-top: 10px; */
   }
 
+  .container__dia__adicionar a{
+    top: auto;
+    position: absolute;
+    background-color: black;
+    margin-bottom: 4%;
+}
 
+.container__dia__adicionar p{
+  background-color: black;
+  color: white;
+  text-align: end;
+  width: 100%;
+}
 /* Container Video-descricao */
 
 .video__container{
@@ -803,7 +889,7 @@
   object-fit: cover;
   width: 100%;
   margin-top: 15x;
-  height: 250px;
+  height: 300px;
 }
 
 .video__video {
@@ -910,7 +996,6 @@
   .lista-menu__item{
     background-color: black;
     padding-bottom: 7px;
-
   }
 
   .lista-menu__link{
@@ -921,6 +1006,7 @@
     display: none;
   }
   .nav__checkbox__botao:checked~.lista__menu_mobile{
+    z-index: 10;
     display: block;
   }
 

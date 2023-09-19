@@ -5,7 +5,7 @@ export default function viewPort(){
     const bodyHeight = body.clientHeight;
     // Verifica se a altura do corpo é igual à altura da viewport
     if (bodyHeight >= viewportHeight) {
-        //
+        footer.style.opacity = 1
     } else {
         footer.classList.add('rodapebottom')
         footer.style.opacity = 1
