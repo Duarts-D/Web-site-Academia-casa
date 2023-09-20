@@ -105,7 +105,7 @@ loadOrder();
 let draggedItem = null;
 
 sortableList.addEventListener('touchstart', (e) => {
-    if(e.target.classList.contains('organiza__titulo__1')){
+    if(e.target.classList.contains('organiza__titulo__1') || e.target.id == 'button_organizar__fechar'){
       //
     }else {
       draggedItem = e.target.parentNode;
@@ -125,7 +125,7 @@ sortableList.addEventListener('touchmove', (e) => {
 sortableList.addEventListener('touchend', (e) => {
     if (!draggedItem) return;
     draggedItem.classList.remove('dragging');
-    draggedItem.style.color = 'red'
+    e.target.style.color = 'red'
     saveOrder();
     draggedItem = null;
 });

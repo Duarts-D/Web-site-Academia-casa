@@ -82,7 +82,7 @@
 .resetbutton{
     position: absolute;
     cursor: pointer;
-    top: 13%;
+    top: auto;
     background-color: black;
     padding: 3px;
     color: red;
@@ -96,7 +96,7 @@
 
 .organizarjs{
     position: absolute;
-    top:13%;
+    top:auto;
     left: 80%;
     color: red;
     transform: translateX(-108%);
@@ -217,14 +217,6 @@
         padding: 10px;
     }
 
-    .organizarjs{
-        display: inline-block;
-        position: relative;
-        left: 97.2%;
-        width: 90%;
-        padding: 0 5% 0 5%;
-        margin-top: 5px;
-    }
 
     .button__concluir {
         /* display: inline-block; */
@@ -236,8 +228,28 @@
        color:#b8860b;
        border-color: #b8860b;
     }
+
     .video__container__concluido_js{
         margin: 0 5% 0 5%;
+    }
+
+    .organizar__mobile {
+        position: relative;
+    }
+    /* .mobile_orgaizar{
+        background-color: aqua;
+    } */
+    .organizar__mobile {
+        width: auto;
+    }
+
+    .organizarjs{
+        display: inline-block;
+        position: relative;
+        left: 97.2%;
+        width: 90%;
+        padding: 0 5% 0 5%;
+        margin-top: 5px;
     }
 
 
@@ -249,7 +261,7 @@
         position: revert;
         background-color: black;
         color:red;
-        width: 90%;
+        width: 80%;
         margin: 0 10% 10px 10%;
         padding: 10px;
         font-size: 24px;
@@ -257,15 +269,20 @@
 
 
     .organizarjs{
-        display: inline-block;
+        transform: translateX(-100%);
         position: relative;
-        left: 97.2%;
-        width: 90%;
-        padding: 0 5% 0 5%;
+        width: 80%;
         margin-top: 5px;
         font-size: 24px;
     }
 
+    .organizar__mobile {
+        position: relative;
+    }
+
+    /* .mobile_orgaizar{
+        background-color: aqua;
+    } */
     .button__concluir {
         /* display: inline-block; */
         /* color: red; */
@@ -278,18 +295,25 @@
     }
 
     .video__container__concluido_js{
-        margin: 0 5% 0 5%;
+        margin: 0 10% 0 10%;
         margin-top: 5px;
     }
 }
 
 @media screen and (min-width: 701px)  and (max-width: 1024px){
     .resetbutton{
-        top: 16%;
+        top: auto;
         display: inline;
-    }
+   } 
 
     .organizarjs{
         z-index: 0;
+    }
+
+    .categorias_container{
+        padding: 16px 20% 16px 20%;
+    }
+    .organizarjs {
+        top: auto;
     }
 }

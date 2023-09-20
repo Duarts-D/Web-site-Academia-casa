@@ -140,7 +140,7 @@ justify-content: center;
 .container__dia__adicionar a{
   position: absolute;
   left: 10.2%;
-  top: 8%;
+  top: auto;
   font-size: 16px;
   color: red; 
   width: auto;
