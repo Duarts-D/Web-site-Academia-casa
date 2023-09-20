@@ -456,6 +456,7 @@ justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  padding: 16px 12% 16px 12%;
 }
 
 .categorias{
@@ -500,6 +501,9 @@ justify-content: center;
 
 @media screen and (min-width: 500px)  and (max-width: 700px){
 
+  .categorias_container{
+    padding: 10px 5px 5px 5px;
+  }
   .container__texto__segunda{
     border-right: 2px ;
     border-left: 2px ;
@@ -956,6 +960,7 @@ justify-content: center;
 
   .categorias_container{
     flex-direction: row;
+    padding: 10px 3px 5px 3px;
   }
 
   .categorias{

@@ -15,12 +15,14 @@ if (regex.test(url)) {
 }
 
 buttonOrganizar.addEventListener('click',()=>{
-    sortableList.style.display = 'block'
+    sortableList.style.display = 'block';
+    buttonOrganizar.style.display = 'none'
 })
 
 
 butonOrganizarFechar.addEventListener('click',()=>{
-    sortableList.style.display = 'none'
+  buttonOrganizar.style.display = 'block'
+  sortableList.style.display = 'none'
     loadOrder()
     const order = JSON.parse(localStorage.getItem('itemOrder'));
     sendPost(order)
