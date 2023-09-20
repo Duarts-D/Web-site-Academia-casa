@@ -44,7 +44,6 @@ function divDomRemove(id){
 buttonXRemover.forEach((elemento) =>{
     elemento.addEventListener('click', (e) => {
         const valor = e.target.dataset.buttonRemove
-        console.log(e.target.parentNode)
         const div1 = e.target.parentNode
         const div2 = div1.parentNode
         div2.parentNode.classList.add('ativar')

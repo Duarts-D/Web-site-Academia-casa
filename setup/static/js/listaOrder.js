@@ -9,7 +9,6 @@ const url = window.location.href;
 const regex = /Geral/;
 
 if (regex.test(url)) {
-  console.log("Estou na página de Treino-dia-Segunda/Geral");
 } else {
     buttonOrganizar.disabled = true
     buttonOrganizar.style.opacity = 0.5
@@ -17,7 +16,6 @@ if (regex.test(url)) {
 
 buttonOrganizar.addEventListener('click',()=>{
     sortableList.style.display = 'block'
-    console.log('lick')
 })
 
 
@@ -60,12 +58,15 @@ sortableList.addEventListener('dragstart', (e) => {
 sortableList.addEventListener('dragend', (e) => {
   e.target.classList.remove('dragging');
   e.target.style.color = 'red'
-
   saveOrder();
 });
 
 sortableList.addEventListener('dragover', (e) => {
   e.preventDefault();
+  dragOver(e)
+});
+
+function dragOver(e){
   const draggingItem = document.querySelector('.dragging');
   const afterElement = getDragAfterElement(sortableList, e.clientY);
   const index = afterElement ? [...sortableList.children].indexOf(afterElement) : sortableList.children.length;
@@ -73,9 +74,16 @@ sortableList.addEventListener('dragover', (e) => {
   if (afterElement !== sortableList.firstElementChild) {
     sortableList.insertBefore(draggingItem, afterElement);
   }
+}
 
-});
 
+function touchMove(e){
+  const touchY = e.touches[0].clientY;
+  const afterElement = getDragAfterElement(sortableList, touchY);
+  if (afterElement !== sortableList.firstElementChild) {
+      sortableList.insertBefore(draggedItem, afterElement);
+  }
+}
 // Função para encontrar o elemento após o qual o item está sendo arrastado
 function getDragAfterElement(container, y) {
   const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
@@ -92,3 +100,32 @@ function getDragAfterElement(container, y) {
 
 // Carregar a ordem dos itens ao carregar a página
 loadOrder();
+// ----------------------------------------------------------------
+
+let draggedItem = null;
+
+sortableList.addEventListener('touchstart', (e) => {
+    if(e.target.classList.contains('organiza__titulo__1')){
+      //
+    }else {
+      draggedItem = e.target.parentNode;
+      e.target.classList.add('dragging');
+      e.target.style.color = '#b8860b'
+      e.preventDefault();
+    }
+
+});
+
+sortableList.addEventListener('touchmove', (e) => {
+    if (!draggedItem) return;
+    e.preventDefault();
+    touchMove(e)
+});
+
+sortableList.addEventListener('touchend', (e) => {
+    if (!draggedItem) return;
+    draggedItem.classList.remove('dragging');
+    draggedItem.style.color = 'red'
+    saveOrder();
+    draggedItem = null;
+});
