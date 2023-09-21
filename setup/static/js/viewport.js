@@ -11,3 +11,5 @@ export default function viewPort(){
         footer.style.opacity = 1
     }
 }
+
+viewPort()
