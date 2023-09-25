@@ -158,44 +158,46 @@ hr{
   row-gap: 5px;
 }
 
+
+
 .container__lista__2__item {
   display: flex;
+  position: relative;
   background-color: black;
   width: 50%;
   height: auto;
-  /* align-items: center; */
-  justify-content: space-between;
-  /* justify-items: center; */
+  justify-content: end;
   white-space: nowrap;
   overflow: hidden;
   border: 2px solid red;
   border-radius: 16px;
+  height: 3rem;
 }
 
-.container__lista__2 li:first-child{
+.container__lista__2__button{
   color: red;
   border: 2px double red;
   background: linear-gradient(45deg, rgb(14, 1, 6), rgb(41, 85, 14), rgb(2, 32, 77), rgb(78, 4, 34));
-  cursor: pointer;}
-
-
-.container__lista__2 button:first-child{
-  width: 100%;
-  text-align: center;
   cursor: pointer;
+  text-align: center;
+  display: inline;
 }
+
 .container__lista__2__texto{
-  width: 73%;
+  left: 0;
+  position: absolute;
+  width: 70%;
   padding-left: 10px;
+  z-index: 1
 }
 
 .container__lista__2_ancora{
+  width: 15%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  z-index: 2;
-  width: auto;
+  z-index: 3;
   font-size: 24px;
   color: red;
   background:linear-gradient(45deg, rgb(14, 1, 6), rgb(41, 85, 14), rgb(2, 32, 77), rgb(78, 4, 34));
@@ -205,8 +207,18 @@ hr{
   cursor: pointer;
 }
 
-.container__lista__2 li.container__lista__2__item:nth-child(2){
-  display: none;
+
+.container__lista__2_button__X{
+  background:linear-gradient(-45deg, rgb(14, 1, 6), rgb(41, 85, 14), rgb(2, 32, 77), rgb(78, 4, 34)) ;
+  font-size: 24px;
+  width: 15%;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.container__lista__2_button__X:hover{
+  color: yellow;
+  text-shadow: 2px 2px #FF0000
 }
 
 .form_container{
@@ -218,7 +230,7 @@ hr{
   width: 75%;
   background-color: black;
   color:white;
-  /* align-self: center; */
+  text-align: center;
 }
 
 
@@ -260,6 +272,15 @@ hr{
   animation: texto 5s ease  infinite;
 }
 
+
+.mensagem-erro{
+  width: 50%;
+  background-color: black;
+  font-size: 24px;
+  text-align: center;
+  border-radius: 16px;
+}
+
 @keyframes texto {
   from{
     transform: translateX(0%);
@@ -269,6 +290,8 @@ hr{
   }
   
 }
+
+
 /* end sensao index */
 
 .rodape {
@@ -750,6 +773,17 @@ justify-content: center;
 .container__lista__2__item {
   width: 100%;
 }
+
+.container__lista__2__texto{
+  top: 25%;
+}
+  
+.container__lista__2__button{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
 /* end container lista index */
 
 
@@ -981,6 +1015,17 @@ justify-content: center;
   .container__lista__2__item {
     width: 100%;
   }
+
+
+  .container__lista__2__texto{
+    top: 25%;
+  }
+    
+  .container__lista__2__button{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
   /* end container lista index */
 
   .categorias_container{
@@ -1139,6 +1184,16 @@ justify-content: center;
 
 .container__lista__2__item {
   width: 100%;
+}
+
+.container__lista__2__texto{
+  top: 25%;
+}
+  
+.container__lista__2__button{
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 /* end container lista index */
 

@@ -1,3 +1,10 @@
+.display__none {
+    display: none;
+}
+
+.display__flex{
+    display: flex;
+}
 
 /* Button remover elemento */
 .button__js{

@@ -14,45 +14,61 @@
         {% endfor %}
     </ul>
     <hr class="hr">
-    <ul class="container__lista__2">
-        <li class="container__lista__2__item">
-            <button type="button" >Criar uma lista</button>
+    <ul class="container__lista__2" id="lista2">
+        <li class="container__lista__2__item container__lista__2__button" id="input__lista">
+           Criar uma lista
         </li>
-        <li class="container__lista__2__item" id="form">
-            <form action="" class="form_container" method="POST">{% csrf_token %}
-                <input class="container__lista__2__input" type="text" id="form" placeholder="Nome">
+        <li class="container__lista__2__item display__none" id="form">
+            <form action="" class="form_container" id="formulario" method="POST">{% csrf_token %}
+                <input name="name" class="container__lista__2__input" type="text" placeholder="Nome" id='input__name' maxlength="30" required>
+
                 <button type="submit" class="container__lista__2__input__button">
                     OK
                 </button>
             </form>
         </li>
-        
-            <li class="container__lista__2__item">
+        <li class="mensagem-erro">
+            <span id='error'></span>
+        </li>
+
+        <li class="container__lista__2__item">
                 <p class="container__lista__2__texto">1</p>
                 <a href="#" class="container__lista__2_ancora">Add</a>
+                <button type="button" class="container__lista__2_button__X" id="1">X</button>
         </li>
         <li class="container__lista__2__item">
             <p class="container__lista__2__texto">Criar uma listaCriar uma </p>
             <a href="#" class="container__lista__2_ancora">Add</a>
+            <button type="button" class="container__lista__2_button__X" id="2">X</button>
+
         </li>
         <li class="container__lista__2__item">
             <p class="container__lista__2__texto">1</p>
             <a href="#" class="container__lista__2_ancora">Add</a>
+            <button type="button" class="container__lista__2_button__X" id="3">X</button>
+
             </li>
             <li class="container__lista__2__item">
                 <p class="container__lista__2__texto">1</p>
                 <a href="#" class="container__lista__2_ancora">Add</a>
+                <button type="button" class="container__lista__2_button__X" id="4">X</button>
+
             </li>
         <li class="container__lista__2__item">
             <p class="container__lista__2__texto">1</p>
             <a href="#" class="container__lista__2_ancora">Add</a>
+            <button type="button" class="container__lista__2_button__X" id="5">X</button>
+
         </li>
         <li class="container__lista__2__item">
             <p class="container__lista__2__texto">1</p>
             <a href="#" class="container__lista__2_ancora">Add</a>
+            <button type="button" class="container__lista__2_button__X" id="6">X</button>
         </li>
     </ul>
 </section>
 <script src="{% static 'js/viewport.js'%}" type="module"></script>
+<script src="{% static 'js/lista.js'%}" type="module"></script>
+
 {% include 'partials/footer.html' %}
 {% endblock%}

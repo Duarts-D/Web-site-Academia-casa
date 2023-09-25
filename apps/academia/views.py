@@ -22,6 +22,21 @@ class HomePageView(CustomContextMixin,ListView):
     model = Dias
     context_object_name = 'dia_semana_index'
 
+    def post(self,*args,**kwargs):
+        if  not self.request.user.is_authenticated:
+            return JsonResponse({'erro': 'Formato JSON inválido'}, status=200)
+        dados_em_bytes = self.request.body
+        dados_em_string = dados_em_bytes.decode('utf-8')
+        dados_dict = json.loads(dados_em_string)
+        # print(dados_dict)
+        if dados_dict.get('remove'):
+            if dados_dict['remove'].isdigit():
+                #TODO termina algoritimo de remove a lista
+                print(dados_dict['remove'])
+            return JsonResponse({'remover': True})
+        #todo finaliza algoritimo de criar lista e validaçoes
+        return JsonResponse({'id':'3','nome':'nomezinho'})
+
 class ExercicioSemanaView(CustomContextMixin,ListView):
     model = TreinoDia
     template_name = 'dashboard.html'
