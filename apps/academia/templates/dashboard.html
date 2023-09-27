@@ -6,7 +6,7 @@
 {% block conteudo %}
 <section>
     <div class="container__dia__adicionar">
-        <a href="#" >Adicionar</a> 
+        <a href="{% url 'lista_treino' dia dia %}" >Adicionar</a> 
     <p class="container__texto__segunda" id="dia_semanal">{{dia}}</p>
     </div>
     <div class="mobile_orgaizar">
