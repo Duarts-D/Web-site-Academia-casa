@@ -48,7 +48,11 @@
     
     
             <div class="video__cointainer__video__img" data-iframejs="{{treino.video.id}}">
-                <img class="video__img" src="{% static 'img/fortnite.jpg'%}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.video.id_video_youtube}}">
+                {% if treino.video.imagem %}
+                    <img class="video__img" src="{{treino.video.imagem.url}}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.video.id_video_youtube}}">
+                {% else %}
+                    <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+                {% endif %}
                 <div id="player{{treino.video.id}}"></div>
             </div>
         

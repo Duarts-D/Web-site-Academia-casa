@@ -44,9 +44,11 @@
 
 
                 <div class="video__cointainer__video__img">
-                    <img class="video__img" src="{% static 'img/fortnite.jpg'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
-                
-                    {% comment %} <iframe class="video__video" src="{{ treino.video }}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata" referrerpolicy="no-referer" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe> {% endcomment %}
+                    {% if treino.imagem %}
+                        <img class="video__img" src="{{treino.imagem.url}}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.video.id_video_youtube}}">
+                    {% else %}
+                        <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+                    {% endif %}
                     <div id="player{{treino.id}}"></div>
                 </div>
             

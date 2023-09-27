@@ -286,21 +286,12 @@ class TreinoView(LoginRequiredMixin,CustomContextMixin,ListView):
         return redirect(url)
     
 
-class DiaCriarView(LoginRequiredMixin,CustomContextMixin,ListView):
-    model = Dias
-    template_name = 'diatreinocriar.html'
-    context_object_name = 'dias'
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        get = super().get_context_data(**kwargs)
-        get['lista_treino'] = True
-        return get
     
 class TodosVideosView(CustomContextMixin,ListView):
     model = Videos
     context_object_name = 'videos'
     template_name = 'videos.html'
-    paginate_by = 5
+    paginate_by = 50
     ordering = ('-id')
 
     def get_queryset(self):
@@ -324,7 +315,7 @@ class VideosZumba(CustomContextMixin,ListView):
     model = Videos
     context_object_name = 'videos'
     template_name = 'videos.html'
-    paginate_by = 5
+    paginate_by = 50
     ordering = ('-id')
 
     def get_queryset(self) -> QuerySet[Any]:

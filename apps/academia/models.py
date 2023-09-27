@@ -30,6 +30,8 @@ class Videos(models.Model):
     id_video_youtube = models.CharField(max_length=50,default=1)
     categorias = models.ManyToManyField(CategoriaModel)
     info = models.CharField(max_length=255,blank=False,null=True,default='...')
+    imagem = models.ImageField(upload_to='media/',blank=True,null=True)
+    id_video_youtube_didatico = models.CharField(max_length=50,default=1)
 
     def save(self,*args,**kwargs):
         if self.id_video_youtube == '1':
