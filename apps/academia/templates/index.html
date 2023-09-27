@@ -1,9 +1,29 @@
 {% extends 'base/base.html'%}
 {%load static %}
 
-{% block conteudo %} 
-{% include 'partials/footer.html' %}
+{% block conteudo %}
 
+<header class="header">
+    <h1 class="header__h1">ACADEMIA EM CASA</h1>
+</header>
+<section class="container__container">
+    <div class="container__index__collum">
+        <h2 class="header__h2">Um site feito pra voce quer pega aquela forma tao desejada!!</h2>
+        <h2 class="header__h2">Esse e o lugar, aqui voce monta sua propria lista de treino, com videos rapidos ou esplicativos!</h2>
+
+    </div>
+    <div class="container__index__row">
+        <p class="container__index__texto__left">Voce que gosta de fica em forma </p>
+        <img  class="container__index__img"  src="{% static 'assets/ezgif.com-gif-maker.gif' %}" alt="">
+    </div>
+    <div class="container__index__row">
+        <img class="container__index__img" src="{% static 'assets/ezgif.com-gif-maker.gif' %}" alt="">
+
+        <p class="container__index__texto__right">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, </p>
+    </div>
+</section>
+
+{% include 'partials/footer.html' %}
 <script src="{% static 'js/viewport.js'%}" type="module"></script>
 {% endblock%}
 
