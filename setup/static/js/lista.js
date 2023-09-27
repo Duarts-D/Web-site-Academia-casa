@@ -17,7 +17,6 @@ function removerError(){
 }
 
 function verificarCampo(input){
-    console.log(input.validity)
     const validadorDeInput = input.checkValidity()
 
     if (!validadorDeInput){// checando se e valido
@@ -35,7 +34,6 @@ ul.addEventListener('click',(evento)=>{
         formInputOn(input);
     }
     if (evento.target.id == 'input__lista' && !quantidade()){
-        console.log("off")
         formInputOff(input)
         inputName.setCustomValidity('x')
         verificarCampo(inputName)
@@ -63,6 +61,7 @@ form.addEventListener('submit',(evento)=>{
     const input = document.getElementById('form')
     const nome = evento.target.elements['name']
     var regex = /[^a-zA-Z0-9\s]/;
+    msgError.textContent = ""
     const a = regex.test(nome.value) 
     if(!a){
         formInputOff(input)
@@ -73,11 +72,11 @@ form.addEventListener('submit',(evento)=>{
             formInputOff(input)
         }
     }else{
+        msgError.textContent = 'Não e permitido carateristicos especiais!'
     }
 })
 
 inputName.addEventListener('invalid',(evento) => {
-    console.log(evento)
     evento.preventDefault()})
 
 async function postNomeLista(nome){
@@ -94,7 +93,7 @@ async function postNomeLista(nome){
             'remove':condicional
         }
     }
-    await fetch('http://127.0.0.1:8000', {
+    await fetch('http://127.0.0.1:8000/Listas/', {
     
     method: 'POST',
     headers: {
@@ -118,23 +117,25 @@ async function postNomeLista(nome){
 
 function nomeListaInner(id,nome){
     const novoli = document.createElement('li')
-    const novoP = document.createElement('p')
+    const novoAc = document.createElement('a')
     const novoA = document.createElement('a')
     const novoButton = document.createElement('button')
     novoli.classList.add('container__lista__2__item')
-    novoP.classList.add('container__lista__2__texto')
+    novoAc.classList.add('container__lista__2__texto')
     novoA.classList.add('container__lista__2_ancora')
     novoButton.classList.add('container__lista__2_button__X')
 
     novoA.textContent = 'Add'
-    novoP.textContent = nome
+    novoAc.textContent = nome
+    novoAc.href=`/Treino-dia-${nome}/Geral`
+
     novoButton.textContent = 'X'
-    novoA.href = `${id}`
+    novoA.href = `/Adicionar-Treino/${nome}-${nome}`
 
     novoButton.id = `${id}`
     novoButton.type = 'button'
 
-    novoli.appendChild(novoP)
+    novoli.appendChild(novoAc)
     novoli.appendChild(novoA)
     novoli.appendChild(novoButton)
     ul.appendChild(novoli)
@@ -142,8 +143,6 @@ function nomeListaInner(id,nome){
 
 
 function quantidade(){
-    // console.log(ul.children.length)
-
     if(ul.children.length < 13){
         return true
     }else{
@@ -154,7 +153,6 @@ function quantidade(){
 buttonDeleteLista.forEach((evento)=>{
     evento.addEventListener('click',(evento)=>{
         const numero = evento
-        console.log(numero.target.parentNode)
         postNomeLista(numero)
     })
 })

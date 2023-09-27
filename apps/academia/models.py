@@ -13,7 +13,14 @@ class Dias(models.Model):
 
     def __str__(self):
         return self.nome
+
+class UserDiasLista(models.Model):
+    nome = models.CharField(max_length=30)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     
+    def __str__(self):
+        return self.nome
+
 class Videos(models.Model):
     exercicio = models.CharField(max_length=255)
     video = models.CharField(max_length=255)
@@ -35,10 +42,24 @@ class Videos(models.Model):
         return self.exercicio
     
 
-class TreinoDia(models.Model):
+class TreinoDiaPadrao(models.Model):
     dia = models.ForeignKey(Dias,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     video = models.ForeignKey(Videos,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.dia.nome
+
+
+class TreinoDiaUser(models.Model):
+    dia = models.ForeignKey(UserDiasLista,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    video = models.ForeignKey(Videos,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.dia.nome
+
+class OrdemLista(models.Model):
+    ordem = models.CharField(max_length=255)
+    treinodia = models.ForeignKey(UserDiasLista,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)

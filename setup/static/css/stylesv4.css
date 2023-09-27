@@ -183,12 +183,21 @@ hr{
   display: inline;
 }
 
+.container__lista__2__button:hover{
+  text-shadow: 3px 3px red;
+  color: white;
+}
+
 .container__lista__2__texto{
   left: 0;
   position: absolute;
   width: 70%;
   padding-left: 10px;
   z-index: 1
+}
+
+.container__lista__2__texto:hover{
+  color: white;
 }
 
 .container__lista__2_ancora{
@@ -207,6 +216,9 @@ hr{
   cursor: pointer;
 }
 
+.container__lista__1__ancora a:hover{
+  color: white;
+}
 
 .container__lista__2_button__X{
   background:linear-gradient(-45deg, rgb(14, 1, 6), rgb(41, 85, 14), rgb(2, 32, 77), rgb(78, 4, 34)) ;

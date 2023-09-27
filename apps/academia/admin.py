@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Dias,Videos,TreinoDia,CategoriaModel
+from .models import Dias,Videos,TreinoDiaPadrao,CategoriaModel
 
 class DiasAdmin(admin.ModelAdmin):
     list_display = ('nome',)
@@ -21,7 +21,5 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 admin.site.register(Videos,VideosAdmin)
 admin.site.register(Dias,DiasAdmin)
-admin.site.register(TreinoDia,TreinoDiaAdmin)
+admin.site.register(TreinoDiaPadrao,TreinoDiaAdmin)
 admin.site.register(CategoriaModel,CategoriaAdmin)
-
-
