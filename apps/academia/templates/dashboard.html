@@ -4,31 +4,37 @@
 {% endblock %}
 
 {% block conteudo %}
-<section>
+<section class="container__geral__videos">
     <div class="container__dia__adicionar">
         <a href="{% url 'lista_treino' dia dia %}" >Adicionar</a> 
-    <p class="container__texto__segunda" id="dia_semanal">{{dia}}</p>
+        <p class="container__texto__segunda" id="dia_semanal">{{dia}}</p>
     </div>
-    <div class="mobile_orgaizar">
-    <button type="button" class="video__container__concluido_js resetbutton">Resetar Marcação</button>
-    <button id="organizarjs" class="video__container__concluido_js organizarjs " >Organizar</button>
-    
 
-    <ul id ="sortable-list" class="organizar__container video__container__concluido_js organizar__mobile">
-        <li class="organiza__titulo" >
-            <p class="organiza__titulo__1">Escolha a Ordem</p>
-            <img src="{% static 'img/marca-x.png' %}" id="button_organizar__fechar" class="organiza__titulo__x"></button>
-        </li>
-    {% for treino in dia_semana %}
-        <li draggable="true" class="organizar__lista__item" data-organizacao-id="{{treino.video.id}}">
-                <p>{{ treino.video.exercicio}}</p>
-                <img draggable="false" class="organizar__img" src="{% static 'img/em-formacao.png'%}" alt="{{treino.video.id}}">
-        </li>
-    {% endfor %}
+    <div class='container__relative '>
+        <button type="button" class="video__container__concluido_js resetbutton">Resetar Marcação</button>
+        <button id="organizarjs" class="video__container__concluido_js organizarjs " >Organizar</button>
+        
+        <ul id ="sortable-list" class="organizar__container video__container__concluido_js">
+            <li class="organiza__titulo" >
+                <p class="organiza__titulo__1">Escolha a Ordem</p>
+                <img src="{% static 'img/marca-x.png' %}" id="button_organizar__fechar" class="organiza__titulo__x"></button>
+            </li>
+        {% for treino in dia_semana %}
+            <li draggable="true" class="organizar__lista__item" data-organizacao-id="{{treino.video.id}}">
+                    <p>{{ treino.video.exercicio}}</p>
+                    <div  draggable="false" class="organizar__container__img">
+                        <img draggable="false" class="organizar__img" src="{% static 'img/em-formacao.png'%}" alt="{{treino.video.id}}">
+                        {% if treino.video.imagem %}
+                            <img draggable="false" class="organizar__img organizar__img__view" src="{{treino.video.imagem.url}}" alt="{{treino.video.id}}">
+                        {%endif%}
+                    </div>
+            </li>
+        {% endfor %}
 
     </ul>
-    </div>
     {% include 'partials/_categorias_totais.html' %}
+    </div>
+
     <ul id="ulVideos">
         {%if dia_semana%}
         {% for treino in dia_semana %}
@@ -64,7 +70,7 @@
 </section>
 {% include 'partials/pagination.html' %}
 {% csrf_token %}
-{% include 'partials/footer.html' %}
+
 <script src="https://www.youtube.com/iframe_api"></script>  
 <script src="{% static 'js/main.js'%}" type="module"></script>
 <script src="{% static 'js/listaOrder.js' %}" type="module"></script>

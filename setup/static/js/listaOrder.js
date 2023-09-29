@@ -110,7 +110,13 @@ sortableList.addEventListener('touchstart', (e) => {
     if(e.target.classList.contains('organiza__titulo__1') || e.target.id == 'button_organizar__fechar'){
       //
     }else {
-      draggedItem = e.target.parentNode;
+      draggedItem = e.target.parentNode
+      console.log(draggedItem)
+      if(draggedItem.classList.contains('organizar__container__img')){
+        draggedItem = draggedItem.parentNode
+        draggedItem.classList.add('dragging');
+        draggedItem.style.color = '#b8860b'
+      }
       e.target.classList.add('dragging');
       e.target.style.color = '#b8860b'
       e.preventDefault();
@@ -127,6 +133,7 @@ sortableList.addEventListener('touchmove', (e) => {
 sortableList.addEventListener('touchend', (e) => {
     if (!draggedItem) return;
     draggedItem.classList.remove('dragging');
+    draggedItem.style.color = 'red'
     e.target.style.color = 'red'
     saveOrder();
     draggedItem = null;

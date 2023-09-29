@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block conteudo %}
-<section class="form_login">
+<section class="form_login form_cadastro">
     <form action="{% url 'cadastro' %}" method="POST" class="form__input">{% csrf_token %}
         {% for area in form.visible_fields%}
         <label class="form__text" >{{area.label}}</label>
@@ -17,5 +17,4 @@
         <button type="submit" class="form__text button__input">Cadastrar</button>
     </form>
 </section>
-{% include 'partials/footer.html' %}
 {% endblock %}

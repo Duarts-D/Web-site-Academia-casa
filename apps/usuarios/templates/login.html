@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block conteudo %}
-<section class="form_login login">
+<section class="form_login">
     <form action="{% url 'login' %}" method="POST" class="form__input">{% csrf_token %}
         {% for area in form.visible_fields %}
         <label class="form__text" >{{area.label}}</label>
@@ -20,5 +20,4 @@
         <a href="{% url 'reset_password' %}">Esqueceu a senha?</a>
     </form>
 </section>
-{% include 'partials/footer.html' %}
 {% endblock %}

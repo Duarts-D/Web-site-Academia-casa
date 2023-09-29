@@ -4,8 +4,10 @@
 {% endblock %}
 
 {% block conteudo %}
-<section>
-{% include 'partials/_categorias_totais.html' %}
+<section class="container__geral__videos">
+    <div class='container__relative '>
+        {% include 'partials/_categorias_totais.html' %}
+    </div>
 {% include 'partials/pagination.html' %}
 
 <ul>
@@ -39,7 +41,7 @@
 </form>
 <script src="https://www.youtube.com/iframe_api"></script>  
 <script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
+
 </section>
 {% include 'partials/pagination.html' %}
-{% include 'partials/footer.html' %}
 {% endblock %}

@@ -1,6 +1,6 @@
 {% if lista_treino %}
 
-<ul class="videos__item categorias_container">
+<ul class="categorias_container">
     <li class="categorias">
         <a href="{% url 'lista_treino' dia dia %}"  onclick="document.getElementById('todos').click();document.getElementById('teste_botton').click(); return false;">Geral</button>
     </li>
@@ -12,7 +12,7 @@
 </ul>
 
 {% else %}
-<ul class="videos__item categorias_container">
+<ul class="categorias_container">
     <li class="categorias">
         {% if zumba == True %}
         <a href="{% url 'videos_zumba'%}" >Geral</a>

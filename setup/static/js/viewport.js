@@ -1,4 +1,5 @@
 export default function viewPort(){
+    console.log('viewport')
     const footer = document.getElementById('footer')
     const body = document.body;
     const viewportHeight = window.innerHeight;

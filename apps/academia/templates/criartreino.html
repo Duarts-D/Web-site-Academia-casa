@@ -4,10 +4,13 @@
 {% endblock %}
 
 {% block conteudo %}
-<section>
-    <p class="container__texto__segunda" id="{{dia}}" data-dia>{{dia}}</p>
-
-{% include 'partials/_categorias_totais.html' %}
+<section class="container__geral__videos">
+    <div class="container__dia__adicionar">
+        <p class="container__texto__segunda" id="{{dia}}" data-dia>{{dia}}</p>
+    </div>
+<div class='container__relative '>
+    {% include 'partials/_categorias_totais.html' %}
+</div>
 {% include 'partials/pagination.html' %}
 
     <form method="POST">
@@ -79,8 +82,5 @@
     </section>
     <script src="https://www.youtube.com/iframe_api"></script>  
     <script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
-    <script src="{% static 'js/viewport.js'%}" type="module"></script>
-
     {% include 'partials/pagination.html' %}
-{% include 'partials/footer.html' %}
 {% endblock %}

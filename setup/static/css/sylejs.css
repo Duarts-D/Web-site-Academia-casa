@@ -8,28 +8,16 @@
 
 /* Button remover elemento */
 .button__js{
-    /* color: red; */
     margin-right: 16px;
-    /* border: 2px solid red; */
     padding: 0 2px 0 2px;
 }
 
 .button__js__cc{
-    /* color: red; */
     margin-right: 16px;
-    /* border: 2px dashed red; */
     padding: 0 2px 0 2px;
     border-radius: 10px;
 }
-.button__info{
-    position: absolute;
-    display: none;
-    color: white;
-    left: 49.2%;
-    border: white solid 3px;
-    padding: 4px;
-    background-color: black;
-}
+
 
 .button__concluir:hover , .button__js:hover{
     color:  white;
@@ -68,9 +56,6 @@
 .video__container__concluido_js{
     border: 10px #b8860b double;
     outline: 5px white inset;
-    margin-bottom: 10px;
-    margin-left: 10.2%;
-    margin-right: 10.2%;
 }
 
 .caixas-ativa {
@@ -85,84 +70,6 @@
 .borde__style_2px_dourado{
     border: 2px #b8860b solid;
 }
-
-.resetbutton{
-    position: absolute;
-    cursor: pointer;
-    top: auto;
-    background-color: black;
-    padding: 3px;
-    color: red;
-    font-size: 16px;
-}
-
-.resetbutton:hover,.organizarjs:hover{
-    color: white;
-    cursor: pointer;
-}
-
-.organizarjs{
-    position: absolute;
-    top:auto;
-    left: 80%;
-    color: red;
-    transform: translateX(-108%);
-    background-color: black;
-    padding: 3px;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.organizar__container{
-    display: none;
-    position: absolute;
-    top: 13%;
-    background-color: black;
-    color: red;
-    font-size: 24px;
-    right: 0%;
-}
-
-
-.organiza__titulo{
-    display: flex;
-    border-bottom: 3px #b8860b solid;
-    align-items: center;
-    padding: 2px;
-
-}
-
-.organiza__titulo__1{
-    width: 95%;
-    text-align: center;
-    color: white;
-}
-
-.organiza__titulo__x{
-    cursor: pointer;
-    color: white;
-    background-color: red;
-    width: 30px;
-    height: 30px;
-}
-
-.organizar__lista__item{
-    display: flex;
-    justify-content: space-between;
-    width: auto;
-    column-gap: 5px;
-    padding: 2px;
-    cursor: grab;
-    border-bottom: 1px solid red;
-    font-size: 20px;
-
-}
-.organizar__img{
-    width: 30px;
-    height: 30px;
-    background-color: red;
-}
-
 
 
 @keyframes bordios {
@@ -189,12 +96,6 @@
     /* animation-fill-mode: forwards */
 }
 
-.rodapebottom {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    transition: opacity 0.5s ease
-}
 
 @keyframes caixahorizontalx {
         0% {
@@ -214,82 +115,19 @@
         }
 }
 @media screen and (min-width: 280px)  and (max-width: 499px){
-    .resetbutton{
-        display: inline;
-        position: revert;
-        background-color: black;
-        color:red;
-        width: 90%;
-        margin: 0 5% 10px 5%;
-        padding: 10px;
-    }
-
-
     .button__concluir {
-        /* display: inline-block; */
-        /* color: red; */
         margin: 0;
     }
 
     .button__concluir:focus{
        color:#b8860b;
        border-color: #b8860b;
-    }
-
-    .video__container__concluido_js{
-        margin: 0 5% 0 5%;
-    }
-
-    .organizar__mobile {
-        position: relative;
-    }
-    /* .mobile_orgaizar{
-        background-color: aqua;
-    } */
-    .organizar__mobile {
-        width: auto;
-    }
-
-    .organizarjs{
-        display: inline-block;
-        position: relative;
-        left: 97.2%;
-        width: 90%;
-        padding: 0 5% 0 5%;
-        margin-top: 5px;
     }
 
 
 }
 
 @media screen and (min-width: 500px)  and (max-width: 700px){
-    .resetbutton{
-        display: inline;
-        position: revert;
-        background-color: black;
-        color:red;
-        width: 80%;
-        margin: 0 10% 10px 10%;
-        padding: 10px;
-        font-size: 24px;
-    }
-
-
-    .organizarjs{
-        transform: translateX(-100%);
-        position: relative;
-        width: 80%;
-        margin-top: 5px;
-        font-size: 24px;
-    }
-
-    .organizar__mobile {
-        position: relative;
-    }
-
-    /* .mobile_orgaizar{
-        background-color: aqua;
-    } */
     .button__concluir {
         /* display: inline-block; */
         /* color: red; */
@@ -299,28 +137,5 @@
     .button__concluir:focus{
        color:#b8860b;
        border-color: #b8860b;
-    }
-
-    .video__container__concluido_js{
-        margin: 0 10% 0 10%;
-        margin-top: 5px;
-    }
-}
-
-@media screen and (min-width: 701px)  and (max-width: 1024px){
-    .resetbutton{
-        top: auto;
-        display: inline;
-   } 
-
-    .organizarjs{
-        z-index: 0;
-    }
-
-    .categorias_container{
-        padding: 16px 20% 16px 20%;
-    }
-    .organizarjs {
-        top: auto;
     }
 }
