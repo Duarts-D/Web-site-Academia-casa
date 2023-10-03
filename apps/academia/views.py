@@ -93,15 +93,18 @@ class ExercicioSemanaView(LoginRequiredMixin,CustomContextMixin,ListView):
         user = self.request.user
         categoria = self.categoria
         if categoria == 'Geral':
-            if self.dia in ['Segunda','Terça','Quarta','Quinta','Sexta']:
-                qs = qs.filter(user=user,dia__nome=self.dia).order_by('id')
-            else:
                 qs = TreinoDiaUser.objects.filter(user=user,dia__nome=self.dia)
+                if not qs :
+                    qs = TreinoDiaPadrao.objects.filter(user=user,dia__nome=self.dia)
+
                 ordem_string = OrdemLista.objects.filter(user=user,treinodia__nome=self.dia).first()
+
+                if not ordem_string:
+                    ordem_string = OrdemLista.objects.filter(user=user,treinodiapadrao__nome=self.dia).first()
                 if ordem_string:
                     ordem_Nova = organizar_list_ordem(qs,ordem_string.ordem)
                     qs  = sorted(qs,
-                        key=lambda x: ordem_Nova.index(x))
+                        key=lambda x: ordem_Nova.index(x) if x in ordem_Nova else len(ordem_Nova))
         else:
             qs=qs.filter(user=user,dia__nome=self.dia,video__categorias__categoria__icontains=categoria)
         if self.dia is None:
@@ -147,11 +150,24 @@ class ExercicioSemanaView(LoginRequiredMixin,CustomContextMixin,ListView):
                     lista = OrdemLista.objects.filter(treinodia__nome__icontains=dados_dict['dia'],user=self.request.user).first()
                     if not lista:
                         treinodia = UserDiasLista.objects.filter(nome=dados_dict['dia'],user=self.request.user).first()
-                        OrdemLista.objects.create(
-                            ordem = valores,
-                            treinodia= treinodia,
-                            user= self.request.user,
-                        )
+                        if treinodia:
+                            OrdemLista.objects.create(
+                                ordem = valores,
+                                treinodia= treinodia,
+                                user= self.request.user,
+                            )
+                        else:
+                            lista = OrdemLista.objects.filter(treinodiapadrao__nome__icontains=dados_dict['dia'],user=self.request.user).first()
+                            if not lista:
+                                treinodia = Dias.objects.filter(nome=dados_dict['dia']).first()
+                                OrdemLista.objects.create(
+                                    ordem = valores,
+                                    treinodiapadrao = treinodia,
+                                    user= self.request.user,
+                                )
+                            else:                        
+                                lista.ordem = valores
+                                lista.save()
                     else:
                         lista.ordem = valores
                         lista.save()

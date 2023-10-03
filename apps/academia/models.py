@@ -63,5 +63,9 @@ class TreinoDiaUser(models.Model):
 
 class OrdemLista(models.Model):
     ordem = models.CharField(max_length=255)
-    treinodia = models.ForeignKey(UserDiasLista,on_delete=models.CASCADE)
+    treinodia = models.ForeignKey(UserDiasLista,on_delete=models.CASCADE,null=True, blank=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+    treinodiapadrao = models.ForeignKey(Dias,on_delete=models.CASCADE,null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.ordem

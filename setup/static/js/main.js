@@ -40,6 +40,10 @@ function divDomRemove(id){
         ulVideos.innerHTML += '<li class="container__texto__segunda">Lista Vazia</li>'
     }
 }
+function removerOrdemLista(id){
+    const elements =  document.querySelector(`[data-organizacao-id="${id}"]`)
+    elements.remove()
+}
 
 buttonXRemover.forEach((elemento) =>{
     elemento.addEventListener('click', (e) => {
@@ -49,6 +53,7 @@ buttonXRemover.forEach((elemento) =>{
         div2.parentNode.classList.add('ativar')
         const timenow = setTimeout(divDomRemove,3000,valor)
         sendPost(valor)
+        removerOrdemLista(valor)
         intesXStorage.push(valor)
         localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
     });
