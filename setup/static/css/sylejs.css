@@ -27,13 +27,8 @@
 
 .button__js:hover {
     border: white solid 3px;
-    border-right: none;
 }
 
-.button__js:hover + .button__info{
-    display: block;
-    border-left: none;
-}
 
 
 .button__concluir{

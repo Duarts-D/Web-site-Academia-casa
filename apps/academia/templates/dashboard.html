@@ -59,9 +59,17 @@
                 {% else %}
                     <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
                 {% endif %}
-                <div id="player{{treino.video.id}}"></div>
+                <div class="div_relativo">
+                    <div id="player{{treino.video.id}}"></div>
+                </div>
+                <div class="div_relativo">
+                    <div id="player{{treino.video.id}}/"></div>
+                </div>
+
             </div>
-        
+            <div class="container__seta">
+                <img src="{% static 'assets/seta-para-baixo-direita.png' %}" alt="" id="button-alterna_video" data-url-full="{{treino.video.id_video_youtube_didatico}}" data-id-full="{{treino.video.id}}" data-id-url="{{treino.video.id_video_youtube}}">
+            </div>
         </li>
         {% endfor %}
         {% else %}
@@ -74,4 +82,5 @@
 <script src="https://www.youtube.com/iframe_api"></script>  
 <script src="{% static 'js/main.js'%}" type="module"></script>
 <script src="{% static 'js/listaOrder.js' %}" type="module"></script>
+
 {% endblock %}

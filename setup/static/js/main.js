@@ -51,7 +51,13 @@ buttonXRemover.forEach((elemento) =>{
         sendPost(valor)
         intesXStorage.push(valor)
         localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
+    });
+    elemento.addEventListener('mouseover',(e)=>{
+        e.target.textContent = 'Remover';
     })
+    elemento.addEventListener('mouseout',(e)=>{
+        e.target.textContent = 'X'
+})
 })
 
 
@@ -87,14 +93,17 @@ function onPlayerStateChange(event) {
     // Eventos de mudança de estado do jogador (por exemplo, pausa, reprodução, etc.).
     
     if (event.data == YT.PlayerState.PLAYING ){
-        const id = event.target.g.id
+        let id = event.target.g.id
+        id = idVerificarString(id)
         divBlocoVideoRemover(id)
         buttonStorageRemove(id)
     }
 
 
     if (event.data == YT.PlayerState.PAUSED) {
-        buttonActive(event.target.g.id)
+        let id = event.target.g.id
+        id = idVerificarString(id)
+        buttonActive(id)
     }
     if (event.data === YT.PlayerState.ENDED) {
         // O vídeo terminou, reinicie automaticamente
@@ -104,13 +113,23 @@ function onPlayerStateChange(event) {
 
 }
 
-function videoPlay(elemento) {
+function constPlayer(id){
     let indice = intensVideoPlay.findIndex(function(dados){
         if (dados.g !== null)
-            return dados.g.id == elemento//`player${elemento}`
+            return dados.g.id == id//`player${elemento}`
     })
     const player = intensVideoPlay[indice]
+    return player
+}
+
+function videoPlay(id) {
+    const player = constPlayer(id)
     player.playVideo()
+}
+
+function videoPause(id){
+    const player = constPlayer(id)
+    player.pauseVideo()
 }
 
 
@@ -192,6 +211,8 @@ function divBlocoVideoContainerEnd(elemento,button){
 
 
 function divBlocoVideoRemover(elemento){
+
+
     const div = document.querySelector(`[data-bloco-video="${elemento}"]`)
     const button = document.querySelector(`[data-button="${elemento}"]`)
     divRemoverClasses(div,button)
@@ -204,7 +225,10 @@ function divBlocoVideoRemover(elemento){
 
 
 function divRemoverClasses(elemento,button){
-    button.classList.remove('borde__style_2px_dourado')
+    if(button.classList.contains('borde__style_2px_dourado')){
+        button.classList.remove('borde__style_2px_dourado')
+        console.log('container')
+    }
 
     const divremover  = elemento.childNodes[1].childNodes
 
@@ -252,3 +276,102 @@ function buttonStorageRemove(id){
     }
 }
 
+const button = document.querySelectorAll('#button-alterna_video')
+button.forEach((elemento)=>{
+    elemento.addEventListener('click',(e)=>{
+        const id = e.target.dataset.idFull
+        const img = document.getElementById(id)
+        img.classList.add('animation_img')
+        setTimeout(video_animation,2000,e,img)
+    })
+}
+)
+
+function video_animation(elemento,img){
+    const ativo = elemento.target.dataset.ativo
+    const id = elemento.target.dataset.idFull
+    const video_1 = document.getElementById(`player${id}`)
+    const video_2 = document.getElementById(`player${id}/`)
+    let url_full = elemento.target.dataset.urlFull
+    if(ativo){
+        elemento.target.removeAttribute('data-ativo')
+        videoAnimatioTwooff(video_2,id)
+        setTimeout(videoAnimationOneOn,3200,video_1,id)
+    }else{
+        elemento.target.dataset.ativo = 'true'
+        if(video_1.tagName == 'IFRAME'){
+            videoAnimatioOneoff(video_1,id)
+            setTimeout(videoAnimationTwoOn,3000,video_2,url_full,id)
+        }else{
+            setTimeout(videoAnimationTwoOn,1000,video_2,url_full,id)
+        }
+
+    }
+    animationSeta(elemento.target,ativo)
+
+    setTimeout(animationImagem,2000,img)
+}
+
+function animationImagem(img){
+    img.style.display = 'none'
+    img.classList.remove('animation_img')
+}
+
+
+function videoAnimationTwoOn(videoSimple,url,id){
+    styleRemove(videoSimple)
+    videoSimple.style.display = 'block'
+    videoSimple.parentNode.style.transform = 'rotateY(90deg)'
+    videoSimple.parentNode.classList.add('animation__video')
+    onYouTubeIframeAPIReady(`${id}/`,url)
+    setTimeout(videoPlay,1500,`player${id}/`)
+
+}
+
+function videoAnimatioTwooff(videoSimple,id){
+    videoSimple.parentNode.style.transform = 'rotateY(0)'
+    videoSimple.parentNode.classList.remove('animation__video')
+    videoSimple.parentNode.classList.add('animation_img')
+    videoPause(`player${id}/`)
+}
+
+function videoAnimatioOneoff(videoSimple,id){
+    videoSimple.parentNode.classList.remove('animation__video')
+    videoSimple.parentNode.classList.add('animation_img')
+    setTimeout(styleRemove,4000,videoSimple)
+    videoPause(`player${id}`)
+}
+
+function videoAnimationOneOn(videoSimple,id){
+    const url = document.getElementById(id).dataset.url
+    videoSimple.style.display = 'block'
+    videoSimple.style.transform = 'rotateY(90deg)'
+    videoSimple.classList.add('animation__video')
+    onYouTubeIframeAPIReady(id,url)
+    setTimeout(videoPlay,1500,`player${id}`)
+}
+
+function animationSeta(seta,ativo){
+    if(ativo){
+        seta.style.transform = 'rotateY(0)'
+    }else{
+        seta.style.transform = 'rotateY(160deg)'
+    }
+}
+
+function styleRemove(video){
+    video.style.display = 'none'
+    video.classList.remove('animation__video')
+    video.classList.remove('animation_img')
+    if(video.parentNode){
+        video.parentNode.classList.remove('animation_img')
+    }
+}
+
+function idVerificarString(id){
+    if(id.includes('/')){
+        const string = id.substring(0,id.length - 1)
+        return string
+    }
+    return id
+}
