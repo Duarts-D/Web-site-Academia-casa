@@ -960,11 +960,16 @@ hr{
 @media screen and (min-width: 500px)  and (max-width: 700px){
   /* container index*/
   .header__h1{
-    font-size: 2.5em;
+    font-size: var(--fonte-24px);
   }
   .container__index__collum{
-    font-size: 0.8em;
+    font-size:var(--fonte-16px);
     margin-top: 5%;
+  }
+
+  .header__h2{
+    font-size:var(--fonte-16px);
+
   }
   .container__container{
     margin: 0 5% 0 5%;
@@ -1497,10 +1502,14 @@ hr{
 
   /*  container index */
   .header__h1{
-    font-size: 2.5em;
+    font-size: var(--fonte-24px);
+  }
+
+  .header__h2 {
+    font-size: var(--fonte-16px)ç;
   }
   .container__index__collum{
-    font-size: 0.8em;
+    font-size: var(--fonte-16px);
     margin-top: 5%;
   }
   .container__container{
