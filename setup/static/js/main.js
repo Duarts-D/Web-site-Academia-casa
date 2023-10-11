@@ -54,8 +54,8 @@ buttonXRemover.forEach((elemento) =>{
         const timenow = setTimeout(divDomRemove,3000,valor)
         sendPost(valor)
         removerOrdemLista(valor)
-        intesXStorage.push(valor)
-        localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
+        // intesXStorage.push(valor)
+        // localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
     });
     elemento.addEventListener('mouseover',(e)=>{
         e.target.textContent = 'Remover';

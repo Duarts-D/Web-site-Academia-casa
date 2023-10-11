@@ -1,7 +1,10 @@
 {% extends 'base/base.html'%}
-{%load static %}
+{% load static %}
+{% load cache%}
+
 {% block conteudo %} 
 <section class="container__lista">
+    {% cache 1440 lista %}
     <ul class="container__lista__1" >
         {% for dia in dia_semana_index %}
         <li class="container__lista__1__item">
@@ -13,7 +16,9 @@
         </li>
         {% endfor %}
     </ul>
+    {% endcache %}
     <hr class="hr">
+    
     <ul class="container__lista__2" id="lista2">
         <li class="container__lista__2__item container__lista__2__button" id="input__lista">
            Criar uma lista

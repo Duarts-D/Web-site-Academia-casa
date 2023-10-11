@@ -1,8 +1,10 @@
 {% extends 'base/base.html'%}
 {%load static %}
+{% load cache %}
 
 {% block conteudo %}
 
+{% cache 1440 index %}
 <header class="header">
     <h1 class="header__h1">ACADEMIA EM CASA</h1>
 </header>
@@ -22,6 +24,7 @@
         <p class="container__index__texto__right">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, </p>
     </div>
 </section>
+{% endcache %}
 
 <script src="{% static 'js/viewport.js'%}" type="module"></script>
 {% endblock%}

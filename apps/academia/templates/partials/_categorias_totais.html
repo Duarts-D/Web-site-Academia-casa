@@ -2,13 +2,7 @@
 
 <ul class="categorias_container">
     <li class="categorias">
-        <a href="{% url 'lista_treino' dia dia %}"  onclick="document.getElementById('todos').click();document.getElementById('teste_botton').click(); return false;">Geral</button>
     </li>
-    {% for categoria in categorias %}
-        <li class="categorias">
-                    <a href="{% url 'lista_treino' dia categoria %}" onclick="document.getElementById('{{categoria.categoria}}').click();document.getElementById('teste_botton').click(); return false;">{{categoria}}</a>
-        </li>
-    {% endfor %}
 </ul>
 
 {% else %}
