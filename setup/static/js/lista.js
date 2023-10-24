@@ -3,7 +3,7 @@ const form = document.getElementById('formulario')
 const ul = document.getElementById('lista2')
 const inputName = document.getElementById('input__name')
 const msgError = document.getElementById('error')
-const buttonDeleteLista = document.querySelectorAll('.container__lista__2_button__X')
+let buttonDeleteLista = document.querySelectorAll('.container__lista__2_button__X')
 
 const menssagem = {
     name:{
@@ -20,7 +20,7 @@ function verificarCampo(input){
     const validadorDeInput = input.checkValidity()
 
     if (!validadorDeInput){// checando se e valido
-        msgError.textContent = 'Atigiu o limite de lista, Renomeia ou Apague alguma';
+        msgError.textContent = 'Atigiu o limite de lista,Apague uma lista';
         setTimeout(removerError,5000)
     } else {
         msgError.textContent = "";
@@ -139,6 +139,8 @@ function nomeListaInner(id,nome){
     novoli.appendChild(novoA)
     novoli.appendChild(novoButton)
     ul.appendChild(novoli)
+    buttonDeleteLista = document.querySelectorAll('.container__lista__2_button__X')
+    buttonDeleteListaClick()
 }
 
 
@@ -150,9 +152,13 @@ function quantidade(){
     }
 }
 
-buttonDeleteLista.forEach((evento)=>{
-    evento.addEventListener('click',(evento)=>{
-        const numero = evento
-        postNomeLista(numero)
+function buttonDeleteListaClick(){
+    buttonDeleteLista.forEach((evento)=>{
+        evento.addEventListener('click',(evento)=>{
+            const numero = evento
+            postNomeLista(numero)
+        })
     })
-})
+}
+
+buttonDeleteListaClick()
