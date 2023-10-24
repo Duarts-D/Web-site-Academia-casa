@@ -37,13 +37,17 @@ function divDomRemove(id){
     blocoDom.remove()
     const ulVideos  = document.querySelector('#ulVideos')
     if (ulVideos.children.length == 0){
-        ulVideos.innerHTML += '<li class="container__texto__segunda">Lista Vazia</li>'
+        const li = document.createElement('li')
+        li.classList.add('video__container')
+        li.innerHTML = '<div  style="font-size: 3em; text-align: center; width: 100%;">Lista Vazia !</div>'
+        ulVideos.appendChild(li)
     }
 }
 function removerOrdemLista(id){
     const elements =  document.querySelector(`[data-organizacao-id="${id}"]`)
     elements.remove()
 }
+
 
 buttonXRemover.forEach((elemento) =>{
     elemento.addEventListener('click', (e) => {

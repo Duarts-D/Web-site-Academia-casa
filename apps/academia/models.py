@@ -28,7 +28,7 @@ class Videos(models.Model):
     time = models.PositiveIntegerField(default=0)
     repeticao = models.PositiveIntegerField(default=0)
     id_video_youtube = models.CharField(max_length=50,default=1)
-    categorias = models.ManyToManyField(CategoriaModel)
+    categorias = models.ForeignKey(CategoriaModel,on_delete=models.CASCADE,null=True,blank=True,default=None)
     info = models.CharField(max_length=255,blank=False,null=True,default='...')
     imagem = models.ImageField(upload_to='media/',blank=True,null=True)
     id_video_youtube_didatico = models.CharField(max_length=50,default=1)

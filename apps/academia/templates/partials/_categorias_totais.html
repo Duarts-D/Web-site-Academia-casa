@@ -1,31 +1,41 @@
+{% load filterTemplates %}
+
 {% if lista_treino %}
 
-<ul class="categorias_container">
+<ul class="categorias_container categorias_container_treino">
     <li class="categorias">
+        <a href="{% url 'lista_treino' dia geral %}" {% if categoria_listagem|jsoff:'Dav' %}class="categorias_ativa"{%endif%} id="Geral_ativo" data-categoria='yes'>Geral</a>
     </li>
+    
+    {% for categoria in categorias%}
+    <li class="categorias">
+        <a href="{% url 'lista_treino' dia categoria %}"  {% if categoria_listagem|jsoff:categoria %}class="categorias_ativa"{% endif %} data-categoria='yes'>{{categoria}}</a>
+    </li>
+    {% endfor%}
 </ul>
 
 {% else %}
-<ul class="categorias_container">
+<ul class="categorias_container" id="categoria_div_seletor">
     <li class="categorias">
         {% if zumba == True %}
-        <a href="{% url 'videos_zumba'%}" >Geral</a>
+            <a href="{% url 'videos_zumba'%}" class="categorias_ativa" id="Geral_ativo">Geral</a>
         {% elif dia == False %}
-            <a href="{% url 'videos' geral %}" >Geral</a>
+            <a href="{% url 'videos' geral %}" class="categorias_ativa" id="Geral_ativo">Geral</a>
         {% else %}
-            <a href="{% url 'exercicios' dia geral %}" >Geral</a>
+            <a href="{% url 'exercicios' dia geral %}" {% if categoria_listagem|jsoff:geral %}class="categorias_ativa"{%endif%} id="Geral_ativo">Geral</a>
         {% endif %}
-
     </li>
     {% for categoria in categorias %}
-        <li class="categorias">
+    {%if categoria%}
+        <li class="categorias" >
             {% if dia == False %}
                 <a href="{% url 'videos' categoria %}">{{categoria}}</a>
             {% else %}
-                <a href="{% url 'exercicios' dia categoria %}">{{categoria}}</a>
+                <a href="{% url 'exercicios' dia categoria %}" {% if categoria_listagem|jsoff:categoria %}class="categorias_ativa"{% endif %}>{{categoria}}</a>
+                {% endif %}
+            </li>
             {% endif %}
 
-                </li>
     {% endfor %}
 </ul>
 

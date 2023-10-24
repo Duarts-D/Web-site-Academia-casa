@@ -66,6 +66,56 @@
     border: 2px #b8860b solid;
 }
 
+@keyframes animacao_alert {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+.container_buttao_alert{
+    position: absolute;
+    font-size: 32px;
+    text-align: center;
+    top: 0;
+    width: 50%;
+    margin: 0 25% 0 25%;
+    z-index: 50;
+    border: 2px double white ;
+    outline: 5px white inset;
+    background-color: black;
+    color: white;
+    padding: 2%;
+    display: none;
+    animation: animacao_alert 0.5s infinite;
+}
+
+.container_buttao_alert p{
+    width: 100%;
+    margin-bottom: 2%;
+}
+
+.button_alert{
+    width: auto;
+    padding: 0 2% 0 2%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.button_alert:hover{
+    color: red;
+    border-color: red;
+}
 
 @keyframes bordios {
     0% {
@@ -119,7 +169,12 @@
        border-color: #b8860b;
     }
 
-
+    .container_buttao_alert{
+        font-size: 24px;
+        margin: 0%;
+        width: 95%;
+        border: none;
+    }
 }
 
 @media screen and (min-width: 500px)  and (max-width: 700px){
@@ -132,5 +187,31 @@
     .button__concluir:focus{
        color:#b8860b;
        border-color: #b8860b;
+    }
+
+    .container_buttao_alert{
+        font-size: 24px;
+        margin: 0%;
+        width: 100%;
+        border: none;
+        padding: 5% 0 5% 0 ;
+    }
+
+    .container_buttao_alert p{
+        margin-bottom: 2%;
+    }
+}
+
+@media screen and (min-width:701px) and (max-width:1024px){
+    .container_buttao_alert{
+        font-size: 36px;
+        margin: 0%;
+        width: 100%;
+        border: none;
+        padding: 5% 0 5% 0 ;
+    }
+
+    .container_buttao_alert p{
+        margin-bottom: 2%;
     }
 }

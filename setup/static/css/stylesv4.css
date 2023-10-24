@@ -425,6 +425,7 @@ hr{
   color: white;
 }
 
+
 .container__texto__segunda{
   text-align: center;
   font-family: var(--fonte-geral);
@@ -550,6 +551,18 @@ hr{
   border: 3px solid var(--coloder-border-red);
   padding: 16px;
   overflow: hidden;
+}
+
+.video__container__no_query{
+  font-size: 3em;
+  text-align: center;
+  width: auto;
+  display: block;
+  list-style: none;
+  background-color: black;
+  color:  red;
+  border: 2px solid var(--coloder-border-red);
+  margin-top: 2px;
 }
 /* end container__video*/
 
@@ -896,7 +909,9 @@ hr{
   padding: 5px;
 }
 
-
+.categorias_ativa{
+  color: var(--color-text-white);
+}
 .icon-container {
   position: absolute;
   display: inline-block;
@@ -974,6 +989,16 @@ hr{
   .container__container{
     margin: 0 5% 0 5%;
   }
+
+  .categorias_container_treino{
+    padding: 10px;
+  }
+  .categorias{
+    font-size: var(--fonte-24px);
+  }
+
+
+
   .container__index__row{
     flex-direction: column;
     outline: 2px solid black;
@@ -1001,12 +1026,19 @@ hr{
     margin-bottom: 5px;
     
   }
-  .container__dia__adicionar p{
+  
+
+
+  .container__texto__segunda {
     width: 60%;
     background-color: var(--color-background-black);
     color: var(--color-text-white);
     text-align: center;
     padding-right: 5px;
+  }
+
+  .container__texto__segunda_treino{
+    width: 100%;
   }
 
  .container__dia__adicionar a{
@@ -1405,6 +1437,10 @@ hr{
     flex-direction: row;
   }
 
+  .categorias_container_treino{
+    padding: 10px;
+  }
+
   .categorias{
     font-size: 24px;
   }
@@ -1551,13 +1587,20 @@ hr{
     margin-bottom: 5px;
   }
 
-  .container__dia__adicionar p{
+ 
+
+  .container__texto__segunda {
     width: 60%;
     background-color: var(--color-background-black);
     color: var(--color-text-white);
     text-align: center;
     padding-right: 5px;
   }
+  
+  .container__texto__segunda_treino{
+    width: 100%;
+  }
+
 
   /* end container__dia__adicionar*/
 
@@ -1782,6 +1825,7 @@ hr{
     flex-direction: row;
     padding: 10px 3px 5px 3px;
   }
+
 
   .categorias{
     font-size: 16px;

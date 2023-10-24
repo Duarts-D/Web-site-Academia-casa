@@ -6,18 +6,24 @@
 {% block conteudo %}
 <section class="container__geral__videos">
     <div class="container__dia__adicionar">
-        <p class="container__texto__segunda" id="{{dia}}" data-dia>{{dia}}</p>
+        <p class="container__texto__segunda container__texto__segunda_treino" id="dia_semanal" data-dia>{{dia}}</p>
+        <div class="container_buttao_alert">
+            <p>A alteração não salvas! Deseja salvar?</p>
+            <button value="Sim" class="button_alert" type="button">Sim</button>
+            <button value="Não"class="button_alert" type="button">Não</button>
+        </div>
     </div>
 <div class='container__relative '>
     {% include 'partials/_categorias_totais.html' %}
 </div>
 {% include 'partials/pagination.html' %}
-
+    {% if videos %}
     <form method="POST">
         {% csrf_token %}
-        <ul>
+        <ul id="ulVideos">
+           
             {% for treino in videos %}
-            <li class="video__container">
+            <li class="video__container" data-categoria-tag="{{treino.categorias}}">
                 <div class="video__descricao">
                 {% include 'partials/_info_categorias.html'%}
 
@@ -78,9 +84,18 @@
             <button type="submit" class="button__input salvar" id="teste_botton" >Salvar</button>
             {% endif %}
         </form>
-
+        {% else %}
+        <li class="video__container video__container__no_query">
+            Videos Indisponivel
+        </li>
+        {% endif %}
     </section>
+
+
     <script src="https://www.youtube.com/iframe_api"></script>  
     <script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
+    <script src="{% static 'js/categorias_page.js'%}" type="module"></script>
+    <script src="{% static 'js/ancora_salve.js'%}" type="module"></script>
+
     {% include 'partials/pagination.html' %}
 {% endblock %}

@@ -2,11 +2,11 @@
 
 <div class="video__icon_container">
     <ul class="video__incon__lista">
-    {% for nomes in treino.categorias.all%}
+        {% if treino.categorias %}
         <li class="video__icon__itens border__style_2px" alt="Ícone">
-            {{nomes}}
+            {{treino.categorias}}
         </li>
-    {% endfor %}
+        {% endif %}
     </ul>
     <p class="info-box">{{treino.video.info}}</p>
 </div>
@@ -14,16 +14,11 @@
 
 <div class="video__icon_container">
     <ul class="video__incon__lista">
-        {% for nomes in treino.video.categorias.all%}
-        <li class="video__icon__itens border__style_2px" alt="Ícone">
-            {{nomes}}
-        </li>
-        {% endfor %}
-        {% for nomes in treino.categorias.all%}
-        <li class="video__icon__itens border__style_2px" alt="Ícone">
-            {{nomes}}
-        </li>
-        {% endfor %}
+        {% if treino.video.categorias %}
+            <li class="video__icon__itens border__style_2px" alt="Ícone">
+                {{treino.video.categorias}}
+            </li>
+        {% endif %}
     </ul>
 <p class="info-box">{{treino.video.info}}</p>
 

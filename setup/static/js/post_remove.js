@@ -22,3 +22,5 @@ export default  async function sendPost(id){
       console.error('Erro:', error);
     });
 }
+
+
