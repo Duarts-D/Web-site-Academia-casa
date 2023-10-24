@@ -38,6 +38,17 @@ def listas_user_dias_cache_all_func(user_id,dia=None):
             return False
     return cache_user_dias_lista_all
 
+def listas_user_dias_cache_all_delete(user,item_id=None):
+    cache_name_user = f'{user.id}-all-listas'
+    cache_user_dias_lista_all = cache.get(cache_name_user)
+    cache_lista_nova = None
+    if cache_user_dias_lista_all:
+        cache_lista_nova = cache_user_dias_lista_all.exclude(id=item_id)
+    if not cache_lista_nova:
+        cache.delete(cache_name_user)
+    else:
+        cache.set(cache_name_user,cache_lista_nova,(60*60))    
+
 def treino_dia_user_dashboard_cache_get(user,dia):
     #Funcao para retorna o videos da lista dashboard
     cache_name_treino = f'{user.id}-{dia}-video-dashboard'

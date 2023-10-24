@@ -8,9 +8,11 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .validacoes_utilidades import verificarString_numeros,organizarString,validacao_lista,organizar_list_ordem,cache_exclude,conversorJsonParaPython,itensOrgnizadoJsonTreinoView,verificacao_nome_query
-from .cache_utilidades import dias_cache_padrao_all_func,categorias_cache_all_func,listas_user_dias_cache_all_func,treino_dia_user_dashboard_cache_get,videos_cache_all_func,cache_dashboard_videos_e_categoria_delete
+from .cache_utilidades import (dias_cache_padrao_all_func,categorias_cache_all_func,listas_user_dias_cache_all_func,
+                               treino_dia_user_dashboard_cache_get,videos_cache_all_func,cache_dashboard_videos_e_categoria_delete,
+                               listas_user_dias_cache_all_delete)
 from django.core.cache import cache
-from .salve_utilidade import create_treinoview,delete_treinoview,post_save_treinoview,post_delete_treinoview
+from .salve_utilidade import post_save_treinoview,post_delete_treinoview
 
 class CustomContextMixin(ListView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -37,64 +39,42 @@ class ListasView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
     
     def get_queryset(self) -> QuerySet[Any]:
         #cache
-        qs_cache = cache.get('dia_semana_index')
-        if qs_cache:
-            return qs_cache
-        return super().get_queryset()
+        qs_cache = dias_cache_padrao_all_func()
+        return qs_cache
     
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        get =  super().get_context_data(**kwargs)
         #cache
-        get = {}
-        cache_name_listas = f'{self.request.user.id}-listas'
-        get['listas'] = cache.get(cache_name_listas)
-        get['geral'] = 'Geral'
-        get['dia_semana_index'] = cache.get('dia_semana_index')
-        if not get['listas']:
-            get =  super().get_context_data(**kwargs)
-            get['listas'] = UserDiasLista.objects.filter(user=self.request.user) #colocar
-
-            cache.set(cache_name_listas,get['listas'],(60*60))
-            cache.set('dia_semana_index',get['dia_semana_index'],(60*1440))
-            return get
+        cache_listas = listas_user_dias_cache_all_func(user_id=self.request.user)
+        get['listas'] = cache_listas
         return get
     
     def post(self,*args,**kwargs):
-        dados_em_bytes = self.request.body
-        dados_em_string = dados_em_bytes.decode('utf-8')
-        dados_dict = json.loads(dados_em_string)
-        
-        #cache
-        cache_name = f'{self.request.user.id}-listas'
-        cache_query = cache.get(cache_name)
-
-        #Delete item lista por post js
-        if dados_dict.get('remove'):
-            if dados_dict['remove'].isdigit():
-                idlista = dados_dict['remove']
-                if not cache_query:
-                    remover = UserDiasLista.objects.filter(user=self.request.user,id=idlista)
-                elif isinstance(cache_query, QuerySet) :
-                    remover = cache_query.filter(id=idlista)
-                if remover:
-                    remover.delete()
-                    cache_exclude(cache_query,idlista,cache_name,(60*60))
-                    return JsonResponse({'remover': True})
+        json = conversorJsonParaPython(self.request.body)
+        user = self.request.user
+        cache_listas = listas_user_dias_cache_all_func(user_id=user)
+        if json != False and json.get('remove'):
+            #cache
+            # Delete item lista por post js
+            id_remover_query = json.get('remove')
+            if id_remover_query and id_remover_query.isdigit():
+                query_para_remover = cache_listas.filter(id=id_remover_query)
+                if query_para_remover:
+                    query_para_remover.delete()
+                    listas_user_dias_cache_all_delete(user,int(id_remover_query))
+                return JsonResponse({'remover': True})
 
         
         #Criar lista do usuario por post js
-        if dados_dict.get('nome'):
-            if not cache_query:
-                cache_query = UserDiasLista.objects.filter(user=self.request.user)
-            if len(cache_query) != 10 and isinstance(cache_query, QuerySet): #maximo 10 de lista
-                string = verificarString_numeros(dados_dict['nome'])
-                if string:
-                    nome = dados_dict['nome']
-                    nome = organizarString(nome)
-                    item = UserDiasLista.objects.create(nome=nome,user=self.request.user)
-
-                    cache.delete(cache_name)#removendo cache
-                    return JsonResponse({'id':item.id,'nome':item.nome})
+        if json != False and json.get('nome'):
+            string_valido = verificarString_numeros(json['nome'])
+            if string_valido:
+                nome = organizarString(json['nome'])
+                if len(cache_listas) != 10:  #and isinstance(cache_query, QuerySet)#maximo 10 de lista
+                    create_query = UserDiasLista.objects.create(nome=nome,user=user)
+                    listas_user_dias_cache_all_delete(user)#removendo cache
+                    return JsonResponse({'id':create_query.id,'nome':create_query.nome})
 
         return JsonResponse({'erro':'Algo deu errado'},status=500)
             

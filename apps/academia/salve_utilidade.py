@@ -27,7 +27,6 @@ def create_treinoview(query_dia,user,id_video):
         )
     
 def delete_treinoview(cache_query_dashboard,id_video):
-    print(cache_query_dashboard,id_video)
     cache_treino = [objeto for objeto in cache_query_dashboard if objeto.video.id == id_video]
     query_treino = cache_treino[0]
     query_treino.delete()
