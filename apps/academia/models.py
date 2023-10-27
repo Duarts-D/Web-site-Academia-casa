@@ -50,7 +50,7 @@ class TreinoDiaPadrao(models.Model):
     video = models.ForeignKey(Videos,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.dia.nome
+        return self.dia
 
 
 class TreinoDiaUser(models.Model):
@@ -59,7 +59,7 @@ class TreinoDiaUser(models.Model):
     video = models.ForeignKey(Videos,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.dia.nome
+        return self.video.exercicio
 
 class OrdemLista(models.Model):
     ordem = models.CharField(max_length=255)

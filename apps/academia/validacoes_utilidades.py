@@ -20,15 +20,7 @@ def validacao_lista(valores):
             return False
     return True
 
-def organizar_list_ordem(lista,ordem):
-    nova_lista = []
-    ordem = ordem.replace("'",'').replace(' ','').replace("[",'').replace("]",'')
-    ordem = ordem.split(',')
-    for v in ordem[1:]:
-        for b in lista:
-            if int(v) == int(b.video.id):
-                nova_lista.append(b)
-    return nova_lista
+
 
 def cache_exclude(cache_query,id_item,cache_name,time):
     if isinstance(cache_query, list):
@@ -66,3 +58,16 @@ def verificacao_nome_query(user,dia):
         return True
     return False
 
+def organizar_list_ordem(lista,ordem):
+    nova_lista = []
+    ordem = ordem.replace("[",'').replace("]",'')
+    ordem = ordem.split(',')
+    for id_ordem in ordem[1:]:
+        for id_lista in lista:
+            if int(id_ordem) == int(id_lista.video.id):
+                nova_lista.append(id_lista)
+    return nova_lista
+
+def organizar_list_ordem_digito(lista):
+    lista_int = [int(video_id) if video_id is not None and video_id.isdigit() else None for video_id in lista]
+    return lista_int

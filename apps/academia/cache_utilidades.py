@@ -1,5 +1,6 @@
 from django.core.cache import cache
-from .models import Dias,CategoriaModel,TreinoDiaPadrao,TreinoDiaUser,UserDiasLista,Videos
+from .models import Dias,CategoriaModel,TreinoDiaPadrao,TreinoDiaUser,UserDiasLista,Videos,OrdemLista
+
 
 def dias_cache_padrao_all_func(dia=None):#mudar o nome da funcao
     #Funcao para retorna Dias semanal cache ou nao cache.
@@ -75,8 +76,40 @@ def videos_cache_all_func(video_id=None,categoria=None):
         cache_video = cache_video.filter(categorias=categoria)
     return cache_video
 
-def cache_dashboard_videos_e_categoria_delete(user,dia):
+def cache_dashboard_videos_e_categoria_delete(user,dia,id_video=None):
     cache_name_dashboard = f'{user.id}-{dia}-video-dashboard'
-    cache.delete(cache_name_dashboard)
+    cache_dashboard = cache.get(cache_name_dashboard)
+    if len(cache_dashboard) >=1 and id_video != None:
+        cache_dashboard = cache_dashboard.exclude(video__id=id_video)
+        cache.set(cache_name_dashboard,cache_dashboard,(60*60))
+    else:
+        cache.delete(cache_name_dashboard)
     cache_name_categoria = f'{user.id}-{dia}-video-players-categoria'
     cache.delete(cache_name_categoria)
+    
+
+def cache_ordem_dashboard_videos(user,dia):
+    #retorno do cache ordem
+    cache_name = f'{user.id}-ordem-{dia}'
+    ordem_string = cache.get(cache_name)#cache ordem
+    if not ordem_string:
+        ordem_string = OrdemLista.objects.filter(user=user,treinodia__nome=dia).first()
+        if not ordem_string:
+            ordem_string = OrdemLista.objects.filter(user=user,treinodiapadrao__nome=dia).first()
+        cache.set(cache_name,ordem_string,(60*15))
+    return ordem_string
+
+
+
+
+def cache_ordem_dashboard_videos_delete(user,dia):
+    cache_name = f'{user.id}-ordem-{dia}'
+    cache.delete(cache_name)
+
+def cache_ordem_dashboard_videos_reoganizar(user,dia,lista):
+    cache_name = f'{user.id}-ordem-{dia}'
+    cache_ordem = cache.get(cache_name)
+
+    if cache_ordem:
+        cache_ordem.ordem = f'{lista}'
+        cache.set(cache_name,cache_ordem,(60*15))
