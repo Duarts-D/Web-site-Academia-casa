@@ -15,18 +15,13 @@
     </div>
 {% include 'partials/pagination.html' %}
 
-<ul>
+<ul id="ulVideos">
     {% for treino in videos %}
-    <li class="video__container">
+    <li class="video__container" data-categoria-tag="{{treino.categorias}}">
         <div class="video__descricao">
         {% include 'partials/_info_categorias.html'%}
         <div class="video__descricao__textos">
             <h3>{{ treino.exercicio}}</h3>
-            {% if treino.quantidade %}
-                <p>{{ treino.repeticao}} * {{treino.quantidade}}</p>
-            {% else %}
-                <p>{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
-            {% endif %}
         </div>
     </div>
     <div class="video__cointainer__video__img">
@@ -45,6 +40,8 @@
 </form>
 <script src="https://www.youtube.com/iframe_api"></script>  
 <script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
+<script src="{% static 'js/categorias_page.js'%}" type="module"></script>
+
 
 </section>
 {% endcache %}

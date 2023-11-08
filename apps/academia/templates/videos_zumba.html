@@ -10,16 +10,7 @@
 
 {% cache 1440 videos_Zumba %}
 <section class="container__geral__videos">
-    <div class='container__relative '>
-        {% comment %} {% include 'partials/_categorias_totais.html' %} {% endcomment %}
-    </div>
 {% include 'partials/pagination.html' %}
-
-<div>
-    {% for us in usuarios %}
-        <p>{{us}}</p>
-    {% endfor %}
-</div>
 <ul>
     {% for treino in videos %}
     <li class="video__container">
