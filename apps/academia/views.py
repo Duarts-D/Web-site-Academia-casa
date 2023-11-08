@@ -332,29 +332,16 @@ class TodosVideosView(CustomContextMixin,ListView):#cache
     ordering = ('-id')
 
     def get_queryset(self):
-        cache_videos_all = cache.get('videos_all')
         #cache
-        if cache_videos_all:
-            return cache_videos_all
-        else:
-            qs = super().get_queryset()
-            cache.set('videos_all',qs,(60*1440))
-            # categoria = self.kwargs.get('categorias')
-            return qs
+        cache_videos_all = videos_cache_all_func()
+        return cache_videos_all
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
         get['dia'] = False
         get['geral'] = 'Geral'
-        cache_categorias_all = cache.get('cache_query_categoria_all')
-        if cache_categorias_all:
-            get['categorias'] = cache_categorias_all
-        else:
-            categoria = CategoriaModel.objects.all()
-            get['categorias'] = categoria
-            cache.set('cache_query_categoria_all',categoria,(60*1440))
+        get['categorias'] = categorias_cache_all_func()
         return get
-        # get['categorias'] = CategoriaModel.objects.all()
 
 class VideosZumba(CustomContextMixin,ListView):#cache
     model = Videos
@@ -364,15 +351,9 @@ class VideosZumba(CustomContextMixin,ListView):#cache
     ordering = ('-id')
 
     def get_queryset(self) -> QuerySet[Any]:
-        cache_videos_all = cache.get('videos_all')
-        
         #cache
-        if cache_videos_all:
-            return cache_videos_all.filter(categorias__categoria='Zumba')
-        
-        qs = super().get_queryset()
-        qs = qs.filter(categorias__categoria='Zumba')
-        return qs 
+        cache_videos_all = videos_cache_all_func()
+        return cache_videos_all.filter(categorias__categoria='Zumba')
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
