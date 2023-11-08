@@ -19,6 +19,11 @@
                 {{treino.video.categorias}}
             </li>
         {% endif %}
+        {% if treino.categorias %}
+        <li class="video__icon__itens border__style_2px" alt="Ícone">
+            {{treino.categorias}}
+        </li>
+    {% endif %}
     </ul>
 <p class="info-box">{{treino.video.info}}</p>
 
