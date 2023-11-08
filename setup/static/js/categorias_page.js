@@ -37,15 +37,15 @@ lista.forEach((element)=>{
 })
 
 function removerArrayAdicionar(valor){
-    const indice = listaAdicionar.findIndex(item => item == valor)
-    if (indice != -1){
+    const indice = listaAdicionar.findIndex(item => item === `${valor}`)
+    if (indice !== -1){
         listaAdicionar.splice(indice,1)
     }
     console.log(listaAdicionar)
 }
 
 function removeArrayRemove(valor){
-    const indice = listaAdicionar.findIndex(item => item == valor)
+    const indice = listRemover.findIndex(item => item === `${valor}`)
     if (indice != -1){
         listRemover.splice(indice,1)
     }

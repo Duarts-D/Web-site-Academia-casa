@@ -242,8 +242,8 @@ class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         if json:
             listas = itensOrgnizadoJsonTreinoView(objeto=json,user=self.user)
             if listas != False :
-                selecionador = listas[0]
-                listaRemover = listas[1]
+                selecionador =set(listas[0])
+                listaRemover = set(listas[1])
                 dia = listas[2]
                 query_dia = cache_dia_padrao.filter(nome=dia).first()
 
@@ -253,8 +253,12 @@ class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
                 post_save_treinoview(selecionador=selecionador,lista_treino_user_dia=self.treino_user_dia_lista,query_dia=query_dia,user=self.user)
                 post_delete_treinoview(lista_id_excluir=listaRemover,lista_treino_user_dia=self.treino_user_dia_lista,cache_query_dashboard=self.cache_query_dashboard)
 
-                for indice in listaRemover:
-                    cache_dashboard_videos_e_categoria_delete(user=self.user,dia=dia,id_video=indice)
+                if not selecionador:
+                    for indice in listaRemover:
+                        cache_dashboard_videos_e_categoria_delete(user=self.user,dia=dia,id_video=indice)
+                else:
+                    cache_dashboard_videos_e_categoria_delete(user=self.user,dia=dia)
+
                 # cache_ordem_dashboard_videos_delete(self.user,dia)
                 return JsonResponse({'mensagem': 'Dados recebidos com sucesso'},status=200)
             return JsonResponse({'erro': 'Invalido indice.'}, status=400)
