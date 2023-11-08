@@ -43,11 +43,6 @@
                 {% include 'partials/_info_categorias.html'%}
                 <div class="video__descricao__textos">
                     <h3 >{{ treino.video.exercicio}}</h3>
-                    {% if treino.video.quantidade %}
-                        <p>{{ treino.video.repeticao}} * {{treino.video.quantidade}}</p>
-                    {% else %}
-                        <p >{{ treino.video.repeticao }} * ({{treino.video.time}}) Segundos</p>
-                    {% endif %}
                 </div>
                 <button type="button" class="button__js__cc button__concluir border__style_2px" data-button="player{{treino.video.id}}">Concluir</button>
             </div>
