@@ -59,7 +59,7 @@ buttonXRemover.forEach((elemento) =>{
         sendPost(valor)
         removerOrdemLista(valor)
         // intesXStorage.push(valor)
-        // localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
+        localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
     });
     elemento.addEventListener('mouseover',(e)=>{
         e.target.textContent = 'Remover';
@@ -163,6 +163,7 @@ buttonConcluido.forEach((e) =>
         const data_button = e.dataset.button
         if(e.classList.contains('borde__style_2px_dourado')){
             divBlocoVideoRemover(data_button)
+            buttonStorageRemove(data_button)
         }else{
             divBlocoVideoContainer(data_button)
             buttonStorageAdd(data_button)
