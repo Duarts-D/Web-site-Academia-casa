@@ -52,9 +52,9 @@ function loadOrder() {
 
 // Adicionar eventos de arrastar e soltar
 sortableList.addEventListener('dragstart', (e) => {
-  e.dataTransfer.setData('text/plain', e.target.outerHTML);
-  e.target.classList.add('dragging');
-  e.target.style.color = '#b8860b'
+    e.dataTransfer.setData('text/plain', e.target.outerHTML);
+    e.target.classList.add('dragging');
+    e.target.style.color = '#b8860b'
 });
 
 sortableList.addEventListener('dragend', (e) => {

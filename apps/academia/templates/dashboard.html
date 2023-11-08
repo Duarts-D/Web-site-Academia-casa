@@ -17,7 +17,7 @@
         <ul id ="sortable-list" class="organizar__container video__container__concluido_js">
             <li class="organiza__titulo" >
                 <p class="organiza__titulo__1">Escolha a Ordem</p>
-                <img src="{% static 'img/marca-x.png' %}" id="button_organizar__fechar" class="organiza__titulo__x"></button>
+                <img draggable="false" src="{% static 'img/marca-x.png' %}" id="button_organizar__fechar" class="organiza__titulo__x"></button>
             </li>
         {% for treino in dia_semana %}
             <li draggable="true" class="organizar__lista__item" data-organizacao-id="{{treino.video.id}}">
