@@ -1,7 +1,7 @@
 import re
 from django.core.cache import cache
 import json
-from .cache_utilidades import listas_user_dias_cache_all_func
+from .cache_utilidades import listas_user_dias_cache_all_func,dias_cache_padrao_all_func
 
 def verificarString_numeros(nome):
     expressao = r'^[a-zA-Z0-9\s]*$'
@@ -54,6 +54,8 @@ def validaçaoIsdigit(lista):
 
 def verificacao_nome_query(user,dia):
     dia_in_lista = listas_user_dias_cache_all_func(user_id=user,dia=dia)
+    if not dia_in_lista:
+        dia_in_lista = dias_cache_padrao_all_func(dia=dia)
     if dia_in_lista:
         return True
     return False

@@ -14,7 +14,7 @@ from .cache_utilidades import (dias_cache_padrao_all_func,categorias_cache_all_f
                                treino_dia_user_dashboard_cache_get,videos_cache_all_func,cache_dashboard_videos_e_categoria_delete,
                                listas_user_dias_cache_all_delete,cache_ordem_dashboard_videos,cache_ordem_dashboard_videos_delete,cache_ordem_dashboard_videos_reoganizar)
 from django.core.cache import cache
-from .salve_utilidade import post_save_treinoview,post_delete_treinoview
+from .utilidades_CriarTreinoView import post_save_treinoview,post_delete_treinoview
 from .utilidades_ExercicioDashboard import SaveOrdemQuery,DeletandoDashboardQueryVideo
 
 
@@ -174,7 +174,7 @@ class ExercicioDashboard(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         else:
             return JsonResponse({'erro': 'Formato JSON inválido'}, status=400)
     
-class TreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
+class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
     model = Videos
     template_name = 'criartreino.html'
     context_object_name = 'videos'
@@ -190,9 +190,8 @@ class TreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         self.user = self.request.user
         
         self.categoria = self.kwargs.get('categoria')
-        print(self.categoria)
-        print(self.dia)
-
+        # print(self.categoria)
+        # print(self.dia)
         self.treino_user_dia_lista = []
     
         self.cache_query_listas = listas_user_dias_cache_all_func(self.user)
@@ -250,11 +249,12 @@ class TreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
 
                 if not query_dia:
                     query_dia = self.cache_query_listas.filter(nome=dia).first()
-
+                
                 post_save_treinoview(selecionador=selecionador,lista_treino_user_dia=self.treino_user_dia_lista,query_dia=query_dia,user=self.user)
                 post_delete_treinoview(lista_id_excluir=listaRemover,lista_treino_user_dia=self.treino_user_dia_lista,cache_query_dashboard=self.cache_query_dashboard)
 
-                cache_dashboard_videos_e_categoria_delete(self.user,dia)
+                for indice in listaRemover:
+                    cache_dashboard_videos_e_categoria_delete(user=self.user,dia=dia,id_video=indice)
                 # cache_ordem_dashboard_videos_delete(self.user,dia)
                 return JsonResponse({'mensagem': 'Dados recebidos com sucesso'},status=200)
             return JsonResponse({'erro': 'Invalido indice.'}, status=400)
@@ -288,20 +288,12 @@ class TreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
                 post_save_treinoview(selecionador=selecionador,lista_treino_user_dia=self.treino_user_dia_lista,
                         query_dia=query_dia,user=self.user)
 
-                # if len(self.treino_user_dia_lista) >= 1:
-                #     if len(lista_page)>=1:
-                #         lista_page.remove(str(id_video))
-                #     else:
-                #         if not int(id_video) in self.treino_user_dia_lista:
-                #             self.treino_user_dia_lista.append(id_video)
-
             lista_id_excluir =  [ x for x in self.treino_user_dia_lista if str(x) not in selecionador ]
             
             post_delete_treinoview(lista_id_excluir=lista_id_excluir,lista_treino_user_dia=self.treino_user_dia_lista,
                     cache_query_dashboard=self.cache_query_dashboard)
             
         cache_dashboard_videos_e_categoria_delete(self.user,self.dia)
-        # cache_ordem_dashboard_videos_delete(self.user,self.dia)
 
         a = self.request.POST.get('todos')
         if not pagina_1 is None:

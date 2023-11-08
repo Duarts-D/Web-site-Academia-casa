@@ -79,11 +79,12 @@ def videos_cache_all_func(video_id=None,categoria=None):
 def cache_dashboard_videos_e_categoria_delete(user,dia,id_video=None):
     cache_name_dashboard = f'{user.id}-{dia}-video-dashboard'
     cache_dashboard = cache.get(cache_name_dashboard)
-    if len(cache_dashboard) >=1 and id_video != None:
-        cache_dashboard = cache_dashboard.exclude(video__id=id_video)
-        cache.set(cache_name_dashboard,cache_dashboard,(60*60))
-    else:
-        cache.delete(cache_name_dashboard)
+    if cache_dashboard:
+        if len(cache_dashboard) >=1 and id_video != None:
+            cache_dashboard = cache_dashboard.exclude(video__id=id_video)
+            cache.set(cache_name_dashboard,cache_dashboard,(60*60))
+        else:
+            cache.delete(cache_name_dashboard)
     cache_name_categoria = f'{user.id}-{dia}-video-players-categoria'
     cache.delete(cache_name_categoria)
     
