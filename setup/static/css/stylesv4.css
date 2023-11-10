@@ -958,6 +958,38 @@ hr{
 /* end container footer*/
 
 
+/* ERROS HTTP */
+.main_ERROR_404{
+  margin-top: 30vh;
+  text-align: center;
+  color: red;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  align-items: center;
+}
+
+.H1_ERROR_404{
+  font-size: 3em;
+}
+
+.H2_ERROR_404{
+  font-size: 2em;
+}
+
+.A_ERROR_404{
+  color: blue;
+  text-decoration: unset;
+  border-bottom: blue 2px solid;
+  font-size: 1.5em;
+}
+
+.A_ERROR_404:hover{
+  color: var(--color-text-white);
+  border-color: var(--color-background-black);
+  font-size: 1.8em;
+}
+
 @media screen and (min-width: 1728px) {
 
 }

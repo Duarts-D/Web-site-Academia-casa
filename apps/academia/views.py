@@ -1,6 +1,6 @@
 from typing import Any, Dict
 from django.db.models.query import QuerySet
-from django.http import HttpRequest,HttpResponse
+from django.http import HttpRequest,HttpResponse,Http404
 from django.shortcuts import render,redirect,reverse
 from django.views.generic import ListView
 from .models import Videos,TreinoDiaPadrao,Dias,CategoriaModel,UserDiasLista,TreinoDiaUser,OrdemLista
@@ -96,8 +96,7 @@ class ExercicioDashboard(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         self.dia = self.kwargs.get('dia')
 
         if self.dia is None:
-            #TODO arruma logica para bloquear o acesso a pagina e retona 400
-            return redirect('listas')  
+            raise Http404("Esta página não existe")
         
         self.user = self.request.user
         self.categoria = self.kwargs.get('categoria')
@@ -108,8 +107,10 @@ class ExercicioDashboard(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         #cache
         cache_dashboard_treino= treino_dia_user_dashboard_cache_get(self.user,self.dia)
         
-        # print(cache_dashboard_treino)
         if cache_dashboard_treino == False:
+            dia_cadastrado = listas_user_dias_cache_all_func(user_id=self.user,dia=self.dia)
+            if not dia_cadastrado:
+                raise Http404("Esta página não existe")
             return []
 
         if self.categoria == 'Geral':
@@ -190,18 +191,18 @@ class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         self.user = self.request.user
         
         self.categoria = self.kwargs.get('categoria')
-        # print(self.categoria)
-        # print(self.dia)
         self.treino_user_dia_lista = []
     
         self.cache_query_listas = listas_user_dias_cache_all_func(self.user)
 
-        # if self.cache_query_listas:
-        #     dia = self.cache_query_listas.filter(nome=self.dia)
-        #     if not dia:
-        #         raise ValueError#TODO fazer pagina html error 400
 
         self.cache_query_dashboard = treino_dia_user_dashboard_cache_get(self.user,self.dia)
+
+        if not self.cache_query_dashboard:
+            dia_cadastrado = listas_user_dias_cache_all_func(user_id=self.user,dia=self.dia)
+            if not dia_cadastrado:
+                raise Http404("Esta página não existe")
+        
         self.cache_query_videos_all = videos_cache_all_func()
         self.cache_query_name_categoris_all = categorias_cache_all_func(names=True)
         

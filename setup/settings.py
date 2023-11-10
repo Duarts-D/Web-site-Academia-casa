@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.academia.apps.AcademiaConfig',
     'apps.usuarios.apps.UsuariosConfig',
+    'apps.page_except.apps.PageExceptConfig'
 ]
 
 MIDDLEWARE = [
