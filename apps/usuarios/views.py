@@ -24,7 +24,6 @@ class LoginView(View):
     def post(self,*args,**kwargs):
         form = self.contexto['recaptcha']
         if not form.is_valid():
-            print('nao valido')
             self.contexto['error'] = 'Desculpe Mr. Robot, ocorreu um erro.'
             return render(self.request,self.template_name,self.contexto)
         
@@ -59,7 +58,6 @@ class CadastroView(View):
     def post(self,*args,**kwargs):
         form = self.contexto['recaptcha']
         if not form.is_valid():
-            print('nao valido')
             self.contexto['error'] = 'Desculpe Mr. Robot, ocorreu um erro.'
             return render(self.request,self.template_name,self.contexto)
         
