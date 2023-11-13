@@ -13,7 +13,6 @@ let intesXStorage = JSON.parse(localStorage.getItem(`Remover-${dia}`)) || []
 let intensStorage = JSON.parse(localStorage.getItem(dia)) || [] 
 
 
-
 window.addEventListener('load', function() {
 viewPort()
 });
@@ -94,7 +93,10 @@ function onYouTubeIframeAPIReady(id,url) {
 
 
 function onPlayerReady(event) {
-    //
+    const buttonAncoraGeral = document.getElementById('Geral_ativo')
+    if(!buttonAncoraGeral.classList.contains('categorias_ativa') || buttonAncoraGeral.dataset.used){
+        event.target.stopVideo()
+    }
 }
 
 
@@ -237,7 +239,6 @@ function divBlocoVideoRemover(elemento){
 function divRemoverClasses(elemento,button){
     if(button.classList.contains('borde__style_2px_dourado')){
         button.classList.remove('borde__style_2px_dourado')
-        console.log('container')
     }
 
     const divremover  = elemento.childNodes[1].childNodes

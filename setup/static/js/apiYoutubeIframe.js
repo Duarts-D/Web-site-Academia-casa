@@ -26,8 +26,12 @@ function onYouTubeIframeAPIReady(id,url) {
 
 
 function onPlayerReady(event) {
-    //
+    const buttonAncoraGeral = document.getElementById('Geral_ativo')
+    if(!buttonAncoraGeral.classList.contains('categorias_ativa') || buttonAncoraGeral.dataset.used){
+        event.target.stopVideo()
+    }
 }
+
 
 
 function onPlayerStateChange(event) {

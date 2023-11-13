@@ -29,11 +29,6 @@
 
                 <div class="video__descricao__textos">
                     <h3>{{ treino.exercicio}}</h3>
-                    {% if treino.quantidade %}
-                        <p>{{ treino.repeticao}} * {{treino.quantidade}}</p>
-                    {% else %}
-                        <p>{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
-                    {% endif %}
                     
                     {% if treino.id in lista_video_id %}
                         <input type="checkbox" id="{{treino.id}}" name="videos" value="{{treino.id}}" class="botao_checkbox" checked>
@@ -51,10 +46,9 @@
                 </div>
             </div>
 
-
                 <div class="video__cointainer__video__img">
                     {% if treino.imagem %}
-                        <img class="video__img" src="{{treino.imagem.url}}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.video.id_video_youtube}}">
+                        <img class="video__img" src="{{treino.imagem.url}}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
                     {% else %}
                         <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
                     {% endif %}

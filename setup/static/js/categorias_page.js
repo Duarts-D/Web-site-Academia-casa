@@ -107,6 +107,7 @@ function queryGeralAll(){
 
 function firstElementLastElement(valor){
     const buttonGeralAtivo = document.getElementById('Geral_ativo')
+    buttonGeralAtivo.dataset.used = 'true'
     if(buttonGeralAtivo.classList.contains('categorias_ativa')){
        buttonGeralAtivo.classList.remove('categorias_ativa')
     }
@@ -117,6 +118,5 @@ function firstElementLastElement(valor){
         }
     }
     lastElement = valor
-    
 }
 

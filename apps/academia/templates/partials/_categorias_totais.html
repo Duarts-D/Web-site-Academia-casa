@@ -4,12 +4,12 @@
 
 <ul class="categorias_container categorias_container_treino">
     <li class="categorias">
-        <a href="{% url 'lista_treino' dia geral %}" {% if categoria_listagem|jsoff:'Dav' %}class="categorias_ativa"{%endif%} id="Geral_ativo" data-categoria='yes'>Geral</a>
+        <a href="{% url 'lista_treino' dia geral %}" {% if categoria_listagem|jsoff:'Dav' %}class="categorias_ativa"{%endif%} id="Geral_ativo" class="categorias_ativa" data-categoria='yes'>Geral</a>
     </li>
     
     {% for categoria in categorias%}
     <li class="categorias">
-        <a href="{% url 'lista_treino' dia categoria %}"  {% if categoria_listagem|jsoff:categoria %}class="categorias_ativa"{% endif %} data-categoria='yes'>{{categoria}}</a>
+        <a href="{% url 'lista_treino' dia categoria %}"  {% if categoria_listagem|jsoff:categoria %}class="categorias_ativa"{% endif %}  data-categoria='yes'>{{categoria}}</a>
     </li>
     {% endfor%}
 </ul>
@@ -22,7 +22,7 @@
         {% elif dia == False %}
             <a href="{% url 'videos' geral %}" class="categorias_ativa" id="Geral_ativo">Geral</a>
         {% else %}
-            <a href="{% url 'exercicios' dia geral %}" {% if categoria_listagem|jsoff:geral %}class="categorias_ativa"{%endif%} id="Geral_ativo">Geral</a>
+            <a href="{% url 'exercicios' dia geral %}" {% if categoria_listagem|jsoff:geral %}class="categorias_ativa"{%endif%} class="categorias_ativa"  id="Geral_ativo">Geral</a>
         {% endif %}
     </li>
     {% for categoria in categorias %}
