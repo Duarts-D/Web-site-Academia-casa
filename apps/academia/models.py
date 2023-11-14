@@ -1,7 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-    
+class EquipamentoModel(models.Model):
+    equipamento = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.equipamento
+
 class CategoriaModel(models.Model):
     categoria = models.CharField(max_length=100)
 
@@ -32,6 +37,7 @@ class Videos(models.Model):
     info = models.CharField(max_length=255,blank=False,null=True,default='...')
     imagem = models.ImageField(upload_to='media/',blank=True,null=True)
     id_video_youtube_didatico = models.CharField(max_length=50,default=1)
+    equipamento = models.ForeignKey(EquipamentoModel,on_delete=models.DO_NOTHING,null=True,blank=True)
 
     def save(self,*args,**kwargs):
         if self.id_video_youtube == '1':

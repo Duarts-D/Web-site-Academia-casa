@@ -1,5 +1,5 @@
 from django.core.cache import cache
-from .models import Dias,CategoriaModel,TreinoDiaPadrao,TreinoDiaUser,UserDiasLista,Videos,OrdemLista
+from .models import Dias,CategoriaModel,TreinoDiaPadrao,TreinoDiaUser,UserDiasLista,Videos,OrdemLista,EquipamentoModel
 
 
 def dias_cache_padrao_all_func(dia=None):#mudar o nome da funcao
@@ -114,3 +114,11 @@ def cache_ordem_dashboard_videos_reoganizar(user,dia,lista):
     if cache_ordem:
         cache_ordem.ordem = f'{lista}'
         cache.set(cache_name,cache_ordem,(60*15))
+
+def cache_equipamento_all():
+    cache_name = 'cache_equipamento'
+    cache_equipamento = cache.get(cache_name)
+    if not cache_equipamento:
+        cache_equipamento = EquipamentoModel.objects.all()
+        cache.set(cache_equipamento,cache_name,(60*1440))
+    return cache_equipamento

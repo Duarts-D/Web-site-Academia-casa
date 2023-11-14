@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpRequest,HttpResponse,Http404
 from django.shortcuts import render,redirect,reverse
 from django.views.generic import ListView
-from .models import Videos,TreinoDiaPadrao,Dias,CategoriaModel,UserDiasLista,TreinoDiaUser,OrdemLista
+from .models import Videos,TreinoDiaPadrao,Dias,CategoriaModel,UserDiasLista,TreinoDiaUser,OrdemLista,EquipamentoModel
 import json
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,7 +12,8 @@ from .validacoes_utilidades import (verificarString_numeros,organizarString,vali
                                     organizar_list_ordem,organizar_list_ordem_digito)
 from .cache_utilidades import (dias_cache_padrao_all_func,categorias_cache_all_func,listas_user_dias_cache_all_func,
                                treino_dia_user_dashboard_cache_get,videos_cache_all_func,cache_dashboard_videos_e_categoria_delete,
-                               listas_user_dias_cache_all_delete,cache_ordem_dashboard_videos,cache_ordem_dashboard_videos_delete,cache_ordem_dashboard_videos_reoganizar)
+                               listas_user_dias_cache_all_delete,cache_ordem_dashboard_videos,cache_ordem_dashboard_videos_delete,
+                               cache_ordem_dashboard_videos_reoganizar,cache_equipamento_all)
 from django.core.cache import cache
 from .utilidades_CriarTreinoView import post_save_treinoview,post_delete_treinoview
 from .utilidades_ExercicioDashboard import SaveOrdemQuery,DeletandoDashboardQueryVideo
@@ -228,7 +229,7 @@ class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         get_contexto['lista_video_id'] = self.treino_user_dia_lista
         get_contexto['categorias'] = self.cache_query_name_categoris_all
         get_contexto['categoria_listagem'] = self.categoria
-
+        get_contexto['equipamentos'] = cache_equipamento_all()
         return get_contexto
     
     def post(self,request,*args,**kwargs):
@@ -346,6 +347,8 @@ class TodosVideosView(CustomContextMixin,ListView):#cache
         get['dia'] = False
         get['geral'] = 'Geral'
         get['categorias'] = categorias_cache_all_func()
+        get['equipamentos'] = cache_equipamento_all()
+
         return get
 
 class VideosZumba(CustomContextMixin,ListView):#cache
