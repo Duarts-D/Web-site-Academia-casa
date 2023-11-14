@@ -3,20 +3,56 @@
 {% if lista_treino %}
 
 <ul class="categorias_container categorias_container_treino">
-    <li class="categorias">
+    
+    <li class="categorias position_equipamento" >
+        <input type="checkbox" id="checkequipamento">
+        <label for="checkequipamento" class="label_equipamento" id="checkbox">Equipamento</label>
+        <ul class="categorias_equipamento">
+            <li class="categorias_equipamento_item" id="option">
+                <input type="radio" name="equipamento" value="Equipamento">
+                <span>Nenhum</span>
+            </li>
+            {% for equipamento in equipamentos %}
+            <li class="categorias_equipamento_item" id="option">
+                <input type="radio" name="equipamento" value="{{equipamento}}">
+                <span>{{equipamento}}</span>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </li>
+    <li  id="categorias" class="categorias">
         <a href="{% url 'lista_treino' dia geral %}" {% if categoria_listagem|jsoff:'Dav' %}class="categorias_ativa"{%endif%} id="Geral_ativo" class="categorias_ativa" data-categoria='yes'>Geral</a>
     </li>
     
     {% for categoria in categorias%}
-    <li class="categorias">
+    <li id="categorias" class="categorias">
         <a href="{% url 'lista_treino' dia categoria %}"  {% if categoria_listagem|jsoff:categoria %}class="categorias_ativa"{% endif %}  data-categoria='yes'>{{categoria}}</a>
     </li>
     {% endfor%}
 </ul>
 
 {% else %}
+
 <ul class="categorias_container" id="categoria_div_seletor">
-    <li class="categorias">
+    <li class="categorias position_equipamento" >
+        <input type="checkbox" id="checkequipamento">
+        <label for="checkequipamento" class="label_equipamento" id="checkbox">Equipamento</label>
+        <ul class="categorias_equipamento">
+            <li class="categorias_equipamento_item" id="option">
+                <input type="radio" name="equipamento" value="Equipamento">
+                <span>Nenhum</span>
+            </li>
+            {% for equipamento in equipamentos %}
+            <li class="categorias_equipamento_item" id="option">
+                <input type="radio" name="equipamento" value="{{equipamento}}">
+                <span>{{equipamento}}</span>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </li>
+    <li id="categorias" class="categorias">
         {% if zumba == True %}
             <a href="{% url 'videos_zumba'%}" class="categorias_ativa" id="Geral_ativo">Geral</a>
         {% elif dia == False %}
@@ -27,7 +63,7 @@
     </li>
     {% for categoria in categorias %}
     {%if categoria%}
-        <li class="categorias" >
+        <li id="categorias" class="categorias" >
             {% if dia == False %}
                 <a href="{% url 'videos' categoria %}">{{categoria}}</a>
             {% else %}

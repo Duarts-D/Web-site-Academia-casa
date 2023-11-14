@@ -38,7 +38,7 @@
     <ul id="ulVideos">
         {%if dia_semana%}
         {% for treino in dia_semana %}
-        <li class="video__container" data-bloco-video="player{{treino.video.id}}" data-video-id='{{treino.video.id}}' data-categoria-tag="{{treino.video.categorias}}">
+        <li class="video__container" data-bloco-video="player{{treino.video.id}}" data-video-id='{{treino.video.id}}' data-categoria-tag="{{treino.video.categorias}}" data-categoria-equipamento="{{treino.video.equipamento}}">
             <div class="video__descricao">
                 {% include 'partials/_info_categorias.html'%}
                 <div class="video__descricao__textos">

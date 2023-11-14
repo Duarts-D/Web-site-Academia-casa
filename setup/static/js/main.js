@@ -1,5 +1,6 @@
 import sendPost from "./post_remove.js";
 import viewPort from "./viewport.js"
+import removendoElementOption from "./categorias_page.js";
 
 const imagemVideo = document.querySelectorAll('[data-imagem]')
 // const divBlocoVideo = document.querySelectorAll('[data-bloco-video]')
@@ -57,6 +58,7 @@ buttonXRemover.forEach((elemento) =>{
         const timenow = setTimeout(divDomRemove,3000,valor)
         sendPost(valor)
         removerOrdemLista(valor)
+        setTimeout(removendoElementOption,3000)
         // intesXStorage.push(valor)
         localStorage.setItem(`Remover-${dia}`,JSON.stringify(intesXStorage))
     });

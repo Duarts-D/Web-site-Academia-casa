@@ -445,6 +445,96 @@ hr{
   z-index: 1;
 }
 
+.position_equipamento{
+  position: relative;
+  min-width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.position_equipamento::after{
+  content: '';
+  display: inline-block;
+  background-image: url(../img/sinal-de-seta-para-baixo-para-navegar.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  transform: rotate(90deg);
+  width: 30px;
+  height: 20px;
+}
+
+.label_equipamento{
+  cursor: pointer;
+}
+
+.position_equipamento_open::after{
+  content: '';
+  background-image: url(../img/sinal-de-seta-para-baixo-para-navegar.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: rotate(270deg);
+  display: inline-block;
+  width: 30px;
+  height: 20px;
+}
+
+.label_equipamento:focus{
+  color: white;
+}
+.label_equipamento:hover{
+  color: white;
+}
+
+.categorias_equipamento_item{
+  border: 2px solid red;
+  padding: 5px;
+  width: auto;
+  position: relative;
+}
+
+.categorias_equipamento_item input[type="radio"]{
+  all: unset;
+  cursor: pointer;
+  inset: 0;
+  position: absolute;
+}
+
+
+#checkequipamento{
+  all: unset;
+  cursor: pointer;
+  inset: 0;
+  position: absolute;
+  z-index: 3;
+}
+
+
+
+.categorias_equipamento_item:hover{
+  color: white;
+  background-color: #131010;
+}
+
+
+
+#checkequipamento:checked + label + ul{
+  display: block;
+}
+
+.categorias_equipamento{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: black;
+  width: 100%;
+  display: none;
+}
+
 .resetbutton{
   position: absolute;
   top: auto;

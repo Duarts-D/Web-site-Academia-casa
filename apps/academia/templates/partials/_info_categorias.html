@@ -7,6 +7,11 @@
             {{treino.categorias}}
         </li>
         {% endif %}
+        {% if treino.equipamento %}
+        <li class="video__icon__itens border__style_2px" alt="Ícone">
+            {{treino.equipamento}}
+        </li>
+        {% endif %}
     </ul>
     <p class="info-box">{{treino.video.info}}</p>
 </div>
@@ -19,9 +24,20 @@
                 {{treino.video.categorias}}
             </li>
         {% endif %}
+
         {% if treino.categorias %}
         <li class="video__icon__itens border__style_2px" alt="Ícone">
             {{treino.categorias}}
+        </li>
+    {% endif %}
+    {% if treino.equipamento %}
+    <li class="video__icon__itens border__style_2px" alt="Ícone">
+        {{treino.equipamento}}
+    </li>
+    {% endif %}
+    {% if treino.video.equipamento %}
+        <li class="video__icon__itens border__style_2px" alt="Ícone">
+            {{treino.video.equipamento}}
         </li>
     {% endif %}
     </ul>

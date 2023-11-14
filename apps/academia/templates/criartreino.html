@@ -23,7 +23,7 @@
         <ul id="ulVideos">
            
             {% for treino in videos %}
-            <li class="video__container" data-categoria-tag="{{treino.categorias}}">
+            <li class="video__container" data-categoria-tag="{{treino.categorias}}" data-categoria-equipamento="{{treino.equipamento}}">
                 <div class="video__descricao">
                 {% include 'partials/_info_categorias.html'%}
 
