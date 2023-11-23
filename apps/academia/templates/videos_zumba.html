@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{%load cache %}
+{% load static %}
+
+{% block header %}
+{% endblock %}
+
+{% block conteudo %}
+
+
+{% cache 1440 videos_Zumba %}
+<section class="container__geral__videos">
+{% include 'partials/pagination.html' %}
+<ul>
+    {% for treino in videos %}
+    <li class="video__container">
+        <div class="video__descricao">
+        {% include 'partials/_info_categorias.html'%}
+        <div class="video__descricao__textos">
+            <h3>{{ treino.exercicio}}</h3>
+            {% if treino.quantidade %}
+                <p>{{ treino.repeticao}} * {{treino.quantidade}}</p>
+            {% else %}
+                <p>{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="video__cointainer__video__img">
+        {% if treino.imagem %}
+            <img class="video__img" src="{{treino.imagem.url}}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+        {% else %}
+            <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+        {% endif %}
+        <div id="player{{treino.id}}"></div>
+    </div>
+    </li>
+    {% endfor %}
+</ul>
+<form method="POST">
+    {% csrf_token %}
+</form>
+<script src="https://www.youtube.com/iframe_api"></script>  
+<script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
+
+</section>
+{% endcache %}
+{% include 'partials/pagination.html' %}
+{% endblock %}

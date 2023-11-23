@@ -4,27 +4,31 @@
 {% endblock %}
 
 {% block conteudo %}
-<section>
-    <p class="container__texto__segunda">{{dia}}</p>
-
-{% include 'partials/_categorias_totais.html' %}
+<section class="container__geral__videos">
+    <div class="container__dia__adicionar">
+        <p class="container__texto__segunda container__texto__segunda_treino" id="dia_semanal" data-dia>{{dia}}</p>
+        <div class="container_buttao_alert">
+            <p>A alteração não salvas! Deseja salvar?</p>
+            <button value="Sim" class="button_alert" type="button">Sim</button>
+            <button value="Não"class="button_alert" type="button">Não</button>
+        </div>
+    </div>
+<div class='container__relative '>
+    {% include 'partials/_categorias_totais.html' %}
+</div>
 {% include 'partials/pagination.html' %}
-
+    {% if videos %}
     <form method="POST">
         {% csrf_token %}
-        <ul>
+        <ul id="ulVideos">
+           
             {% for treino in videos %}
-            <li class="videos__item">
-
+            <li class="video__container" data-categoria-tag="{{treino.categorias}}" data-categoria-equipamento="{{treino.equipamento}}">
+                <div class="video__descricao">
                 {% include 'partials/_info_categorias.html'%}
-                
-                <div class="descricao__video">
-                    <h3 class="descricao__titulo">{{ treino.exercicio}}</h3>
-                    {% if treino.quantidade %}
-                        <p class="descricao__texto">{{ treino.repeticao}} * {{treino.quantidade}}</p>
-                    {% else %}
-                        <p class="descricao__texto">{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
-                    {% endif %}
+
+                <div class="video__descricao__textos">
+                    <h3>{{ treino.exercicio}}</h3>
                     
                     {% if treino.id in lista_video_id %}
                         <input type="checkbox" id="{{treino.id}}" name="videos" value="{{treino.id}}" class="botao_checkbox" checked>
@@ -40,8 +44,17 @@
                         </label>
                     {% endif %}
                 </div>
-                <iframe class="video__video" src="{{ treino.video }}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata" referrerpolicy="no-referer" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-             
+            </div>
+
+                <div class="video__cointainer__video__img">
+                    {% if treino.imagem %}
+                        <img class="video__img" src="{{treino.imagem.url}}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+                    {% else %}
+                        <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+                    {% endif %}
+                    <div id="player{{treino.id}}"></div>
+                </div>
+            
             </li>
             {% endfor %}
         </ul>
@@ -63,10 +76,20 @@
             
 
             <button type="submit" class="button__input salvar" id="teste_botton" >Salvar</button>
+            {% endif %}
+        </form>
+        {% else %}
+        <li class="video__container video__container__no_query">
+            Videos Indisponivel
+        </li>
         {% endif %}
+    </section>
 
-    </form>
-</section>
-{% include 'partials/pagination.html' %}
-{% include 'partials/footer.html' %}
+
+    <script src="https://www.youtube.com/iframe_api"></script>  
+    <script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
+    <script src="{% static 'js/categorias_page.js'%}" type="module"></script>
+    <script src="{% static 'js/ancora_salve.js'%}" type="module"></script>
+
+    {% include 'partials/pagination.html' %}
 {% endblock %}

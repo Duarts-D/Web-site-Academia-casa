@@ -1,31 +1,49 @@
 {% extends 'base/base.html' %}
+{%load cache %}
 {% load static %}
+
 {% block header %}
 {% endblock %}
 
 {% block conteudo %}
-<section>
-{% include 'partials/_categorias_totais.html' %}
-{% include 'partials/pagination.html' %}
-<ul>
-    {% for treino in videos %}
-    <li class="videos__item">
 
+
+{% cache 1440 videos %}
+<section class="container__geral__videos">
+    <div class='container__relative '>
+        {% include 'partials/_categorias_totais.html' %}
+    </div>
+{% include 'partials/pagination.html' %}
+
+<ul id="ulVideos">
+    {% for treino in videos %}
+    <li class="video__container" data-categoria-tag="{{treino.categorias}}" data-categoria-equipamento="{{treino.equipamento}}">
+        <div class="video__descricao">
         {% include 'partials/_info_categorias.html'%}
-        
-        <div class="descricao__video">
-            <h3 class="descricao__titulo">{{ treino.exercicio}}</h3>
-            {% if treino.quantidade %}
-                <p class="descricao__texto">{{ treino.repeticao}} * {{treino.quantidade}}</p>
-            {% else %}
-                <p class="descricao__texto">{{ treino.repeticao }} * ({{treino.time}}) Segundos</p>
-            {% endif %}
+        <div class="video__descricao__textos">
+            <h3>{{ treino.exercicio}}</h3>
         </div>
-        <iframe class="video__video" src="{{ treino.video }}?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata" referrerpolicy="no-referer" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </div>
+    <div class="video__cointainer__video__img">
+        {% if treino.imagem %}
+            <img class="video__img" src="{{treino.imagem.url}}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+        {% else %}
+            <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+        {% endif %}
+        <div id="player{{treino.id}}"></div>
+    </div>
     </li>
     {% endfor %}
 </ul>
+<form method="POST">
+    {% csrf_token %}
+</form>
+<script src="https://www.youtube.com/iframe_api"></script>  
+<script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
+<script src="{% static 'js/categorias_page.js'%}" type="module"></script>
+
+
 </section>
+{% endcache %}
 {% include 'partials/pagination.html' %}
-{% include 'partials/footer.html' %}
 {% endblock %}

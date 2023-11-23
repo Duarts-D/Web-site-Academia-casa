@@ -4,33 +4,81 @@
 {% endblock %}
 
 {% block conteudo %}
-<section>
-    <p class="container__texto__segunda">{{dia}}</p>
+<section class="container__geral__videos">
+    <div class="container__dia__adicionar">
+        <a href="{% url 'lista_treino' dia dia %}" >Adicionar</a> 
+        <p class="container__texto__segunda" id="dia_semanal">{{dia}}</p>
+    </div>
+
+    <div class='container__relative '>
+        <button type="button" class="video__container__concluido_js resetbutton">Resetar Marcação</button>
+        <button id="organizarjs" class="video__container__concluido_js organizarjs " >Organizar</button>
+        
+        <ul id ="sortable-list" class="organizar__container video__container__concluido_js">
+            <li class="organiza__titulo" >
+                <p class="organiza__titulo__1">Escolha a Ordem</p>
+                <img draggable="false" src="{% static 'img/marca-x.png' %}" id="button_organizar__fechar" class="organiza__titulo__x"></button>
+            </li>
+        {% for treino in dia_semana %}
+            <li draggable="true" class="organizar__lista__item" data-organizacao-id="{{treino.video.id}}">
+                    <p>{{ treino.video.exercicio}}</p>
+                    <div  draggable="false" class="organizar__container__img">
+                        <img draggable="false" class="organizar__img" src="{% static 'img/em-formacao.png'%}" alt="{{treino.video.id}}">
+                        {% if treino.video.imagem %}
+                            <img draggable="false" class="organizar__img organizar__img__view" src="{{treino.video.imagem.url}}" alt="{{treino.video.id}}">
+                        {%endif%}
+                    </div>
+            </li>
+        {% endfor %}
+
+    </ul>
     {% include 'partials/_categorias_totais.html' %}
-    <ul>
+    </div>
+
+    <ul id="ulVideos">
         {%if dia_semana%}
         {% for treino in dia_semana %}
-        <li class="videos__item">
-
-            {% include 'partials/_info_categorias.html'%}
-
-            <div class="descricao__video">
-                <h3 class="descricao__titulo">{{ treino.video.exercicio}}</h3>
-                
-                {% if treino.video.quantidade %}
-                    <p class="descricao__texto">{{ treino.video.repeticao}} * {{treino.video.quantidade}}</p>
+        <li class="video__container" data-bloco-video="player{{treino.video.id}}" data-video-id='{{treino.video.id}}' data-categoria-tag="{{treino.video.categorias}}" data-categoria-equipamento="{{treino.video.equipamento}}">
+            <div class="video__descricao">
+                {% include 'partials/_info_categorias.html'%}
+                <div class="video__descricao__textos">
+                    <h3 >{{ treino.video.exercicio}}</h3>
+                </div>
+                <button type="button" class="button__js__cc button__concluir border__style_2px" data-button="player{{treino.video.id}}">Concluir</button>
+            </div>
+    
+    
+            <div class="video__cointainer__video__img" data-iframejs="{{treino.video.id}}">
+                {% if treino.video.imagem %}
+                    <img class="video__img" src="{{treino.video.imagem.url}}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.video.id_video_youtube}}">
                 {% else %}
-                    <p class="descricao__texto">{{ treino.video.repeticao }} * ({{treino.video.time}}) Segundos</p>
+                    <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+                {% endif %}
+                <div class="div_relativo">
+                    <div id="player{{treino.video.id}}"></div>
+                </div>
+                <div class="div_relativo">
+                    <div id="player{{treino.video.id}}/"></div>
+                </div>
+
+            </div>
+            <div class="container__seta">
+                {% if treino.video.id_video_youtube_didatico != '1' %}
+                <img src="{% static 'assets/seta-para-baixo-direita.png' %}" alt="" id="button-alterna_video" data-url-full="{{treino.video.id_video_youtube_didatico}}" data-id-full="{{treino.video.id}}" data-id-url="{{treino.video.id_video_youtube}}">
                 {% endif %}
             </div>
-            <iframe class="video__video" src="{{ treino.video.video }}?version=3&loop=1&playlist={{treino.video.id_video_youtube}}&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen preload="metadata"></iframe>
         </li>
         {% endfor %}
         {% else %}
-        <p class="container__texto__segunda ">Lista Vazia</p>
+        <li class="container__texto__segunda video__container__no_query">Lista Vazia</li>
         {% endif %}
 </section>
 {% include 'partials/pagination.html' %}
-        
-{% include 'partials/footer.html' %}
+{% csrf_token %}
+
+<script src="https://www.youtube.com/iframe_api"></script>  
+<script src="{% static 'js/main.js'%}" type="module"></script>
+<script src="{% static 'js/listaOrder.js' %}" type="module"></script>
+<script src="{% static 'js/categorias_page.js'%}" type="module"></script>
+
 {% endblock %}

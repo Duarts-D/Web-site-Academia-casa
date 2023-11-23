@@ -24,7 +24,6 @@ class LoginView(View):
     def post(self,*args,**kwargs):
         form = self.contexto['recaptcha']
         if not form.is_valid():
-            print('nao valido')
             self.contexto['error'] = 'Desculpe Mr. Robot, ocorreu um erro.'
             return render(self.request,self.template_name,self.contexto)
         
@@ -35,13 +34,13 @@ class LoginView(View):
 
         if usuario is not None:
             login(self.request,usuario)
-            return redirect('home')
+            return redirect('listas')
         self.contexto['error'] = 'Usuario ou Senha invalida'
         return render(self.request,self.template_name,self.contexto)
    
     def get(self,*args):
         if self.request.user.is_authenticated:
-            return redirect('home')
+            return redirect('listas')
         return render(self.request,self.template_name,self.contexto)
 
 class CadastroView(View):
@@ -59,7 +58,6 @@ class CadastroView(View):
     def post(self,*args,**kwargs):
         form = self.contexto['recaptcha']
         if not form.is_valid():
-            print('nao valido')
             self.contexto['error'] = 'Desculpe Mr. Robot, ocorreu um erro.'
             return render(self.request,self.template_name,self.contexto)
         
@@ -84,12 +82,12 @@ class CadastroView(View):
 
     def get(self,*args):
         if self.request.user.is_authenticated:
-            return redirect('home')
+            return redirect('listas')
         return render (self.request,self.template_name,self.contexto)
 
 def logoutview(request):
     logout(request)
-    return redirect('home')
+    return redirect('listas')
 
 
 class RecuperarSenhaView(PasswordResetView):

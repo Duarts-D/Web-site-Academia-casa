@@ -1,13 +1,22 @@
 from typing import Any, Dict
-from django import http
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest,HttpResponse,Http404
 from django.shortcuts import render,redirect,reverse
-from django.views import View
 from django.views.generic import ListView
-from .models import Videos,TreinoDia,Dias,CategoriaModel
-from django.contrib.auth.models import User
-from time import sleep
+from .models import Videos,TreinoDiaPadrao,Dias,CategoriaModel,UserDiasLista,TreinoDiaUser,OrdemLista,EquipamentoModel
+import json
+from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .validacoes_utilidades import (verificarString_numeros,organizarString,validacao_lista,cache_exclude,
+                                    conversorJsonParaPython,itensOrgnizadoJsonTreinoView,verificacao_nome_query,
+                                    organizar_list_ordem,organizar_list_ordem_digito)
+from .cache_utilidades import (dias_cache_padrao_all_func,categorias_cache_all_func,listas_user_dias_cache_all_func,
+                               treino_dia_user_dashboard_cache_get,videos_cache_all_func,cache_dashboard_videos_e_categoria_delete,
+                               listas_user_dias_cache_all_delete,cache_ordem_dashboard_videos,cache_ordem_dashboard_videos_delete,
+                               cache_ordem_dashboard_videos_reoganizar,cache_equipamento_all)
+from django.core.cache import cache
+from .utilidades_CriarTreinoView import post_save_treinoview,post_delete_treinoview
+from .utilidades_ExercicioDashboard import SaveOrdemQuery,DeletandoDashboardQueryVideo
 
 
 class CustomContextMixin(ListView):
@@ -15,129 +24,282 @@ class CustomContextMixin(ListView):
         get = super().get_context_data(**kwargs)
         get['geral'] = 'Geral'
         return get
-
-class HomePageView(CustomContextMixin,ListView):
+    
+class HomePageView(ListView):#cache
     template_name = 'index.html'
+    def setup(self,*args,**kwargs):
+        cache.clear() ## Limpar cache
+        super().setup(*args,**kwargs)
+        self.contexto = {'geral':'Geral',}
+
+    def get(self,*args,**kwargs):
+        return render(self.request,self.template_name,self.contexto)
+
+class ListasView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
+    template_name = 'listas.html'
     model = Dias
     context_object_name = 'dia_semana_index'
+    login_url = "login"
+    redirect_field_name ='redirect_to'
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        #cache
+        qs_cache = dias_cache_padrao_all_func()
+        return qs_cache
+    
+    
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        get =  super().get_context_data(**kwargs)
+        #cache
+        cache_listas = listas_user_dias_cache_all_func(user_id=self.request.user)
+        get['listas'] = cache_listas
+        return get
+    
+    def post(self,*args,**kwargs):
+        json = conversorJsonParaPython(self.request.body)
+        user = self.request.user
+        cache_listas = listas_user_dias_cache_all_func(user_id=user)
+        if json != False and json.get('remove'):
+            #cache
+            # Delete item lista por post js
+            id_remover_query = json.get('remove')
+            if id_remover_query and id_remover_query.isdigit():
+                query_para_remover = cache_listas.filter(id=id_remover_query)
+                if query_para_remover:
+                    query_para_remover.delete()
+                    listas_user_dias_cache_all_delete(user,int(id_remover_query))
+                return JsonResponse({'remover': True})
 
-class ExercicioSemanaView(CustomContextMixin,ListView):
-    model = TreinoDia
+        
+        #Criar lista do usuario por post js
+        if json != False and json.get('nome'):
+            string_valido = verificarString_numeros(json['nome'])
+            if string_valido:
+                nome = organizarString(json['nome'])
+                if len(cache_listas) != 10:  #and isinstance(cache_query, QuerySet)#maximo 10 de lista
+                    create_query = UserDiasLista.objects.create(nome=nome,user=user)
+                    listas_user_dias_cache_all_delete(user)#removendo cache
+                    return JsonResponse({'id':create_query.id,'nome':create_query.nome})
+
+        return JsonResponse({'erro':'Algo deu errado'},status=500)
+            
+
+class ExercicioDashboard(LoginRequiredMixin,CustomContextMixin,ListView):#cache
+    model = TreinoDiaPadrao
     template_name = 'dashboard.html'
     context_object_name = 'dia_semana'
-    paginate_by = 4
+    paginate_by = 50
     ordering = ('-id')
 
 
     def setup(self, request: HttpRequest, *args: Any, **kwargs: Any) -> None:
         setup = super().setup(request, *args, **kwargs)
         self.dia = self.kwargs.get('dia')
+
+        if self.dia is None:
+            raise Http404("Esta página não existe")
+        
         self.user = self.request.user
         self.categoria = self.kwargs.get('categoria')
         return setup
     
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        user = self.request.user
-        categoria = self.categoria
-        if categoria == 'Geral':
-            qs = qs.filter(user=user,dia__nome=self.dia).order_by('id')
-        else:
-            qs=qs.filter(user=user,dia__nome=self.dia,video__categorias__categoria__icontains=categoria)
-        if self.dia is None:
-            return redirect('home')    
-        return qs
+        #cache
+        cache_dashboard_treino= treino_dia_user_dashboard_cache_get(self.user,self.dia)
+        
+        if cache_dashboard_treino == False:
+            dia_cadastrado = listas_user_dias_cache_all_func(user_id=self.user,dia=self.dia)
+            if not dia_cadastrado:
+                raise Http404("Esta página não existe")
+            return []
+
+        if self.categoria == 'Geral':
+            cache_ordem_string = cache_ordem_dashboard_videos(user=self.user,dia=self.dia)
+            if cache_ordem_string:
+                try:
+                    ordem_Nova = organizar_list_ordem(cache_dashboard_treino,cache_ordem_string.ordem)
+                    qs  = sorted(cache_dashboard_treino,
+                        key=lambda x: ordem_Nova.index(x) if x in ordem_Nova else len(ordem_Nova))
+                except ValueError:
+                    return cache_dashboard_treino 
+                
+                if qs:
+                    return qs
+            return cache_dashboard_treino
+
+        if self.categoria != 'Geral':
+            cache_query_dashboard = cache_dashboard_treino.filter(video__categorias__categoria__icontains=self.categoria)
+        
+        return cache_query_dashboard
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
         get['dia'] = self.dia
 
-        treino_dia_page = TreinoDia.objects.filter(user=self.user,dia__nome=self.dia)
-
         lista_dia_page = []
-        for categoria in treino_dia_page:
-            categorias = categoria.video.categorias.all()
-            for nomes in categorias:
-                nomes_categoria = str(nomes.categoria)
-                lista_dia_page.append(nomes_categoria)
+        for categoria in get['dia_semana']:
+            categorias = categoria.video.categorias
+            lista_dia_page.append(categorias)
         categorias = set(lista_dia_page)
+        
         get['categorias'] = categorias
         return get
-    
-    def get(self,*args,**kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('login')
-        get = super().get(*args,**kwargs)
 
-        return get
     
-class TreinoView(CustomContextMixin,ListView):
+    def post(self,*args,**kwargs):
+        json = conversorJsonParaPython(self.request.body)
+        
+        if json:
+            dia = json.get('dia')
+            lista_ids_videos = json.get('id')
+            if dia and isinstance(lista_ids_videos,list):#Salvando query ordem
+                salve = SaveOrdemQuery(json=json,user=self.user)
+                resultado = salve.save()
+                if resultado:
+                    #Deletando cache ordem Lista
+                    cache_ordem_dashboard_videos_reoganizar(self.user,json['dia'],json['id'])
+                    return JsonResponse({'mensagem': 'Dados recebidos com sucesso'})
+                else:
+                    return JsonResponse({'erro': 'Dados inválido'}, status=400)
+            else:
+                #Deletando query
+                query = DeletandoDashboardQueryVideo(json=json,user=self.user)
+                resultado = query.delete()
+                if resultado:
+                    #cache
+                    cache_dashboard_videos_e_categoria_delete(user=self.user,dia=json['dia'],id_video=json['id'])
+                    return JsonResponse({'mensagem': 'Dados recebidos com sucesso'})
+                else:
+                    return JsonResponse({'mensagem': 'Dados recebidos com sucesso'})
+
+        else:
+            return JsonResponse({'erro': 'Formato JSON inválido'}, status=400)
+    
+class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
     model = Videos
     template_name = 'criartreino.html'
     context_object_name = 'videos'
-    paginate_by = 4
+    paginate_by = 50
     ordering = ('id')
+    login_url = "login"
+    redirect_field_name ='redirect_to'
 
     def setup(self,*args,**kwargs):
         setup = super().setup(*args,**kwargs)
+
         self.dia = self.kwargs.get('dia')
+        self.user = self.request.user
+        
         self.categoria = self.kwargs.get('categoria')
-
         self.treino_user_dia_lista = []
-        treino_user_dia = TreinoDia.objects.all().filter(user=self.request.user,dia__nome=self.dia)
+    
+        self.cache_query_listas = listas_user_dias_cache_all_func(self.user)
 
-        for id_video in treino_user_dia:
-            self.treino_user_dia_lista.append(id_video.video.id)
+
+        self.cache_query_dashboard = treino_dia_user_dashboard_cache_get(self.user,self.dia)
+
+        if not self.cache_query_dashboard:
+            dia_cadastrado = listas_user_dias_cache_all_func(user_id=self.user,dia=self.dia)
+            if not dia_cadastrado:
+                raise Http404("Esta página não existe")
+        
+        self.cache_query_videos_all = videos_cache_all_func()
+        self.cache_query_name_categoris_all = categorias_cache_all_func(names=True)
+        
+        if self.cache_query_dashboard:
+            for id_video in self.cache_query_dashboard :
+                self.treino_user_dia_lista.append(id_video.video.id)
 
         return setup
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        
-        if not self.categoria in ['Segunda','Terça','Quarta','Quinta','sexta']:
-            categoria__url = self.categoria
-            qs = qs.filter(categorias__categoria__icontains=categoria__url)
-        return qs
+        if self.cache_query_videos_all:
+            if isinstance(self.cache_query_videos_all,QuerySet) and self.categoria in self.cache_query_name_categoris_all:
+                cache = self.cache_query_videos_all.filter(categorias__categoria=self.categoria)
+                return cache
+            return self.cache_query_videos_all
+        else:
+            return super().get_queryset()
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get_contexto = super().get_context_data(**kwargs)
-        get_contexto['categorias'] = CategoriaModel.objects.all()
         get_contexto['dia'] = self.dia
-
-        get_contexto['lista_video_id'] = self.treino_user_dia_lista
         get_contexto['lista_treino'] = True
-
+        get_contexto['lista_video_id'] = self.treino_user_dia_lista
+        get_contexto['categorias'] = self.cache_query_name_categoris_all
+        get_contexto['categoria_listagem'] = self.categoria
+        get_contexto['equipamentos'] = cache_equipamento_all()
         return get_contexto
     
     def post(self,request,*args,**kwargs):
+        json = conversorJsonParaPython(self.request.body)
         selecionador = self.request.POST.getlist('videos')
-        query_dia = Dias.objects.get(nome=self.dia)
+
+        #cache
+        cache_dia_padrao = dias_cache_padrao_all_func()
+        cache_name_categoris_all = self.cache_query_name_categoris_all
+        
+
+        if json:
+            listas = itensOrgnizadoJsonTreinoView(objeto=json,user=self.user)
+            if listas != False :
+                selecionador =set(listas[0])
+                listaRemover = set(listas[1])
+                dia = listas[2]
+                query_dia = cache_dia_padrao.filter(nome=dia).first()
+
+                if not query_dia:
+                    query_dia = self.cache_query_listas.filter(nome=dia).first()
+                
+                post_save_treinoview(selecionador=selecionador,lista_treino_user_dia=self.treino_user_dia_lista,query_dia=query_dia,user=self.user)
+                post_delete_treinoview(lista_id_excluir=listaRemover,lista_treino_user_dia=self.treino_user_dia_lista,cache_query_dashboard=self.cache_query_dashboard)
+
+                if not selecionador:
+                    for indice in listaRemover:
+                        cache_dashboard_videos_e_categoria_delete(user=self.user,dia=dia,id_video=indice)
+                else:
+                    cache_dashboard_videos_e_categoria_delete(user=self.user,dia=dia)
+
+                # cache_ordem_dashboard_videos_delete(self.user,dia)
+                return JsonResponse({'mensagem': 'Dados recebidos com sucesso'},status=200)
+            return JsonResponse({'erro': 'Invalido indice.'}, status=400)
+        
+        #retorno da funcao
+        query_dia = cache_dia_padrao.filter(nome=self.dia).first()
+
+        if not query_dia:
+            query_dia = self.cache_query_listas.filter(nome=self.dia).first()
+
         categoria = self.categoria
         pagina_1 = self.request.POST.get('pagina_1')
         pagina_2 = self.request.POST.get('pagina_2')
         pagina_final = self.request.POST.get('pagina_final')
         pagina_4 = self.request.POST.get('pagina_4')
 
-        lista_page = self.request.POST.getlist('id_page')
+        # lista_page = self.request.POST.getlist('id_page')
+        
+        if self.categoria != 'Geral' and self.categoria in cache_name_categoris_all:
+            videos_all_categoria = self.cache_query_videos_all.filter(categorias__categoria=self.categoria)
+            lista_ids_videos = [objeto.id for objeto in videos_all_categoria]
+            lista_ids_videos_excluir = [objeto for objeto in lista_ids_videos if not str(objeto) in selecionador]
+            
+            post_save_treinoview(selecionador=selecionador,lista_treino_user_dia=self.treino_user_dia_lista,
+                                 query_dia=query_dia,user=self.user)
+   
+            post_delete_treinoview(lista_id_excluir=lista_ids_videos_excluir,lista_treino_user_dia=self.treino_user_dia_lista,
+                    cache_query_dashboard=self.cache_query_dashboard)
+        else:
+            if len(selecionador) >=1 :
+                post_save_treinoview(selecionador=selecionador,lista_treino_user_dia=self.treino_user_dia_lista,
+                        query_dia=query_dia,user=self.user)
 
-        if len(selecionador) >=1 :
-            for id_video in selecionador:
-                if len(self.treino_user_dia_lista) >= 1:
-                    if len(lista_page)>=1:
-                        lista_page.remove(str(id_video))
-                if not int(id_video) in self.treino_user_dia_lista:
-                    video = Videos.objects.get(id=id_video)
-                    TreinoDia.objects.create(
-                        dia=query_dia,
-                        user= self.request.user,
-                        video=video
-                    )
-        if len(lista_page) >=1: 
-            for id_video in lista_page:
-                if int(id_video) in self.treino_user_dia_lista: 
-                    query_treino= TreinoDia.objects.get(user=self.request.user,dia__nome=self.dia,video__id=int(id_video))
-                    query_treino.delete()
+            lista_id_excluir =  [ x for x in self.treino_user_dia_lista if str(x) not in selecionador ]
+            
+            post_delete_treinoview(lista_id_excluir=lista_id_excluir,lista_treino_user_dia=self.treino_user_dia_lista,
+                    cache_query_dashboard=self.cache_query_dashboard)
+            
+        cache_dashboard_videos_e_categoria_delete(self.user,self.dia)
 
         a = self.request.POST.get('todos')
         if not pagina_1 is None:
@@ -152,79 +314,54 @@ class TreinoView(CustomContextMixin,ListView):
             pagina = 1
         else:
             cat = self.request.POST.get('categorias__input')
+
             if not a is None:
-                url = reverse('lista_treino',kwargs={'dia':query_dia.nome,'categoria':self.dia})
+                url = reverse('lista_treino',kwargs={'dia':self.dia,'categoria':self.dia})
                 return redirect(url)
             if cat is None:
-                return redirect(request.META.get('HTTP_REFERER', '/'))
-            else:
-                url = reverse('lista_treino',kwargs={'dia':query_dia.nome,'categoria':cat})
+                url = reverse('exercicios',kwargs={'dia':self.dia,'categoria':'Geral'})
                 return redirect(url)
-                
-        url = reverse('lista_treino',kwargs={'dia':query_dia.nome,'categoria':categoria}) + f'?page={pagina}'
+                # return redirect(request.META.get('HTTP_REFERER', '/'))
+            else:
+                url = reverse('lista_treino',kwargs={'dia':self.dia,'categoria':cat})
+                return redirect(url)
+        url = reverse('lista_treino',kwargs={'dia':self.dia,'categoria':categoria}) + f'?page={pagina}'
+
         return redirect(url)
-    
-    def get(self,*args,**kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('login')
-        dia = self.dia
-        if not dia in ['Segunda','Terça','Quarta','Quinta','sexta']:
-                return redirect('dia')
-        get = super().get(*args,**kwargs)
-        return get    
+        
 
-class DiaCriarView(CustomContextMixin,ListView):
-    model = Dias
-    template_name = 'diatreinocriar.html'
-    context_object_name = 'dias'
-
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        get = super().get_context_data(**kwargs)
-        get['lista_treino'] = True
-        return get
-    
-    def get(self,*args,**kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('login')
-        get = super().get(*args,**kwargs)
-
-        return get    
-    
-class TodosVideosView(CustomContextMixin,ListView):
+class TodosVideosView(CustomContextMixin,ListView):#cache
     model = Videos
     context_object_name = 'videos'
     template_name = 'videos.html'
-    paginate_by = 5
+    paginate_by = 50
     ordering = ('-id')
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        categoria = self.kwargs.get('categorias')
-        if categoria == 'Geral':
-            return qs
-        if not categoria in ['Segunda','Terça','Quarta','Quinta','sexta']:
-            categoria__url = categoria
-            qs = qs.filter(categorias__categoria__icontains=categoria__url)
-            return qs
-    
+        #cache
+        cache_videos_all = videos_cache_all_func()
+        return cache_videos_all
+
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
         get['dia'] = False
-        get['categorias'] = CategoriaModel.objects.all()
+        get['geral'] = 'Geral'
+        get['categorias'] = categorias_cache_all_func()
+        get['equipamentos'] = cache_equipamento_all()
+
         return get
 
-
-class VideosZumba(CustomContextMixin,ListView):
+class VideosZumba(CustomContextMixin,ListView):#cache
     model = Videos
     context_object_name = 'videos'
-    template_name = 'videos.html'
-    paginate_by = 5
+    template_name = 'videos_zumba.html'
+    paginate_by = 50
     ordering = ('-id')
 
     def get_queryset(self) -> QuerySet[Any]:
-        qs = super().get_queryset()
-        qs = qs.filter(categorias__categoria='Zumba')
-        return qs 
+        #cache
+        cache_videos_all = videos_cache_all_func()
+        return cache_videos_all.filter(categorias__categoria='Zumba')
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)

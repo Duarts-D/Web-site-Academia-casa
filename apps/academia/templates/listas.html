@@ -1,0 +1,52 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% load cache%}
+
+{% block conteudo %} 
+<section class="container__lista">
+    {% cache 1440 lista %}
+    <ul class="container__lista__1" >
+        {% for dia in dia_semana_index %}
+        <li class="container__lista__1__item">
+            <div class="container__lista__1__ancora">
+                <a href="{% url 'exercicios' dia.nome geral %}">{{dia.nome}} 
+                </a>
+                <a href="{% url 'lista_treino' dia.nome dia %}" class="container__lista__item__criar">Add</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endcache %}
+    <hr class="hr">
+    
+    <ul class="container__lista__2" id="lista2">
+        <li class="container__lista__2__item container__lista__2__button" id="input__lista">
+           Criar uma lista
+        </li>
+        <li class="container__lista__2__item display__none" id="form">
+            <form action="" class="form_container" id="formulario" method="POST">{% csrf_token %}
+                <input name="name" class="container__lista__2__input" type="text" placeholder="Nome" id='input__name' maxlength="30" autocomplete="off" required>
+
+                <button type="submit" class="container__lista__2__input__button">
+                    OK
+                </button>
+            </form>
+        </li>
+        <li class="mensagem-erro">
+            <span id='error'></span>
+        </li>
+        {%if listas%}
+        {% for lista in listas %}
+            <li class="container__lista__2__item">
+                <a href="{% url 'exercicios' lista.nome geral %}" class="container__lista__2__texto">{{lista.nome}}</a>
+                    <a href="{% url 'lista_treino' lista.nome lista.nome %}" class="container__lista__2_ancora">Add</a>
+                    <button type="button" class="container__lista__2_button__X" id="{{lista.id}}">X</button>
+            </li>
+        {% endfor %}
+        {% endif %}
+
+    </ul>
+</section>
+<script src="{% static 'js/lista.js'%}" type="module"></script>
+
+{% endblock%}
