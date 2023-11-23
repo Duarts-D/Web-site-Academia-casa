@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .utilidadesPill import img_text
 
 class EquipamentoModel(models.Model):
     equipamento = models.CharField(max_length=250)
@@ -35,7 +36,7 @@ class Videos(models.Model):
     id_video_youtube = models.CharField(max_length=50,default=1)
     categorias = models.ForeignKey(CategoriaModel,on_delete=models.CASCADE,null=True,blank=True,default=None)
     info = models.CharField(max_length=255,blank=False,null=True,default='...')
-    imagem = models.ImageField(upload_to='media/',blank=True,null=True)
+    imagem = models.ImageField(upload_to='img/',blank=True,null=True)
     id_video_youtube_didatico = models.CharField(max_length=50,default=1)
     equipamento = models.ForeignKey(EquipamentoModel,on_delete=models.DO_NOTHING,null=True,blank=True)
 
@@ -44,7 +45,10 @@ class Videos(models.Model):
             self.id_video_youtube = self.video
         if len(self.video) <= 20:
             self.video = 'https://www.youtube.com/embed/' + self.video
+
         super().save(*args,**kwargs)
+        immg = img_text(self.imagem)
+        self.imagem = immg
 
     def __str__(self):
         return self.exercicio

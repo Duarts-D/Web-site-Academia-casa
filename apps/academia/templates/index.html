@@ -6,22 +6,63 @@
 
 {% cache 1440 index %}
 <header class="header">
-    <h1 class="header__h1">ACADEMIA EM CASA</h1>
+    <h1 class="header__h1">ACADEMIA EM QUALQUER LUGAR</h1>
 </header>
 <section class="container__container">
     <div class="container__index__collum">
         <h2 class="header__h2">Um site feito pra voce quer pega aquela forma tao desejada!!</h2>
         <h2 class="header__h2">Esse e o lugar, aqui voce monta sua propria lista de treino, com videos rapidos ou esplicativos!</h2>
-
     </div>
-    <div class="container__index__row">
-        <p class="container__index__texto__left">Voce que gosta de fica em forma </p>
-        <img  class="container__index__img"  src="{% static 'assets/ezgif.com-gif-maker.gif' %}" alt="">
-    </div>
-    <div class="container__index__row">
-        <img class="container__index__img" src="{% static 'assets/ezgif.com-gif-maker.gif' %}" alt="">
 
-        <p class="container__index__texto__right">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, </p>
+    <div class="container__index__row">
+        <div class="container_first_div_left">
+            <p class="container__index__texto__left">Voce que gosta de fica em forma , ou esta querendo começar sua prorpia caminha, vem com a gente!</p>
+        </div>
+        <div class="container_first_div_right">
+            <img  class="container__index__img"  src="{% static 'assets/index.gif' %}" alt="Video basico">
+        </div>
+    </div>
+
+    <div class="container__index__row">
+        <div class="container__index__2">
+            <img class="container__index__img width100 " src="{% static 'assets/Lista.gif' %}" alt="Listas">
+            <img class="container__index__img width100Mobile " src="{% static 'assets/Lista_mobile.gif' %}" alt="Listas">
+
+        </div>
+        <div class="container__index__2_texto">
+            <p class="container__index__texto__right">Contemos um sistema de criaçao de lista para melhor te ajduar nessa sua jornada com facil acesso para criacao.</p>
+        </div>
+    </div>
+
+    <div class="container__index__row">
+        <div class="container__index__2_texto">
+            <p class="container__index__texto__left">Voçê ainda pode montar o treino como queira, com exercicio que mais ajustar no seu objetivo atua! </p>
+            <p>Na nossa pagina de criação.</p>
+        </div>
+        <div class="container__index__2">
+            <img  class="container__index__img width100"  src="{% static 'assets/Adicionar_exercicio.gif' %}" alt="Video basico">
+            <img class="container__index__img width100Mobile" src="{% static 'assets/AdicionarMobile.gif' %}" alt="dashboard">
+        
+        </div>
+        
+    </div>
+
+
+    <div class="container__index__row">
+        <div class="container__index__2">
+            <img class="container__index__img width100" src="{% static 'assets/dashboard.gif' %}" alt="dashboard">
+            <img class="container__index__img width100Mobile" src="{% static 'assets/DashboardMobile.gif' %}" alt="dashboard">
+        
+        </div>
+        <div class="container__index__2_texto">
+            <p class="container__index__texto__right">Se esta dificil execultar o exercicio temos o modo didatico do exercico, ira te explicar oque dever ser feito e oque nao deve ser feito para
+                para você se sair bem. 
+            </p>
+            <p>
+                Tambem voçe pode organizar a ordem dos seus exercicio , mais ja penso ter que lembra qual voce ja fez? Nois tabem te ajudando com isso , com o sistema de marcaçao !
+            </p>
+        </div>
+
     </div>
 </section>
 {% endcache %}

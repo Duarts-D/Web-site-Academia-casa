@@ -63,7 +63,9 @@
 
             </div>
             <div class="container__seta">
+                {% if treino.video.id_video_youtube_didatico != '1' %}
                 <img src="{% static 'assets/seta-para-baixo-direita.png' %}" alt="" id="button-alterna_video" data-url-full="{{treino.video.id_video_youtube_didatico}}" data-id-full="{{treino.video.id}}" data-id-url="{{treino.video.id_video_youtube}}">
+                {% endif %}
             </div>
         </li>
         {% endfor %}
