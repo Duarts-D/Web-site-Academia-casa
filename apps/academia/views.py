@@ -28,7 +28,7 @@ class CustomContextMixin(ListView):
 class HomePageView(ListView):#cache
     template_name = 'index.html'
     def setup(self,*args,**kwargs):
-        cache.clear() ## Limpar cache
+        # cache.clear() ## Limpar cache
         super().setup(*args,**kwargs)
         self.contexto = {'geral':'Geral',}
 
@@ -45,6 +45,7 @@ class ListasView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
     def get_queryset(self) -> QuerySet[Any]:
         #cache
         qs_cache = dias_cache_padrao_all_func()
+        
         return qs_cache
     
     
@@ -110,7 +111,8 @@ class ExercicioDashboard(LoginRequiredMixin,CustomContextMixin,ListView):#cache
         
         if cache_dashboard_treino == False:
             dia_cadastrado = listas_user_dias_cache_all_func(user_id=self.user,dia=self.dia)
-            if not dia_cadastrado:
+
+            if not dia_cadastrado and self.dia not in ['Segunda','Terça','Quarta','Quinta','Sexta']:
                 raise Http404("Esta página não existe")
             return []
 
