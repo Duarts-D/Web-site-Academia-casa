@@ -52,7 +52,7 @@
                 {% if treino.video.imagem %}
                     <img class="video__img" src="{{treino.video.imagem.url}}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.video.id_video_youtube}}">
                 {% else %}
-                    <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
+                    <img class="video__img" src="{% static 'assets/imagem_indisponivel.webp'%}" id="{{treino.video.id}}" alt="" data-imagem data-url="{{treino.id_video_youtube}}">
                 {% endif %}
                 <div class="div_relativo">
                     <div id="player{{treino.video.id}}"></div>

@@ -93,7 +93,7 @@ async function postNomeLista(nome){
             'remove':condicional
         }
     }
-    await fetch('https://treino.academiascasa.com/Listas/', {
+    await fetch('https://academiascasa.com/Listas/', {
     
     method: 'POST',
     headers: {

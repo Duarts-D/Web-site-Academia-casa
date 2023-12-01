@@ -46,9 +46,10 @@ class Videos(models.Model):
         if len(self.video) <= 20:
             self.video = 'https://www.youtube.com/embed/' + self.video
 
+        
+        img_editada = img_text(self.imagem)
+        self.imagem = img_editada
         super().save(*args,**kwargs)
-        immg = img_text(self.imagem)
-        self.imagem = immg
 
     def __str__(self):
         return self.exercicio
