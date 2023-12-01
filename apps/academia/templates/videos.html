@@ -8,7 +8,7 @@
 {% block conteudo %}
 
 
-{% cache 1440 videos %}
+{% cache 86400 videos %}
 <section class="container__geral__videos">
     <div class='container__relative '>
         {% include 'partials/_categorias_totais.html' %}
@@ -41,7 +41,6 @@
 <script src="https://www.youtube.com/iframe_api"></script>  
 <script src="{% static 'js/apiYoutubeIframe.js'%}"></script>
 <script src="{% static 'js/categorias_page.js'%}" type="module"></script>
-
 
 </section>
 {% endcache %}

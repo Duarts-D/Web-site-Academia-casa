@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Dias,Videos,TreinoDiaPadrao,CategoriaModel,OrdemLista,EquipamentoModel
+from .models import Dias,Videos,TreinoDiaPadrao,CategoriaModel,OrdemLista,EquipamentoModel,TreinoDiaUser
 
 class DiasAdmin(admin.ModelAdmin):
     list_display = ('nome',)
@@ -24,9 +24,13 @@ class OrdermListaAdmin(admin.ModelAdmin):
 class EquipamentoAdmin(admin.ModelAdmin):
     list_display = ('equipamento',)
 
+class TreinoDiaUserAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+
 admin.site.register(Videos,VideosAdmin)
 admin.site.register(Dias,DiasAdmin)
 admin.site.register(TreinoDiaPadrao,TreinoDiaAdmin)
 admin.site.register(CategoriaModel,CategoriaAdmin)
 admin.site.register(OrdemLista,OrdermListaAdmin)
 admin.site.register(EquipamentoModel,EquipamentoAdmin)
+admin.site.register(TreinoDiaUser,TreinoDiaUserAdmin)
