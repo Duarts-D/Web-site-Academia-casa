@@ -203,7 +203,7 @@ class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
 
         if not self.cache_query_dashboard:
             dia_cadastrado = listas_user_dias_cache_all_func(user_id=self.user,dia=self.dia)
-            if not dia_cadastrado:
+            if not dia_cadastrado and self.dia not in ['Segunda','Terça','Quarta','Quinta','Sexta']:
                 raise Http404("Esta página não existe")
         
         self.cache_query_videos_all = videos_cache_all_func()
@@ -220,7 +220,7 @@ class CriarTreinoView(LoginRequiredMixin,CustomContextMixin,ListView):#cache
             if isinstance(self.cache_query_videos_all,QuerySet) and self.categoria in self.cache_query_name_categoris_all:
                 cache = self.cache_query_videos_all.filter(categorias__categoria=self.categoria)
                 return cache
-            return self.cache_query_videos_all
+            return self.cache_query_videos_all.order_by('-id')
         else:
             return super().get_queryset()
     
@@ -342,7 +342,7 @@ class TodosVideosView(CustomContextMixin,ListView):#cache
     def get_queryset(self):
         #cache
         cache_videos_all = videos_cache_all_func()
-        return cache_videos_all
+        return cache_videos_all.order_by('-id')
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
@@ -363,7 +363,7 @@ class VideosZumba(CustomContextMixin,ListView):#cache
     def get_queryset(self) -> QuerySet[Any]:
         #cache
         cache_videos_all = videos_cache_all_func()
-        return cache_videos_all.filter(categorias__categoria='Zumba')
+        return cache_videos_all.filter(categorias__categoria='Zumba').order_by('-id')
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         get = super().get_context_data(**kwargs)
