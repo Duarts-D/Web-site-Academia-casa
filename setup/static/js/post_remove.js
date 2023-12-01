@@ -6,7 +6,7 @@ export default  async function sendPost(id){
     'dia':dia,
   };
   
-  await fetch('http://127.0.0.1:8000/Treino-dia-Segunda/Geral', {
+  await fetch('https://treino.academiascasa.com/Treino-dia-Segunda/Geral', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json', // Se você estiver enviando JSON

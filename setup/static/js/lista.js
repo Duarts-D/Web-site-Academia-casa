@@ -93,7 +93,7 @@ async function postNomeLista(nome){
             'remove':condicional
         }
     }
-    await fetch('http://127.0.0.1:8000/Listas/', {
+    await fetch('https://treino.academiascasa.com/Listas/', {
     
     method: 'POST',
     headers: {
