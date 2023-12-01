@@ -6,7 +6,7 @@ export default  async function sendPostCriaTreino(listPostAdd,ListPostRemv){
       'postRemove':ListPostRemv,
       'dia':dia,
     };
-    await fetch(`https://treino.academiascasa.com/Adicionar-Treino/${dia}-${dia}`, {
+    await fetch(`https://academiascasa.com/Adicionar-Treino/${dia}-${dia}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Se você estiver enviando JSON
