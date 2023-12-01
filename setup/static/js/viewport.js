@@ -1,5 +1,4 @@
 export default function viewPort(){
-    console.log('ativado')
     const footer = document.getElementById('footer')
     const body = document.body;
     const viewportHeight = window.innerHeight;
