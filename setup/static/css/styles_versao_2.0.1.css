@@ -1049,7 +1049,11 @@ hr{
 
 .footer p{
   text-align: center;
-  font-size: 3em;
+  font-size: 16px;
+}
+
+.ancora_footer{
+  text-decoration: revert;
 }
 
 .rodapebottom {
