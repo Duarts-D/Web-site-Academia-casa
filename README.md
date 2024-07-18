@@ -1,8 +1,10 @@
-# Web Site Academia casa
+# Web Site Academia casa 
 
 E um site focado em exemplos de exercícios para prática dos usuários, diretamente para poder auxiliar ele nessa caminha.
 
 # Sobre Projeto
+
+Feito em Django Template
 
 O site tem inicialmente o foco para lhes-dar liberdade para o usuário escolher entre os treino e também alta acessibilidade para monta seus treinos, por enquanto o conteúdo contem somente o disponível de 5 itens de lista.
 Em breve será incrementado novo sistema de lista para maior acessibilidade do usuário.
